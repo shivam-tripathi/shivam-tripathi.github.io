@@ -9,7 +9,7 @@ name: Shivam Tripathi
 description: Personal Blog
 
 # URL of the avatar or profile pic (you could use your GitHub profile pic)
-avatar: https://github.com/shivam-tripathi/shivam-tripathi.github.io/blob/master/images/profile.jpg
+avatar: ![_config.yml]({{ site.baseurl }}/images/profile.jpg)
 
 #
 # Flags below are optional
