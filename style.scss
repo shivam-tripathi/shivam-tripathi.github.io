@@ -17,10 +17,15 @@ html {
   font-size: 100%;
 }
 
+
 body {
-	background: $white;
+  background: $white;
   font: 18px/1.4 $helvetica;
   color: $darkGray;
+}
+
+.blog{
+  font-size: 50px;
 }
 
 .container {
