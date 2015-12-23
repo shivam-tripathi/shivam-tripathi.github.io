@@ -17,15 +17,10 @@ html {
   font-size: 100%;
 }
 
-
 body {
-  background: $white;
+	background: $white;
   font: 18px/1.4 $helvetica;
   color: $darkGray;
-}
-
-.blog{
-  font-size: 50px;
 }
 
 .container {
@@ -74,7 +69,6 @@ p {
 }
 
 a {
-  font-size: 25px;
   color: $blue;
   text-decoration: none;
 	cursor: pointer;
@@ -231,7 +225,7 @@ nav {
     font-weight: 300;
     letter-spacing: 1px;
     text-decoration: underline;
-    font-size: 100px;
+    font-size: 30px;
 
     @include mobile {
       margin: 0 10px;
