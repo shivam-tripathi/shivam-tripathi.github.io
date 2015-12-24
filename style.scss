@@ -18,7 +18,8 @@ html {
 }
 
 body {
-	background: #998099;
+	background: $white;
+  background: #FDF9DE;
   font: 18px/1.4 $helvetica;
   color: $darkGray;
 }
@@ -272,7 +273,8 @@ nav {
   margin-top: 50px;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  background-color: $lightGray;
+  /*background-color: $lightGray;*/
+  background-color: #14141C;
 }
 
 footer {
