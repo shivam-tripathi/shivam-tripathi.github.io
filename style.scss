@@ -17,6 +17,11 @@ html {
   font-size: 100%;
 }
 
+@font-face {
+  font-family: geo;
+  src : url("GeosansLight.ttf");
+}
+
 body {
 	/*background: $white;*/
   background: #FDF9DE;
@@ -32,7 +37,8 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $helveticaNeue;
+  /*font-family: $helveticaNeue;*/
+  font-family: geo;
   color: $darkerGray;
   font-weight: bold;
 
@@ -46,27 +52,27 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 30px;
+  font-size: 26px;
   a {
     color: inherit;
   }
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 21px;
 }
 
 h3 {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 h4 {
-  font-size: 18px;
+  font-size: 16px;
   color: $gray;
 }
 
 p {
-  margin: 15px 0;
+  margin: 13px 0;
 }
 
 a {
@@ -209,7 +215,8 @@ img {
 nav {
   float: right;
   margin-top: 23px; // @TODO: Vertically middle align
-  font-family: $helveticaNeue;
+  font-family: geo;
+  /* $helveticaNeue;*/
   font-size: 18px;
 
   @include mobile {
