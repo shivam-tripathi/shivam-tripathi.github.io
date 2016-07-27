@@ -22,6 +22,11 @@ html {
   src : url("GeosansLight.ttf");
 }
 
+@font-face {
+  font-family: cav;
+  src : url("CaviarDreams.ttf");
+}
+
 body {
 	background: $white;
   /*background: #FDF9DE;*/
@@ -74,7 +79,7 @@ h4 {
 
 p {
   margin: 13px 0;
-  font-family: geo;
+  font-family: cav;
 }
 
 a {
