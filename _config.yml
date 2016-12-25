@@ -6,10 +6,10 @@
 name: Shivam Tripathi
 
 # Short bio or description (displayed in the header)
-description: Personal Blog
+# description:
 
 # URL of the avatar or profile pic
-avatar: https://raw.githubusercontent.com/shivam-tripathi/shivam-tripathi.github.io/master/images/profile.jpg
+# avatar: https://raw.githubusercontent.com/shivam-tripathi/shivam-tripathi.github.io/master/images/profile.jpg
 
 #
 # Flags below are optional
@@ -18,16 +18,16 @@ avatar: https://raw.githubusercontent.com/shivam-tripathi/shivam-tripathi.github
 # Includes an icon in the footer for each username you enter
 footer-links:
   dribbble:
-  email: shivamflash@gmail.com
-  facebook: shivam.tripathi.3139
+  email:
+  facebook:
   flickr:
-  github: shivam-tripathi/
+  github:
   instagram:
-  linkedin: shivam-tripathi-50083110a
-  pinterest: shivamflash
-  rss: # just type anything here for a working RSS icon, make sure you set the "url" above!
-  twitter: aShivamTripathi
-  stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
+  linkedin:
+  pinterest:
+  rss:
+  twitter:
+  stackoverflow:
 
 # Your disqus shortname, entering this will enable commenting on posts
 disqus: shiv
@@ -46,14 +46,14 @@ url:
 baseurl: ""
 
 #
-# !!No need to change anything below!!
+# Below are necessary for rendering of the pages
 #
 
 markdown: kramdown
 highlighter: pygments
 permalink: /:title/
 
-# The release of Jekyll Now that you're using
+# The release versiong of Jekyll Now that is being used
 version: v1.0.0
 
 # Set the Sass partials directory, as we're using @imports

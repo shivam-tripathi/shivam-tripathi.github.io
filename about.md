@@ -6,10 +6,10 @@ permalink: /about/
 
 Hi!
 
-### More Information
+### Great to have you here! :)
 
-I am second year student pursuing a degree in CSE from IIIT Una, NIT Hamirpur, Himachal Pradesh, India.
+I am third year undergraduate pursuing a degree in Computer Science and Engineering from Indian Institute of Information Technology Una, Himachal Pradesh, India.
 
-### Contact me
+### Mail me at
 
 [shivamflash@gmail.com](mailto:shivamflash@gmail.com)

@@ -19,12 +19,7 @@ html {
 
 @font-face {
   font-family: geo;
-  src : url("GeosansLight.ttf");
-}
-
-@font-face {
-  font-family: cav;
-  src : url("CaviarDreams.ttf");
+  src : url("fonts/GeosansLight.ttf");
 }
 
 body {
@@ -36,7 +31,7 @@ body {
 
 .container {
   margin: 0 auto;
-  max-width: 740px;
+  max-width: 800px;
   padding: 0 10px;
   width: 100%;
 }
@@ -78,8 +73,7 @@ h4 {
 }
 
 p {
-  margin: 13px 0;
-  font-family: cav;
+  margin: 10px 0;
 }
 
 a {
@@ -139,7 +133,6 @@ img {
   background: $lightGray;
 }
 
-// Nicolas Gallagher's micro clearfix hack
 // http://nicolasgallagher.com/micro-clearfix-hack/
 .clearfix:before,
 .clearfix:after {
@@ -221,7 +214,7 @@ img {
 }
 
 nav {
-  float: right;
+  // float: right;
   margin-top: 23px; // @TODO: Vertically middle align
   font-family: geo;
   /* $helveticaNeue;*/
