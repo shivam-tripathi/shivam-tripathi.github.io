@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-Hi!
+Hi! My Name is Shivam Tripathi, and I am from Lucknow, India.
 
 ### Great to have you here! :)
 

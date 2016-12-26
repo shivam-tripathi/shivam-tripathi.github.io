@@ -18,6 +18,16 @@ html {
 }
 
 @font-face {
+  font-family: charter;
+  src : url("fonts/Charter.ttf");
+}
+
+@font-face {
+  font-family: kievit;
+  src : url("fonts/Kievit.ttf");
+}
+
+@font-face {
   font-family: geo;
   src : url("fonts/GeosansLight.ttf");
 }
@@ -25,20 +35,20 @@ html {
 body {
 	background: $white;
   /*background: #FDF9DE;*/
-  font: 18px/1.4 $helvetica;
+  font: 20px/1.85 charter;
   color: $darkGray;
 }
 
 .container {
   margin: 0 auto;
-  max-width: 800px;
+  max-width: 950px;
   padding: 0 10px;
   width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
   /*font-family: $helveticaNeue;*/
-  font-family: geo;
+  font-family: kievit;
   color: $darkerGray;
   font-weight: bold;
   color: #336699;
@@ -197,7 +207,7 @@ img {
   margin: 0;
   color: $darkGray;
   cursor: pointer;
-  font-family: geo;
+  font-family: kievit;
   font-weight: 300;
   font-size: 28px;
   letter-spacing: 1px;
@@ -214,9 +224,9 @@ img {
 }
 
 nav {
-  // float: right;
+  float: right;
   margin-top: 23px; // @TODO: Vertically middle align
-  font-family: geo;
+  font-family: kievit;
   /* $helveticaNeue;*/
   font-size: 18px;
 
@@ -264,7 +274,7 @@ nav {
     padding: 0.1em 1em;
     color: $gray;
     font-size: 22px;
-    font-family: geo;
+    font-family: charter;
     font-style: italic;
   }
 

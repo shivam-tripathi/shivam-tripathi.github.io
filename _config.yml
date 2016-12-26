@@ -3,12 +3,13 @@
 #
 
 # Name of the site (displayed in the header)
-name: Shivam Tripathi
+name:
 
 # Short bio or description (displayed in the header)
-# description:
+description:
 
 # URL of the avatar or profile pic
+# This is optional, I have removed it
 # avatar: https://raw.githubusercontent.com/shivam-tripathi/shivam-tripathi.github.io/master/images/profile.jpg
 
 #
@@ -18,15 +19,15 @@ name: Shivam Tripathi
 # Includes an icon in the footer for each username you enter
 footer-links:
   dribbble:
-  email:
+  email: shivam.flash@gmail.com
   facebook:
   flickr:
-  github:
-  instagram:
+  github: shivam-tripathi
+  instagram: shivamtripathi21
   linkedin:
   pinterest:
   rss:
-  twitter:
+  twitter: aShivamTripathi
   stackoverflow:
 
 # Your disqus shortname, entering this will enable commenting on posts
