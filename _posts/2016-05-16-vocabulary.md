@@ -63,6 +63,8 @@ _Definition_ : Talkative or chatty, especially of persons given to excessive con
 
 _Synonyms_ : chatty, talkative, garrulous, tonguey
 
+> The loquacious keynote speaker bored the audience with inane, endless digressions.
+
 _Antonyms_ : laconic, quiet, reserved, taciturn
 
 2 **meander**
@@ -104,7 +106,7 @@ _Antonyms_ : corrigible
 
 _Definition_ : A political orator or leader who gains favor by pandering to or exciting the passions and prejudices of the audience rather than by using rational arguments (Adjective)
 
-> After declaring that he will build a wall around US-Mexico border, US president elect Donald Trump is often referred as a demagouge.
+> After declaring that he will build a wall around US-Mexico border, US president elect Donald Trump is often referred to as a demagouge.
 
 2 **introspect**
 
