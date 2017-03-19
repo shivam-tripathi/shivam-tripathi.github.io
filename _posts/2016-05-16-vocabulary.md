@@ -5,13 +5,13 @@ title: Vocabulary
 
 ![Image not loaded because I messed up the URL]({{ site.baseurl }}/images/vocabulary/vocab.png "English words")
 
-This post collects all the new (and old) words I happen to learn (or recall) each day. The words may have multiple meanings, out of which I am usually covering only one (at a time); usually in the context the word came up. I would have loved to add phonetic representation (or audio clips), but at the moment it isn't possible. The sentences in the block quotes are more than often my own device, and hence may sound silly at times. Cheers.
+100 words challenge. This post collects all the new (and old) words I happen to learn (or recall) each day. The words may have multiple meanings, out of which I am usually covering only one (at a time); usually in the context the word came up. I would have loved to add phonetic representation (or audio clips), but at the moment it isn't possible. Cheers.
 
 ****
 
 ## Day one
 
-1 **virtuoso**
+1) **virtuoso**
 
 _Definition_ : A person with masterly ability, technique or personal style (Noun)
 
@@ -150,24 +150,107 @@ _Antonyms_: epitome
 
 ****
 
-## Day five
+## Day five   
+1) **juxtaposed**  
+_Definition_: To place side by side, especially for contrast or comparison  
 
-**juxtaposed**
-**annals**
-1) **alluring** 
-2) **inane** 
-3) **synopsis** 
-4) **glib**
-5) **grotesque**
+> Juxtaposition of submitted work gave a self explanatory reason to everyone dubious of the decision made for Adam's selection.  
+
+2) **prudence**  
+_Definition_:The quality or state of being prudent, wisdom in the way of caution and provision  
+
+> He was a friend of Pericles and a, man of prudence and moderation.  
+_Synonyms_: discretion, circumspection   
+_Antonyms_: imprudence, recklessness
+
+3) **providence**  
+_Definition_: Preparation of the future, foresight  
+
+> The people want a provident government which can solve the problems of unemployment and illiteracy.  
+
+4) **arduous**  
+_Definition_: Involving or requiring strenuous effort; difficult and tiring.  
+
+> With every politician and businessman against him, he continued his arduos fight against corruption.   
+_Synonyms_: burdensome, demanding, exhausting, fatiguing, laborious, onerous, strenuous, wearisome   
+
+5) **annals**  
+_Definition_: A relation of events in chronological oeder, each event being recorded under the year it which it happended.  
+
+> Local annals specially mention the plague of 1648, the flood of 1651 and the earthquake of 1829.   
 
 ****
 
 ## Day six
-1) **guile**
-2) **gullible**
-3) **exalt** 
-4) **morose** 
-5) 
+
+1) **alluring**  
+_Definition_: powerfully and mysteriously attractive or fascinating.  
+
+> She appeared both very sweet and extremely alluring in that vulnerable moment.   
+_Synonyms_: enticing, tempting, attractive, seductive   
+
+4) **synopsis**  
+_Definition_: A breif summary of the major points of a written work, either as a prose or as a table; an _abridgment_ or a condensation of a work.  
+
+> "Kindly give a synopsis of what happened in the last class" the teacher asked before beginning that day's lecture.   
+_Synonyms_: abridgment, abstract, conspectus, outline, overview, summary   
+
+4) **glib**  
+_Definition_: Fluent but insincere and shallow.  
+
+> Glib phrases soon fall off the toungue.   
+_Synonyms_: slick, smooth-talking   
+
+5) **grotesque**  
+_Definition_: Comically or repulsively ugly or distorted.   
+>  The Greeks of that day would have had little respect for a grotesque Egyptian figure, while the Egyptians were more willing to accept divinity in any shape.  
+_Definition_: Sans serif fonts
+
+****
+
+## Day seven
+
+
+1) **solicit**  
+_Definition_: To persistently endeavor to obtain an object, or bring about an event.   
+>  I view my crime, but kindle at the view - I repent old pleasures, and solicit new.   
+> He called a meeting to solicit their views.  
+_Definition_: To woo, to court.  
+_Definition_: To pursuade or incite someone to commit some act, especially immoral.  
+> If you want to make money real quick, you should probably solicit some young man into investing in your chit funds.
+_Synonyms_: request, plead, appeal, thig, supplicate  
+
+2) **guile**  
+_Definition_: Sly or cunning intelligence   
+> He was in a lot of debt, but he used all his guile and guts to get him out of the meddle.    
+_Synonyms_: astute, shrewd, crafty   
+_Antonyms_: honesty, condour (_He spoke with a degree of candour unusual in political life_.)
+
+3) **gullible**  
+_Definition_: Easily persuaded to believe something.   
+> Just how gullible do you think I am?   
+_Synonyms_: credulous, naive, over-trusting   
+_Antonyms_: cynical, suspicious  
+
+4) **exalt**   
+_Definition_: Think or speak very highly of (someone or something).  
+
+> The party will contiue to exalt their leader even after crushing defeat in the recent state elections.   
+_Synonyms_: glorify, extol, worship, iconize, idolize, deify, revere, laud   
+_Antonyms_: disparage (_regard or represent as being of little worth -> He never missed an opportunity to disparage his competitors._), despise
+
+5) **morose**   
+_Definition_: Sullen and ill tempered.  
+
+> To cheer the silent and morose friend, I made her favourite coffee.   
+_Synonyms_: lugubrious, melancholy, sullen, sulky, taciturn   
+_Antonyms_: cheerful, happy, communicative
+
+
+****
+
+## Day eight
+
 
 ****
 
