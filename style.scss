@@ -32,6 +32,11 @@ html {
   src : url("fonts/GeosansLight.ttf");
 }
 
+@font-face{
+  font-family: adreena;
+  src: url("fonts/AdreenaScript.ttf");
+}
+
 body {
 	background: $white;
   /*background: #FDF9DE;*/
@@ -285,7 +290,12 @@ nav {
   .read-more {
     text-transform: uppercase;
     font-size: 15px;
+    font-family: charter;
   }
+}
+
+.title {
+  font-family: adreena;
 }
 
 .wrapper-footer {
@@ -302,5 +312,4 @@ footer {
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
-// ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "_highlights";
