@@ -56,7 +56,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: kievit;
   color: $darkerGray;
   font-weight: bold;
-  color: #336699;
+  color: #00c37f;
 
   line-height: 1.7;
   margin: 1em 0 15px;
@@ -221,7 +221,7 @@ img {
 .site-description {
   margin: -5px 0 0 0;
   color: $gray;
-  font-size: 16px;
+  font-size: 12px;
 
   @include mobile {
     margin: 3px 0;
@@ -290,11 +290,14 @@ nav {
   .read-more {
     /*text-transform: uppercase;*/
     font-size: 15px;
-    font-family: adreena;
+    /*font-family: adreena;*/
+    font-family: charter;
+    color: #00c37f;
+    text-align: right;
   }
 }
 
-.title {
+title {
   font-family: adreena;
 }
 
