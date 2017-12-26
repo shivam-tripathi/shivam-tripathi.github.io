@@ -1,13 +1,8 @@
 ---
 ---
 
-//
-// IMPORTS
-//
-
 @import "_reset";
 @import "_variables";
-// Syntax highlighting @import is at the bottom of this file
 
 /**************/
 /* BASE RULES */
@@ -15,26 +10,6 @@
 
 html {
   font-size: 100%;
-}
-
-@font-face {
-  font-family: charter;
-  src : url("fonts/Charter.ttf");
-}
-
-@font-face {
-  font-family: kievit;
-  src : url("fonts/Kievit.ttf");
-}
-
-@font-face {
-  font-family: geo;
-  src : url("fonts/GeosansLight.ttf");
-}
-
-@font-face{
-  font-family: adreena;
-  src: url("fonts/AdreenaScript.ttf");
 }
 
 body {
@@ -148,7 +123,6 @@ img {
   background: $lightGray;
 }
 
-// http://nicolasgallagher.com/micro-clearfix-hack/
 .clearfix:before,
 .clearfix:after {
     content: " ";
@@ -221,7 +195,7 @@ img {
 .site-description {
   margin: -5px 0 0 0;
   color: $gray;
-  font-size: 12px;
+  font-size: 16px;
 
   @include mobile {
     margin: 3px 0;
@@ -290,15 +264,14 @@ nav {
   .read-more {
     /*text-transform: uppercase;*/
     font-size: 15px;
-    /*font-family: adreena;*/
     font-family: charter;
-    color: #00c37f;
+    color: $tumblrBlue;
     text-align: right;
   }
 }
 
 title {
-  font-family: adreena;
+  font-family: kievit;
 }
 
 .wrapper-footer {
@@ -306,7 +279,7 @@ title {
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   /*background-color: $lightGray;*/
-  background-color: #14141C;
+  background-color: $tumblrBlue;
 }
 
 footer {

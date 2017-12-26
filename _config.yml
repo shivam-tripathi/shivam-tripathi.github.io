@@ -3,7 +3,7 @@
 #
 
 # Name of the site (displayed in the header)
-name:
+name: Shivam Tripathi
 
 # Short bio or description (displayed in the header)
 description:
@@ -19,15 +19,15 @@ description:
 # Includes an icon in the footer for each username you enter
 footer-links:
   dribbble:
-  email: shivam.flash@gmail.com
+  email:
   facebook:
   flickr:
-  github: shivam-tripathi
-  instagram: shivamtripathi21
+  github:
+  instagram:
   linkedin:
   pinterest:
   rss:
-  twitter: aShivamTripathi
+  twitter:
   stackoverflow:
 
 # Your disqus shortname, entering this will enable commenting on posts
@@ -36,7 +36,7 @@ disqus: shiv
 # Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
 google_analytics:
 
-# Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
+# Your website URL (e.g. http://xyz.github.io or http://www.xyz.com)
 # Used for Sitemap.xml and your RSS feed
 url:
 
@@ -53,9 +53,6 @@ baseurl: ""
 markdown: kramdown
 highlighter: pygments
 permalink: /:title/
-
-# The release versiong of Jekyll Now that is being used
-version: v1.0.0
 
 # Set the Sass partials directory, as we're using @imports
 sass:
