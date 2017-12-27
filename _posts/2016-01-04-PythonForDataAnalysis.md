@@ -3,6 +3,8 @@ layout: post
 title: Python for Data Analysis
 ---
 
+![an image alt text]({{ site.baseurl }}/images/pythonForDataAnalysis/one.jpg "Python for data analysis")
+
 When I first used Python, I was swept off my feet immediately. "Hello, world!" in just one line! That was a bit too awesome for me. Over the years, I have realized why scripting languages like Python, Perl, Ruby etc. have become so popular to build applications. It is because it so simple to express one's idea using these languages - one rarely has to worry about syntax and implementation details.
 The thing that sets Python apart from other languages and makes it one of the most suited language for data analysis is it's large and active scientific computing community. It has often been compared with other domain specific languages like R and MATLAB, but recent development in python's extended library support like pandas, scikit-learn etc. and it's strength in general purpose programming language has made it a better choice for data analysis.
 
