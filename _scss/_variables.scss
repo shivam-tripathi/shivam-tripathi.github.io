@@ -19,9 +19,30 @@ $tumblrBlue: #34455F;
 $helvetica: Helvetica, Arial, sans-serif;
 $helveticaNeue: "Helvetica Neue", Helvetica, Arial, sans-serif;
 $georgia: Georgia, serif;
-@include font-face(charter, fonts/Charter.ttf);
-@include font-face(kievit, fonts/Kievit.ttf);
-@include font-face(geo, fonts/GeosansLight.ttf);
+// @include font-face(charter, fonts/Charter.ttf);
+// @include font-face(kievit, fonts/Kievit.ttf);
+// @include font-face(geo, fonts/GeosansLight.ttf);
+
+@font-face {
+  font-family: charter;
+  src : url("fonts/Charter.ttf");
+}
+
+@font-face {
+  font-family: kievit;
+  src : url("fonts/Kievit.ttf");
+}
+
+@font-face {
+  font-family: geo;
+  src : url("fonts/GeosansLight.ttf");
+}
+
+@font-face{
+  font-family: adreena;
+  src: url("fonts/AdreenaScript.ttf");
+}
+
 
 // Mobile breakpoints
 @mixin mobile {
