@@ -82,7 +82,7 @@ http://shivamtripathi.local/hello.html
 ```
 ![Apache PHP]({{ site.baseurl }}/images/apache-mac-php/two.jpeg "Apache Mac PHP")
 
-## Configuring apache to run p
+## Configuring apache
 Run :
 ```zsh
 cd /etc/apache2/
