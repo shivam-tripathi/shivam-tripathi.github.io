@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Revision Control Systems (RCS) and Git | Home</title>
+    <meta name="description" content="My personal musings">
+    <link rel="icon" href="/fav.png">
+    
+    <link rel="preload" href="/assets/css/0.styles.206f5dc1.css" as="style"><link rel="preload" href="/assets/js/app.a992b339.js" as="script"><link rel="preload" href="/assets/js/2.1a900417.js" as="script"><link rel="preload" href="/assets/js/16.b30a6aee.js" as="script"><link rel="prefetch" href="/assets/js/10.90565629.js"><link rel="prefetch" href="/assets/js/11.e03c4f0c.js"><link rel="prefetch" href="/assets/js/12.0ca40f73.js"><link rel="prefetch" href="/assets/js/13.a3af51c2.js"><link rel="prefetch" href="/assets/js/14.9261770d.js"><link rel="prefetch" href="/assets/js/15.cc675fd4.js"><link rel="prefetch" href="/assets/js/17.cf16b671.js"><link rel="prefetch" href="/assets/js/18.defd02f4.js"><link rel="prefetch" href="/assets/js/19.bf7fafe9.js"><link rel="prefetch" href="/assets/js/3.5c03643c.js"><link rel="prefetch" href="/assets/js/4.e717b72c.js"><link rel="prefetch" href="/assets/js/5.95c2919c.js"><link rel="prefetch" href="/assets/js/6.d7047972.js"><link rel="prefetch" href="/assets/js/7.1983dd01.js"><link rel="prefetch" href="/assets/js/8.ff0d56ab.js"><link rel="prefetch" href="/assets/js/9.5536b186.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.206f5dc1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Home</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"> <a href="https://github.com/shivam-tripathi/shivam-tripathi.github.io" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"> <a href="https://github.com/shivam-tripathi/shivam-tripathi.github.io" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><a href="/se/" class="sidebar-heading clickable router-link-active open"><span>Software Engineering</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><section class="sidebar-group collapsable is-sub-group depth-1"><a href="/se/tools/" class="sidebar-heading clickable router-link-active open"><span>Tools</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/se/tools/adminer.html" class="sidebar-link">Adminer</a></li><li><a href="/se/tools/apachePhpMac.html" class="sidebar-link">Apache Php Mac</a></li><li><a href="/se/tools/git.html" class="active sidebar-link">RCS and Git</a></li><li><a href="/se/tools/schemaSpy.html" class="sidebar-link">SchemaSpy</a></li></ul></section></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/nature/" class="sidebar-heading clickable"><span>Nature</span> <span class="arrow right"></span></a> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="revision-control-systems-rcs-and-git"><a href="#revision-control-systems-rcs-and-git" class="header-anchor">#</a> Revision Control Systems (RCS) and Git</h1> <p>Revision control systems (RCSes) - are softwares that keep snapshots of various versions of the program in the development of a project, sort of like manuscripts of a book being written or a pathetic love letter with multiple additions and deletions. This helps us to keep record of every little change in the software we have made, and if things fail we can go back to the previous state.</p> <p><img src="/images/tech/git.png" alt="an image alt text" title="Git : Revision Control System"></p> <h2 id="time-travellers"><a href="#time-travellers" class="header-anchor">#</a> Time travellers</h2> <p>RCS gives us the power to go back in time - sort of time travel techniques, meaning to say we can look what a file(system) looked like before I made some changes to it (and probably messed it up). We can keep many copies of same project - and keep making changes to it without effecting the other copies (like &quot;Hey, this is my copy, you write on your copy&quot;). Also, it may be necessary that I want to experiment on something in my code - and not want to mess with the original stuff, so I will make a separate &quot;branch&quot; of my copy and then play with it.</p> <p>It so might happen that other person (with a separate copy) wrote something very nice - and it needs to be incorporated in the original main source code. How will I get this code without messing up the whole different copy setup? A simple answer would be - merge the main copy with &quot;new good thing&quot; that needed to be added to the main source code. You can merge the main source code with your personal copy later. But how is it done?</p> <h2 id="git-what"><a href="#git-what" class="header-anchor">#</a> Git, what?</h2> <p>Git is a distributed revision control system - this means that any given copy of the project works as a standalone copy of the &quot;repository&quot; and it's history. Any new changes will have to incorporated again. Others include Mercurial and Bazaar.</p> <h2 id="what-do-posix-guys-say"><a href="#what-do-posix-guys-say" class="header-anchor">#</a> What do POSIX guys say?</h2> <p>POSIX has set up standards for all UNIX like machines. Some commands described in POSIX standard serve as building blocks for the RCS. These POSIX standard commands are diff and patch.
+diff compares the files line by line.</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">diff</span> file1.c file2.c <span class="token operator">&gt;</span> diffs
+<span class="token function">diff</span> -u file1.c file2.c
+<span class="token comment">#lists all the lines removed from file1.c, and all new lines added in file2.c</span>
+<span class="token function">diff</span> -ur file1.c file2.c <span class="token operator">&gt;</span> diffs
+patch <span class="token operator">&lt;</span> diffs
+<span class="token comment">#causes file1.c to be patched with file2.c - file1.c becomes same as file2.c</span>
+<span class="token function">diff</span> -R <span class="token operator">&lt;</span> diffs
+<span class="token comment">#file1.c is patched in reverse order - i.e. restored to initial state</span>
+</code></pre></div><h2 id="where-is-it-used"><a href="#where-is-it-used" class="header-anchor">#</a> Where is it used?</h2> <p>Suppose I have a project I am working on. After releasing the first version, I work on the second version. At the end of completion of second version (or everytime I finish work during the day), I run</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">diff</span> -ur v1.c v2.c <span class="token operator">&gt;</span> diff-v1v2
+</code></pre></div><p>The main file can be patched later with patch &lt; diff-v1v2. In case I run into a bug, I will run</p> <div class="language-bash extra-class"><pre class="language-bash"><code>patch -R <span class="token operator">&lt;</span> diff-v1v2.
+</code></pre></div><p>But this entire process of keeping diffs and patching is a tedious task, so RCS's do this task for us.</p> <h2 id="understanding-git"><a href="#understanding-git" class="header-anchor">#</a> Understanding git</h2> <p>Git is a C program. It's based on small set of objects. The key object is the commit object, which is nothing but a set of diff, (sort of successive diffs after each commit). Given a previous commit object and set of changes made to the previous one, a new commit encapsulates all this information. Index (the list of changes made to the file since the last commit) helps in generation of the new commit.</p> <p>The commit objects link together to form a tree, stepping  up  or down a tree is equivalent to using  patch and patch -R commands. The repository, formally, is not a single object. But you can imagine to be one, as almost common command apply to the whole repository - like new, copy, free etc.</p> <p>To initialize an empty git repository you can do</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> init
+<span class="token comment">#To make a copy of your own from code on the internet -</span>
+<span class="token function">git</span> clone http://url.com/file.git
+</code></pre></div><p>This create a new hidden folder, to store all of version control files. If you want to meddle with the code, but are afraid that you'll spoil the thing, then (if the
+repository is in ~/path/to/repo/file.c) you can locally copy the code using -</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> clone ~/path/to/repo/file.c
+</code></pre></div><p>Meddle with it, and when you're done, delete it.</p> <h2 id="behind-the-scenes"><a href="#behind-the-scenes" class="header-anchor">#</a> Behind the scenes</h2> <p>All the git data is in .git folder. So freeing the code from git is equivalent to - rm -rf ~/path/to/repo/.git
+Everything is very self contained (read standalone copies of the repository and it's history), it can be easily copied, and quick experimentation can be done.
+The <em>index</em> (Git source : struct index_state) is the list of changes to be bundles into next commit. It exists as we don't want every change in the repository to be committed. Suppose there are files : file.h, file.c, file.o and file (executable), then maybe if we want to track changes in the file.h and file.c, and let the rest be regenerated (simply put we don't want to track them, as they are not part of the source code), we will do -</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> <span class="token function">add</span> file.h file.h
+Similarly we can
+<span class="token function">git</span> <span class="token function">rm</span> file.h
+<span class="token function">git</span> <span class="token function">mv</span> file.c new_file.c
+</code></pre></div><p>Changes made to file already tracked by git is not done automatically, which is different from other RCSes. To do this, we can either add every file again individually, by git add file_name.c or we can use:</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> <span class="token function">add</span> -u
+</code></pre></div><p>When we have added enough of index changes added to the tracker, we might want to commit the changes using :</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> commit -a -m <span class="token string">&quot;Message goes here&quot;</span>
+</code></pre></div><p>The -m adds the message to the commit, which ideally should summarize all the changes added and
+committed. It is recommended to enter commit message, for maybe sometime in the future we are
+looking at the commits, and want to revert back to a certain commit in the past, without the message
+it would not be easy to recall which commit incorporated what changes. If we omit message here, then
+git will open up a text editor (the default one is vi, you can change in .bashrc/.zshrc/ rc file of
+whatever bash you use).</p> <p>The -a command tells the git to automatically run git add -u before making this commit. If you only
+want the files you added separately skip -a.</p> <p>Calling git commit -a makes all present tracking encapsulated into commit object, and clears the
+index. Now we can continue with our present work, even go forward and delete all the files. We will
+be recover to the last commit message easily. So, don't clutter out the code with a lot of commented
+out not presently needed code - delete them.</p> <p>To redo last commit (possible to add something you forgot to add earlier):
+git commit --amend -a -m &quot;New message&quot;</p> <p>A commit object sometimes best thought of as a snapshot of the project at a particular point in time
+and sometimes as a diff from it's parent. It makes one wonder if internally, a commit is a diff or
+a complete snapshot? Earlier git always stored the snapshots, unless you ran git gc (garbage collect
+) to compress a set of snapshots into a set of deltas (diff). Now it is automatically run after a
+few commands - so git is probably storing diffs (not necessarily).</p> <p>We use git diff to see the diffs that are the core of the commit object and git log to see metadata.
+The key metadata is the name of the object, which is assigned by the SHA1 hash, a 40 digit
+hexadecimal number that can be assigned to an object - and that same object will have same name in
+every copy of the repository. We can see the hash key using git log. To see a particular commit
+state, we can do by :</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> checkout key
+</code></pre></div><p>We need only that many key elements that can successfully identify the commit object, which is usually no more than 4 to 5 elements.
+This does sort of what we did using patch - like time travel - rewinding to the past state. At this
+point if you do git log - only the commits before the commit state we are presently in - appear.
+This is because commit only has pointers to it's parents.
+The rarely used git reflog will list all the commit the present repository knows about.
+Better way to returning to a state is by using tags - maintained as separate objects with human
+friendly name like 'master'. These tags hold a pointer to a commit object in the file.</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> checkout master
+</code></pre></div><p><strong>git diff</strong></p> <p>Shows the difference between present state and last commit</p> <p><strong>git diff {hash key of previous commit}</strong></p> <p>Shows the difference between present state and commit object</p> <p><strong>git diff {hash1} {hash2}</strong> :: Shows the difference from one commit object and and the other</p> <p>Git doesn't like doing anything when there are uncommitted changes in the current working directory
+directory. For example, if you are going to go spelunking into a previous commit object - then you
+cannot do so unless you commit the uncommitted changes or get rid of them or put the changes in the
+stash. Stash is an special commit object - something that you would get from git commit -a, but also
+with all the untracked files too.</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> stash
+<span class="token function">git</span> checkout <span class="token operator">&lt;</span>hash<span class="token operator"><span class="token file-descriptor important">1</span>&gt;</span> <span class="token comment">#or branch name</span>
+<span class="token comment">#.... do your thing ....</span>
+<span class="token function">git</span> checkout initial_branch
+<span class="token function">git</span> stash pop
+</code></pre></div><p>Another way is to get rid of all the changes made since last commit - this is done by:</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> reset --hard
+</code></pre></div><p>If you wish make some changes in the last commit, you can easily do so:</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> reset HEAD~
+<span class="token comment">#... do your thing ...</span>
+<span class="token function">git</span> <span class="token function">add</span> whatever_you_wish_to_add
+<span class="token function">git</span> commit
+</code></pre></div><p>Or using:</p> <div class="language- extra-class"><pre class="language-text"><code>git commit --amend
+# make changes
+git add whatever_you_wish_to_add
+git commit
+</code></pre></div><h2 id="trees-in-git"><a href="#trees-in-git" class="header-anchor">#</a> Trees in git</h2> <p>As soon as a user runs git init - it becomes tree's root node. Except all the initial commit - all
+the commits have a parent commit and the commit records the difference between it and the parent
+commit. The terminal node in the sequence, the tip of the branch is tagged with the branch name. For
+our purposes there is one-to-one correspondence between the branch tips and the series of diffs that
+led to the tip - i.e. branches and commit object at the tip can be used interchangeably.
+Thus if the tip of the master branch is 2d193fed, then git checkout master and git checkout 2d193fed
+is the same thing.
+It also means that list of committed objects can be re-derived at any time by starting at the commit
+at the named tip and tracing back to the origin of the tree - root.</p> <p>The typical custom is to keep the master branch fully functional at all times. When you want to add
+any new feature or do some inquiry - make another branch. When the branch is fully functional - we
+can merge the the new feature back into the master.</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> brach new_branch
+<span class="token function">git</span> checkout new_branch
+<span class="token comment">#or equivalently</span>
+<span class="token function">git</span> checkout -b new_branch
+<span class="token comment">#What branch you are right now in?</span>
+<span class="token function">git</span> branch
+</code></pre></div><h2 id="paradox"><a href="#paradox" class="header-anchor">#</a> Paradox</h2> <p>Here is something to think about : What will happen if you buy a time machine, go back in time, and knock out the guy who made the time machine? Well, in the git world - the present doesn't change - it splinters off to another history (much like regular science fiction movies!). So if you checkout to a past commit - and add some new commits - then if you run <code>git branch</code> - it will simply output <code>(no branch)</code>. You need to checkout to a new branch if you want to start from that point in commit tree.</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> branch new_branch_name <span class="token operator">&lt;</span>commit hash<span class="token operator">&gt;</span>
+</code></pre></div><p>GUI for seeing how branching has occurred can be seen via gitk or git instaweb (starts a web server
+that lets us interact in the browser).</p> <h2 id="merging"><a href="#merging" class="header-anchor">#</a> Merging</h2> <p>We can make two branches merge to incorporate the code from one branch to another. This is done by :</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> checkout master <span class="token comment">#suppose we want to merge into master</span>
+<span class="token function">git</span> merge new_branch
+<span class="token comment">#If there are conflicts - they have to added and committed</span>
+<span class="token comment">#in the master branch and then merge will be completed</span>
+</code></pre></div><p><strong>Fast-forward</strong></p> <p>When we merge a branch, all the diffs in the branch are automatically added to the
+branch which is being merged to. This is called fast-forwarding in git.</p> <p>But if changes have been made in the master branch too, then it is not so simple. We will have to
+resolve conflicts in such a case.</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> merge branch_name
+<span class="token comment">#message informing about the conflicts</span>
+<span class="token function">git</span> status <span class="token comment">#gives the list of unmerged files</span>
+<span class="token comment">#open the unmerged file, fix issues, add them and commit them</span>
+<span class="token comment">#keep repeating the above till all the files have been merged</span>
+</code></pre></div><h2 id="deleting"><a href="#deleting" class="header-anchor">#</a> Deleting</h2> <p>Deleting the branch can be done by:</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> delete branch_name
+</code></pre></div><h2 id="rebase"><a href="#rebase" class="header-anchor">#</a> Rebase</h2> <p>When there are two branches from same common ancestor, then using the rebase command, we can change the rebase we can reset new common ancestor - as if the branching occured from the commit specified:</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> checkout _branch
+<span class="token function">git</span> rebase <span class="token operator">&lt;</span>hash key<span class="token operator">&gt;</span>
+</code></pre></div><p>Typical usage is to rebase from master branch to side branch. As letting the diffs pile up can lead to very painful merge in the end, rebasing often is a good idea.</p> <h2 id="remotes-repositories"><a href="#remotes-repositories" class="header-anchor">#</a> Remotes repositories</h2> <p>The repository has pointers called remotes, which are pointers to other related repositories around
+the world. When we clone a repository, it creates a remote from where the repository has been cloned
+called &quot;origin&quot;. In the typical case, this is the only remote we will ever use.
+When we first clone and run git branch, we get one lonely branch, no matter how many branches the
+original repository had. Running git branch -a will give all the branches the git knows about.</p> <p>To update the repository cloned, we need to run git fetch so that all the new changes incorporated
+in the remote are reflected in your copy.
+Also, <code>git pull origin master</code> is equivalent to <code>git fetch; git merge remotes/origin/master</code>
+The converse is git push, used to update the contents in the remote.
+Suppose we are working on the branch bb, then we can push contents using :</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> push origin bb
+</code></pre></div><p>There are good odds that when we push our changes, applying the diffs from your branch to the remote
+branch will not be a fast forward (it will be if no other changes have been made in the remote
+branch). Resolving a non-fast forward merge typically requires human intervention, and there is
+probably no human at the remote. Thus, git will only allow fast forward merges. So we have to make
+sure that all the git push are fast forward only, which is done by :
+*Run git pull origin to get the changes made since the last pull
+*Merge the changes, resolving the diffs
+*Run git commit -a -m &quot;Deal with merges&quot;
+*Run git push origin master, as now only a single diff is left, git will merge it automatically</p> <p><em>git init --bare</em> : This command restricts anyone to actually do any work in that directory, users will have to clone to do anything at all. Sometimes <code>--shared=group</code> type flags come in handy.</p> <p>Or we can create a public bare repository, and create private working repository. We push to the
+public bare repository, only to later pull the changes later to the working repository.</p> <p>😃</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/se/tools/apachePhpMac.html" class="prev">Apache Php Mac</a></span> <span class="next"><a href="/se/tools/schemaSpy.html">SchemaSpy</a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.a992b339.js" defer></script><script src="/assets/js/2.1a900417.js" defer></script><script src="/assets/js/16.b30a6aee.js" defer></script>
+  </body>
+</html>

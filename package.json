@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "dependencies": {
+    "@vuepress/plugin-search": "^1.2.0",
+    "markdown-it-mermaid": "^0.2.5",
+    "vuepress": "^1.2.0"
+  },
+  "devDependencies": {
+    "@vuepress/plugin-register-components": "^1.2.0"
+  }
+}
