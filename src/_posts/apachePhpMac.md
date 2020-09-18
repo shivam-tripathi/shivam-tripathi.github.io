@@ -1,6 +1,6 @@
 ---
 title: Setting up Apache and php on Mac
-date: 2020-01-11
+date: 2016-11-08
 tags:
   - software engineering
 author: Shivam Tripathi

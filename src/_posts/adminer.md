@@ -1,12 +1,12 @@
 ---
 title: Adminer
-date: 2020-01-11
+date: 2017-08-12
 description: A lightweight database management tool
 tags:
   - database
   - software engineering
 author: Shivam Tripathi
-location: Hamirpur, Himachal Pradesh
+location: NIT Hamirpur, Himachal Pradesh
 ---
 <ToggleDarkMode/>
 

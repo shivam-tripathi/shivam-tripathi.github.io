@@ -1,6 +1,6 @@
 ---
 title: Revision Control Systems (RCS) and Git
-date: 2020-01-11
+date: 2016-10-23
 tags:
   - git
   - software engineering
