@@ -1,4 +1,13 @@
-# Environmental Science: An introduction
+---
+title: Ecosystems
+date: 2020-01-11
+tags:
+  - environment
+author: Shivam Tripathi
+location: Hamirpur, Himachal Pradesh
+---
+
+<ToggleDarkMode/>
 
 #### ENVIRONMENT
 Environment is defined as the sum total of all the forces, materials and influences around us at a given time and place. It is is the surroundings of an organism, including both living and non-living components.

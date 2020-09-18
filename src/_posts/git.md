@@ -1,21 +1,33 @@
-# Revision Control Systems (RCS) and Git
+---
+title: Revision Control Systems (RCS) and Git
+date: 2020-01-11
+tags:
+  - git
+  - software engineering
+author: Shivam Tripathi
+location: Hamirpur, Himachal Pradesh
+---
+
+<ToggleDarkMode/>
+
+### Introduction
 
 Revision control systems (RCSes) - are softwares that keep snapshots of various versions of the program in the development of a project, sort of like manuscripts of a book being written or a pathetic love letter with multiple additions and deletions. This helps us to keep record of every little change in the software we have made, and if things fail we can go back to the previous state.
 
 ![an image alt text](/images/tech/git.png "Git : Revision Control System")
 
-## Time travellers
+### Time travellers
 RCS gives us the power to go back in time - sort of time travel techniques, meaning to say we can look what a file(system) looked like before I made some changes to it (and probably messed it up). We can keep many copies of same project - and keep making changes to it without effecting the other copies (like "Hey, this is my copy, you write on your copy"). Also, it may be necessary that I want to experiment on something in my code - and not want to mess with the original stuff, so I will make a separate "branch" of my copy and then play with it.
 
 
 It so might happen that other person (with a separate copy) wrote something very nice - and it needs to be incorporated in the original main source code. How will I get this code without messing up the whole different copy setup? A simple answer would be - merge the main copy with "new good thing" that needed to be added to the main source code. You can merge the main source code with your personal copy later. But how is it done?
 
 
-## Git, what?
+### Git, what?
 Git is a distributed revision control system - this means that any given copy of the project works as a standalone copy of the "repository" and it's history. Any new changes will have to incorporated again. Others include Mercurial and Bazaar.
 
 
-## What do POSIX guys say?
+### What do POSIX guys say?
 POSIX has set up standards for all UNIX like machines. Some commands described in POSIX standard serve as building blocks for the RCS. These POSIX standard commands are diff and patch.
 diff compares the files line by line.
 
@@ -30,7 +42,7 @@ diff -R < diffs
 #file1.c is patched in reverse order - i.e. restored to initial state
 ```
 
-## Where is it used?
+### Where is it used?
 Suppose I have a project I am working on. After releasing the first version, I work on the second version. At the end of completion of second version (or everytime I finish work during the day), I run
 
 ```bash
@@ -46,7 +58,7 @@ patch -R < diff-v1v2.
 But this entire process of keeping diffs and patching is a tedious task, so RCS's do this task for us.
 
 
-## Understanding git
+### Understanding git
 Git is a C program. It's based on small set of objects. The key object is the commit object, which is nothing but a set of diff, (sort of successive diffs after each commit). Given a previous commit object and set of changes made to the previous one, a new commit encapsulates all this information. Index (the list of changes made to the file since the last commit) helps in generation of the new commit.
 
 
@@ -71,7 +83,7 @@ git clone ~/path/to/repo/file.c
 Meddle with it, and when you're done, delete it.
 
 
-## Behind the scenes
+### Behind the scenes
 All the git data is in .git folder. So freeing the code from git is equivalent to - rm -rf ~/path/to/repo/.git
 Everything is very self contained (read standalone copies of the repository and it's history), it can be easily copied, and quick experimentation can be done.
 The *index* (Git source : struct index_state) is the list of changes to be bundles into next commit. It exists as we don't want every change in the repository to be committed. Suppose there are files : file.h, file.c, file.o and file (executable), then maybe if we want to track changes in the file.h and file.c, and let the rest be regenerated (simply put we don't want to track them, as they are not part of the source code), we will do -
@@ -192,7 +204,7 @@ git commit
 ```
 
 
-## Trees in git
+### Trees in git
 As soon as a user runs git init - it becomes tree's root node. Except all the initial commit - all
 the commits have a parent commit and the commit records the difference between it and the parent
 commit. The terminal node in the sequence, the tip of the branch is tagged with the branch name. For
@@ -216,7 +228,7 @@ git checkout -b new_branch
 git branch
 ```
 
-## Paradox
+### Paradox
 Here is something to think about : What will happen if you buy a time machine, go back in time, and knock out the guy who made the time machine? Well, in the git world - the present doesn't change - it splinters off to another history (much like regular science fiction movies!). So if you checkout to a past commit - and add some new commits - then if you run `git branch` - it will simply output `(no branch)`. You need to checkout to a new branch if you want to start from that point in commit tree.
 
 ```bash
@@ -226,7 +238,7 @@ git branch new_branch_name <commit hash>
 GUI for seeing how branching has occurred can be seen via gitk or git instaweb (starts a web server
 that lets us interact in the browser).
 
-## Merging
+### Merging
 We can make two branches merge to incorporate the code from one branch to another. This is done by :
 
 ```bash
@@ -252,14 +264,14 @@ git status #gives the list of unmerged files
 #keep repeating the above till all the files have been merged
 ```
 
-## Deleting
+### Deleting
 Deleting the branch can be done by:
 
 ```bash
 git delete branch_name
 ```
 
-## Rebase
+### Rebase
 When there are two branches from same common ancestor, then using the rebase command, we can change the rebase we can reset new common ancestor - as if the branching occured from the commit specified:
 
 ```bash
@@ -269,7 +281,7 @@ git rebase <hash key>
 
 Typical usage is to rebase from master branch to side branch. As letting the diffs pile up can lead to very painful merge in the end, rebasing often is a good idea.
 
-## Remotes repositories
+### Remotes repositories
 The repository has pointers called remotes, which are pointers to other related repositories around
 the world. When we clone a repository, it creates a remote from where the repository has been cloned
 called "origin". In the typical case, this is the only remote we will ever use.

@@ -1,5 +1,14 @@
-# Adminer
-A lightweight database management tool
+---
+title: Adminer
+date: 2020-01-11
+description: A lightweight database management tool
+tags:
+  - database
+  - software engineering
+author: Shivam Tripathi
+location: Hamirpur, Himachal Pradesh
+---
+<ToggleDarkMode/>
 
 ## Introduction
 

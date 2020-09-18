@@ -1,4 +1,14 @@
-# Setting up Apache and php on Mac
+---
+title: Setting up Apache and php on Mac
+date: 2020-01-11
+tags:
+  - software engineering
+author: Shivam Tripathi
+location: Hamirpur, Himachal Pradesh
+---
+
+<ToggleDarkMode/>
+
 <hr/>
 
 ![Mac Apache PHP](/images/tech/apache:one.jpg)
