@@ -1,21 +1,21 @@
 ---
 title: Ecosystems
-date: 2020-01-11
+date: 2020-01-12
 tags:
   - environment
 author: Shivam Tripathi
-location: Hamirpur, Himachal Pradesh
+location: Bengaluru, Karnataka
 ---
 
 <ToggleDarkMode/>
 
-#### ENVIRONMENT
+### Environment
 Environment is defined as the sum total of all the forces, materials and influences around us at a given time and place. It is is the surroundings of an organism, including both living and non-living components.
 
-#### ECOLOGY
+### Ecology
 Ecology is a section of Environmental Science. Ecology is the scientific study of plants and animals in relation to each other and to their enviroment. Hans Reiter is credited with coining the word 'ecology' (Oekologie) by combining two greek words - Oikos (house) and logos (study of).
 
-#### EARTH SYSTEMS
+### Earth Systems
 A system is a term used for any complex whole, with smaller interconnected part working together. Earth acts as a system as well.
 Elements constituting the earth are called parts and can be split into four systems: Geosphere, Hydrosphere, Atmosphere and Biosphere. Each sphere has it's own cycles and it is constantly changing in a process called cycles, for example water cycle, carbon cycle, rock cycle, nitrogen cycle.
 <mermaid>
@@ -26,17 +26,17 @@ A --> D(Atmosphere)
 A --> E(Geosphere)
 </mermaid>
 
-#### EARTH SYSTEMS SCIENCE
+### Earth System Science
 It is the study of all the connections and interactions of the atmosphere, biosphere, geosphere and hydrosphere. It helps us predict effect of change in system on others and take relevant actions.
 
-#### BIOSPHERE
+### Biosphere
 It is all living components of the earth, including all organic components which is not yet decayed. The living part is dependant on other three spheres - hydrosphere, atmosphere and geosphere. Biosphere is believed to be exclusive to earth alone.
 
-#### ECOSYSTEM
+### Ecosystem
 Sir Arthur Tansley is credited with coining the word 'ecosystem'.
 An ecosystem includes all of the living things (plants, animals and organisms) in a given area, interacting with one another and with the non-living enviroment. Therefore, a group of organisms interacting among themselves and with their enviroment is known as ecosystem. Ecosystem is a self regulating and a self sustaining structural and functional unit of the biosphere. The vast network of all interconnected ecosystems constitutes the biosphere. Is is the biosphere which is the life zone of the earth.
 
-#### SCALES OF ECOSYSTEM
+### Scales of Ecosystem
 Ecosystem come in varied sizes. It can be as miniscule as ant colony under a rock, decaying tree trunk or a pond to entire rainforests. Technically, Earth itself can be called a huge ecosystem.
 Scales can be divided into three types:
 - **Micro**: Small scale ecosystem like pond, puddle etc
@@ -45,12 +45,12 @@ Scales can be divided into three types:
 Borders between ecosystems is not defined by rigid boundaries. Rather they blend into each other referred to as **ecotone**.
 <mermaid>
 graph LR
-B(micro) -- < --> C(messo)
-C -- < --> D(biome)
-D -- < --> E(biosphere)
+B(micro) -- part of --> C(messo)
+C -- part of --> D(biome)
+D -- part of --> E(biosphere)
 </mermaid>
 
-#### LEVELS IN AN ECOSYSTEM:
+### Levels in an Ecosystem
 - **Organism or Individuals of Species**: An individual is any living thing or organism. An organism is a fundamental functional unit in ecology because it interacts directly with the environment as well as with other organisms, for example, a rabbit.
 
 - **Population**: It refers to the organisms of the same species that are in proximity to one another at any given time, for example, a group of rabbits, a school of fish. Populations are made up of same species but may have different genetic makeup.
@@ -103,9 +103,9 @@ E --> F(Biome)
 F --> G(Biosphere)
 </mermaid>
 
-#### FOOD CHAIN
+### Food Chain
 
-#### COMPONENTS OF AN ECOSYSTEM
+### Components of an Ecosystem
 These can be classified as *abiotic* and *boitic*
 - Abiotic components
 	The non-living components affecting the distribution, number and behaviour of organisms in an ecosystem. These include:
