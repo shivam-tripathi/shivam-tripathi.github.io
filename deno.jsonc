@@ -1,5 +1,13 @@
 {
 	"importMap": "import_map.json",
+	"compilerOptions": {
+		"exclude": [
+			"./blog"
+		],
+		"compilerOptions": {
+			"jsx": "react-jsx"
+		}
+	},
 	"tasks": {
 		"compile": "node ./scripts/compile.js",
 		"build": "wget -qO- localhost:8000/_build",
