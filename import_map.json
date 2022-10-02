@@ -1,0 +1,11 @@
+{
+	"imports": {
+		"std/": "https://deno.land/std@0.116.0/",
+		"react": "https://esm.sh/react@17.0.2?deno",
+		"react/jsx-runtime": "https://esm.sh/react@17.0.2/jsx-runtime?deno",
+		"reactDOM": "https://esm.sh/react-dom@17.0.2?deno",
+		"reactDOMServer": "https://esm.sh/react-dom@17.0.2/server?deno",
+		"oak": "https://deno.land/x/oak@v10.1.0/mod.ts",
+		"mdx": "https://esm.sh/@mdx-js/mdx@2.0.0-rc.2?deno"
+	}
+}

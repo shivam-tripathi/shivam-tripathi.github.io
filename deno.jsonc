@@ -1,0 +1,9 @@
+{
+	"importMap": "import_map.json",
+	"tasks": {
+		"compile": "node ./scripts/compile.js",
+		"build": "wget -qO- localhost:8000/_build",
+		"local": "deno --unstable run --allow-read=. --allow-run=node --allow-write=. --allow-net=localhost:8000 --watch ./src/server.tsx",
+		"dev": "deno --unstable run --allow-read=. --allow-run=node --allow-write=. --allow-net=localhost:8000 ./src/server.tsx"
+	}
+}
