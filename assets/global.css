@@ -68,7 +68,7 @@ html {
 }
 
 .sideNav .item a {
-  color: black;
+  color: darkslategray;
 }
 
 .sideNav .item {
@@ -94,7 +94,7 @@ html {
 }
 
 .content {
-  margin-top: 100px;
+  margin-top: 4rem;
   height: 100%;
   line-height: 1.25;
   color: rgba(0,0,0,.84);
@@ -102,26 +102,28 @@ html {
 
 .content-body {
   line-height: 1.58;
-  padding-bottom: 5rem;
+  padding-bottom: 10rem;
 }
 
 .content-body p {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  color: darkslategray;
 }
 
 .content h1 {
-  color: var(--primary);
+  /* color: var(--primary); */
   text-align: center;
   font-family: var(--heading);
   font-weight: bold;
-  font-size: 2.25rem;
+  font-size: 4rem;
+  border-bottom: 1px solid darkslategrey;
 }
 
 .content h3 {
   font-family: var(--heading);
   text-decoration: underline var(--primary) dashed 2px;
   font-weight: bold;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
 }
 
 @media (min-width: 1140px) {
@@ -153,8 +155,8 @@ html {
 
 @media (max-width: 1140px) {
   .content {
-    /* margin-left: max(90px, 15%); */
     margin: auto;
+    margin-top: 7rem;
     width: 75%;
   }
 
@@ -197,7 +199,7 @@ html {
   }
 
 
-  .sideNav:hover {
+  .sideNav:hover, .sideNav:active, .sideNav::selection {
     height: auto;
   }
 
