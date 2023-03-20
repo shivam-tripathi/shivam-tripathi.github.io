@@ -105,7 +105,7 @@ html {
   padding-bottom: 10rem;
 }
 
-.content-body p {
+.content-body p, ul, li {
   font-size: 1.25rem;
   color: darkslategray;
 }

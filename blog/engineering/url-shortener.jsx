@@ -10,14 +10,15 @@ function MDXContent(props = {}) {
       h1: "h1",
       p: "p",
       a: "a",
-      ol: "ol",
+      ul: "ul",
       li: "li",
       h2: "h2",
       h3: "h3",
       h4: "h4",
       code: "code",
       pre: "pre",
-      span: "span"
+      span: "span",
+      ol: "ol"
     }, props.components);
     return _jsxs(_Fragment, {
       children: [_jsx(_components.h1, {
@@ -32,7 +33,7 @@ function MDXContent(props = {}) {
         }), "\"."]
       }), "\n", _jsx(_components.p, {
         children: "URL shorteners have become increasingly popular for several reasons:"
-      }), "\n", _jsxs(_components.ol, {
+      }), "\n", _jsxs(_components.ul, {
         children: ["\n", _jsx(_components.li, {
           children: "Easy to share: Long URLs can be difficult to share, especially on social media platforms like\nTwitter that limit the number of characters you can use in a post. Shortened URLs are much easier to\nshare and can help make your posts more concise."
         }), "\n", _jsx(_components.li, {
@@ -104,12 +105,15 @@ function MDXContent(props = {}) {
           }), " ", _jsx(_components.span, {
             className: "hljs-number",
             children: "0"
-          }), ",\n\tpermanent_redirect BOOL ", _jsx(_components.span, {
+          }), ",\n  redirect_type ", _jsx(_components.span, {
+            className: "hljs-type",
+            children: "INT"
+          }), " ", _jsx(_components.span, {
             className: "hljs-keyword",
             children: "DEFAULT"
           }), " ", _jsx(_components.span, {
-            className: "hljs-literal",
-            children: "false"
+            className: "hljs-number",
+            children: "302"
           }), ",\n  created_at ", _jsx(_components.span, {
             className: "hljs-type",
             children: "TIMESTAMP"
@@ -171,8 +175,10 @@ function MDXContent(props = {}) {
       }), "\n", _jsx(_components.p, {
         children: "Once we have a unique ID for each URL, we can convert it to a base 62 encoded string. We can do\nthis by:"
       }), "\n", _jsxs(_components.ol, {
-        children: ["\n", _jsx(_components.li, {
-          children: "Define a string containing the digits and letters that represent the 62 possible values in base 62.\nFor example, you could use the string \"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\"."
+        children: ["\n", _jsxs(_components.li, {
+          children: ["Define a string containing the digits and letters that represent the 62 possible values in base 62.\nFor example, you could use the string ", _jsx(_components.code, {
+            children: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+          }), "."]
         }), "\n", _jsx(_components.li, {
           children: "Divide the input integer by 62 and keep track of the remainder. Convert the remainder to a\ncharacter using the digit/letter string from step 1."
         }), "\n", _jsx(_components.li, {
@@ -384,8 +390,10 @@ function MDXContent(props = {}) {
       }), "\n", _jsx(_components.p, {
         children: "Once someone hits the shorter URL, we can decode the shorter URL to get the primary key which then\ncan be used to extract the long URL. We can do this by:"
       }), "\n", _jsxs(_components.ol, {
-        children: ["\n", _jsx(_components.li, {
-          children: "Define a string containing the digits and letters that represent the 62 possible values in base 62.\nFor example, you could use the string \"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\"."
+        children: ["\n", _jsxs(_components.li, {
+          children: ["Define a string containing the digits and letters that represent the 62 possible values in base 62.\nFor example, you could use the string ", _jsx(_components.code, {
+            children: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+          }), "."]
         }), "\n", _jsx(_components.li, {
           children: "Iterate over the characters in the base 62 encoding in reverse order. For each character, find\nits index in the digit/letter string from step 1."
         }), "\n", _jsx(_components.li, {
@@ -459,6 +467,9 @@ function MDXContent(props = {}) {
             className: "hljs-keyword",
             children: "match"
           }), " c {\n\t\t\t", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// if character lies in [0, 9] range, it is mapped between [0-10)"
+          }), "\n\t\t\t", _jsx(_components.span, {
             className: "hljs-string",
             children: "b'0'"
           }), "..=", _jsx(_components.span, {
@@ -468,6 +479,9 @@ function MDXContent(props = {}) {
             className: "hljs-string",
             children: "b'0'"
           }), ",\n\t\t\t", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// if character lies in [a, z] range it is mapped between [10-36)"
+          }), "\n\t\t\t", _jsx(_components.span, {
             className: "hljs-string",
             children: "b'a'"
           }), "..=", _jsx(_components.span, {
@@ -480,6 +494,9 @@ function MDXContent(props = {}) {
             className: "hljs-number",
             children: "10"
           }), ",\n\t\t\t", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// if character lies in [A, Z] range it is mapped between [36-62)"
+          }), "\n\t\t\t", _jsx(_components.span, {
             className: "hljs-string",
             children: "b'A'"
           }), "..=", _jsx(_components.span, {
@@ -491,7 +508,10 @@ function MDXContent(props = {}) {
           }), " + ", _jsx(_components.span, {
             className: "hljs-number",
             children: "36"
-          }), ",\n\t\t\t_ => ", _jsx(_components.span, {
+          }), ",\n\t\t\t", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// invalid character"
+          }), "\n\t\t\t_ => ", _jsx(_components.span, {
             className: "hljs-built_in",
             children: "panic!"
           }), "(", _jsx(_components.span, {
@@ -526,7 +546,7 @@ function MDXContent(props = {}) {
             children: "assert_eq!"
           }), "(", _jsx(_components.span, {
             className: "hljs-title hljs-function hljs-invoke",
-            children: "decode"
+            children: "decode_base62"
           }), "(String::", _jsx(_components.span, {
             className: "hljs-title hljs-function hljs-invoke",
             children: "from"
@@ -541,7 +561,7 @@ function MDXContent(props = {}) {
             children: "assert_eq!"
           }), "(", _jsx(_components.span, {
             className: "hljs-title hljs-function hljs-invoke",
-            children: "decode"
+            children: "decode_base62"
           }), "(String::", _jsx(_components.span, {
             className: "hljs-title hljs-function hljs-invoke",
             children: "from"
@@ -556,7 +576,7 @@ function MDXContent(props = {}) {
             children: "assert_eq!"
           }), "(", _jsx(_components.span, {
             className: "hljs-title hljs-function hljs-invoke",
-            children: "decode"
+            children: "decode_base62"
           }), "(String::", _jsx(_components.span, {
             className: "hljs-title hljs-function hljs-invoke",
             children: "from"
@@ -571,7 +591,7 @@ function MDXContent(props = {}) {
             children: "assert_eq!"
           }), "(", _jsx(_components.span, {
             className: "hljs-title hljs-function hljs-invoke",
-            children: "decode"
+            children: "decode_base62"
           }), "(String::", _jsx(_components.span, {
             className: "hljs-title hljs-function hljs-invoke",
             children: "from"
@@ -586,7 +606,7 @@ function MDXContent(props = {}) {
             children: "assert_eq!"
           }), "(", _jsx(_components.span, {
             className: "hljs-title hljs-function hljs-invoke",
-            children: "decode"
+            children: "decode_base62"
           }), "(String::", _jsx(_components.span, {
             className: "hljs-title hljs-function hljs-invoke",
             children: "from"
@@ -610,6 +630,162 @@ function MDXContent(props = {}) {
         children: "On the other hand, a temporary redirect is indicated by an HTTP status code of 302 Found or 307\nTemporary Redirect. This status code is used to indicate that the original URL has been temporarily\nreplaced by a new URL. When a web browser or search engine crawler encounters a temporary redirect,\nit will temporarily update its index or cache to point to the new URL, but it will continue to check\nthe original URL for updates. Temporary redirects are useful when a website is temporarily\nunavailable or has moved to a different URL for a short period of time."
       }), "\n", _jsx(_components.p, {
         children: "In our case, it is helpful if we want to track each time the main the short URL is hit."
+      }), "\n", _jsx(_components.pre, {
+        children: _jsxs(_components.code, {
+          className: "hljs language-rs",
+          children: [_jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "use"
+          }), " actix_web::{HttpResponse, ResponseError, web, get};\n", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "use"
+          }), " sqlx::{PgPool, Postgres, Row};\n\n", _jsxs(_components.span, {
+            className: "hljs-meta",
+            children: ["#[get(", _jsx(_components.span, {
+              className: "hljs-string",
+              children: "\"/{short_url}\""
+            }), ")]"]
+          }), "\n", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "async"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "fn"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-title hljs-function",
+            children: "redirect"
+          }), "(short_url: web::Path<", _jsx(_components.span, {
+            className: "hljs-type",
+            children: "String"
+          }), ">, db_pool: web::Data<PgPool>) ", _jsx(_components.span, {
+            className: "hljs-punctuation",
+            children: "->"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-type",
+            children: "Result"
+          }), "<HttpResponse, sqlx::Error> {\n\t", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// Decode the short_url into u62 primary key"
+          }), "\n\t", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "let"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword"
+          }), _jsx(_components.span, {
+            className: "hljs-variable",
+            children: "id"
+          }), " = ", _jsx(_components.span, {
+            className: "hljs-title hljs-function hljs-invoke",
+            children: "decode_base62"
+          }), "(short_url);\n\t", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// Query the database for the long URL and redirect type"
+          }), "\n\t", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "let"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword"
+          }), _jsx(_components.span, {
+            className: "hljs-variable",
+            children: "result"
+          }), " = sqlx::", _jsx(_components.span, {
+            className: "hljs-title hljs-function hljs-invoke",
+            children: "query"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "\"SELECT url, redirect_type FROM url_shortener WHERE id = $1\""
+          }), ")\n\t\t.", _jsx(_components.span, {
+            className: "hljs-title hljs-function hljs-invoke",
+            children: "bind"
+          }), "(&id)\n\t\t.", _jsx(_components.span, {
+            className: "hljs-title hljs-function hljs-invoke",
+            children: "fetch_one"
+          }), "(db_pool.", _jsx(_components.span, {
+            className: "hljs-title hljs-function hljs-invoke",
+            children: "get_ref"
+          }), "())\n\t\t.", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "await"
+          }), "?;\n\t", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "let"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword"
+          }), _jsx(_components.span, {
+            className: "hljs-variable",
+            children: "long_url"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-type",
+            children: "String"
+          }), " = result.", _jsx(_components.span, {
+            className: "hljs-title hljs-function hljs-invoke",
+            children: "get"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-number",
+            children: "0"
+          }), ");\n\t", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "let"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword"
+          }), _jsx(_components.span, {
+            className: "hljs-variable",
+            children: "redirect_type"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-type",
+            children: "i32"
+          }), " = result.", _jsx(_components.span, {
+            className: "hljs-title hljs-function hljs-invoke",
+            children: "get"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-number",
+            children: "1"
+          }), ");\n\n\t", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// Determine the redirect status code based on the redirect type value"
+          }), "\n\t", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "let"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword"
+          }), _jsx(_components.span, {
+            className: "hljs-variable",
+            children: "status_code"
+          }), " = ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "if"
+          }), " redirect_type == ", _jsx(_components.span, {
+            className: "hljs-number",
+            children: "301"
+          }), " { ", _jsx(_components.span, {
+            className: "hljs-number",
+            children: "301"
+          }), " } ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "else"
+          }), " { ", _jsx(_components.span, {
+            className: "hljs-number",
+            children: "302"
+          }), " };\n\n\t", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// Perform the redirect"
+          }), "\n\t", _jsx(_components.span, {
+            className: "hljs-title hljs-function hljs-invoke",
+            children: "Ok"
+          }), "(HttpResponse::", _jsx(_components.span, {
+            className: "hljs-title hljs-function hljs-invoke",
+            children: "build"
+          }), "(status_code)\n\t\t.", _jsx(_components.span, {
+            className: "hljs-title hljs-function hljs-invoke",
+            children: "header"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "\"Location\""
+          }), ", long_url)\n\t\t.", _jsx(_components.span, {
+            className: "hljs-title hljs-function hljs-invoke",
+            children: "finish"
+          }), "())\n}\n"]
+        })
       }), "\n", _jsx(_components.h3, {
         children: "Conclusion"
       }), "\n", _jsx(_components.p, {
