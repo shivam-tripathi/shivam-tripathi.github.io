@@ -93,32 +93,32 @@ input integer.
 const BASE62_ALPHABET: &[u8; 62] = b"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 fn encode_base62(mut num: u64) -> String {
-	let mut base62 = vec![];
-	// input zero errors are pretty ugly in problems where we rely on mod
-	if num == 0 {
-		base62.push(BASE62_ALPHABET[0]);
-	} else {
-		while num > 0 {
-				let rem = (num % 62) as usize;
-				// remainder is mapped to base62 mapping above - modulus returns an index [0, 62).
-				base62.push(BASE62_ALPHABET[rem]);
-				num /= 62;
-		}
-		base62.reverse();
-	}
-	String::from_utf8(base62).unwrap()
+  let mut base62 = vec![];
+  // input zero errors are pretty ugly in problems where we rely on mod
+  if num == 0 {
+    base62.push(BASE62_ALPHABET[0]);
+  } else {
+    while num > 0 {
+        let rem = (num % 62) as usize;
+        // remainder is mapped to base62 mapping above - modulus returns an index [0, 62).
+        base62.push(BASE62_ALPHABET[rem]);
+        num /= 62;
+    }
+    base62.reverse();
+  }
+  String::from_utf8(base62).unwrap()
 }
 
 #[cfg(test)]
 mod tests {
-	#[test]
-	fn test_encode() {
-			assert_eq!(encode_base62(0), String::from("0"));
-			assert_eq!(encode_base62(123456789), String::from("8m0Kx"));
-			assert_eq!(encode_base62(999999999), String::from("15FTGf"));
-			assert_eq!(encode_base62(123456789012), String::from("2aL26ws"));
-			assert_eq!(encode_base62(9223372036854775807), String::from("LygHa16AHYF"));
-	}
+  #[test]
+  fn test_encode() {
+      assert_eq!(encode_base62(0), String::from("0"));
+      assert_eq!(encode_base62(123456789), String::from("8m0Kx"));
+      assert_eq!(encode_base62(999999999), String::from("15FTGf"));
+      assert_eq!(encode_base62(123456789012), String::from("2aL26ws"));
+      assert_eq!(encode_base62(9223372036854775807), String::from("LygHa16AHYF"));
+  }
 }
 ```
 
@@ -139,33 +139,33 @@ the base 62 encoding.
 const BASE62_ALPHABET: &[u8; 62] = b"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 fn decode_base62(encoded: &str) -> u64 {
-	let mut num = 0;
-	for c in encoded.bytes() {
-		let val = match c {
-			// if character lies in [0, 9] range, it is mapped between [0-10)
-			b'0'..=b'9' => c - b'0',
-			// if character lies in [a, z] range it is mapped between [10-36)
-			b'a'..=b'z' => c - b'a' + 10,
-			// if character lies in [A, Z] range it is mapped between [36-62)
-			b'A'..=b'Z' => c - b'A' + 36,
-			// invalid character
-			_ => panic!("Invalid base62 character: {}", c),
-		} as u64;
-		num = num * 62 + val;
-	}
-	num
+  let mut num = 0;
+  for c in encoded.bytes() {
+    let val = match c {
+      // if character lies in [0, 9] range, it is mapped between [0-10)
+      b'0'..=b'9' => c - b'0',
+      // if character lies in [a, z] range it is mapped between [10-36)
+      b'a'..=b'z' => c - b'a' + 10,
+      // if character lies in [A, Z] range it is mapped between [36-62)
+      b'A'..=b'Z' => c - b'A' + 36,
+      // invalid character
+      _ => panic!("Invalid base62 character: {}", c),
+    } as u64;
+    num = num * 62 + val;
+  }
+  num
 }
 
 #[cfg(test)]
 mod tests {
-	#[test]
-	fn test_decode() {
-		assert_eq!(decode_base62(String::from("0")), 0);
-		assert_eq!(decode_base62(String::from("8m0Kx")), 123456789);
-		assert_eq!(decode_base62(String::from("15FTGf")), 999999999);
-		assert_eq!(decode_base62(String::from("2aL26ws")), 123456789012);
-		assert_eq!(decode_base62(String::from("LygHa16AHYF")), 9223372036854775807);
-	}
+  #[test]
+  fn test_decode() {
+    assert_eq!(decode_base62(String::from("0")), 0);
+    assert_eq!(decode_base62(String::from("8m0Kx")), 123456789);
+    assert_eq!(decode_base62(String::from("15FTGf")), 999999999);
+    assert_eq!(decode_base62(String::from("2aL26ws")), 123456789012);
+    assert_eq!(decode_base62(String::from("LygHa16AHYF")), 9223372036854775807);
+  }
 }
 ```
 
@@ -198,23 +198,23 @@ use sqlx::{PgPool, Postgres, Row};
 
 #[get("/{short_url}")]
 async fn redirect(short_url: web::Path<String>, db_pool: web::Data<PgPool>) -> Result<HttpResponse, sqlx::Error> {
-	// Decode the short_url into u62 primary key
-	let id = decode_base62(short_url);
-	// Query the database for the long URL and redirect type
-	let result = sqlx::query("SELECT url, redirect_type FROM url_shortener WHERE id = $1")
-		.bind(&id)
-		.fetch_one(db_pool.get_ref())
-		.await?;
-	let long_url: String = result.get(0);
-	let redirect_type: i32 = result.get(1);
+  // Decode the short_url into u62 primary key
+  let id = decode_base62(short_url);
+  // Query the database for the long URL and redirect type
+  let result = sqlx::query("SELECT url, redirect_type FROM url_shortener WHERE id = $1")
+    .bind(&id)
+    .fetch_one(db_pool.get_ref())
+    .await?;
+  let long_url: String = result.get(0);
+  let redirect_type: i32 = result.get(1);
 
-	// Determine the redirect status code based on the redirect type value
-	let status_code = if redirect_type == 301 { 301 } else { 302 };
+  // Determine the redirect status code based on the redirect type value
+  let status_code = if redirect_type == 301 { 301 } else { 302 };
 
-	// Perform the redirect
-	Ok(HttpResponse::build(status_code)
-		.header("Location", long_url)
-		.finish())
+  // Perform the redirect
+  Ok(HttpResponse::build(status_code)
+    .header("Location", long_url)
+    .finish())
 }
 ```
 

@@ -67,7 +67,7 @@ constraint.</p>
   id SERIAL <span class="hljs-keyword">PRIMARY</span> KEY,
   url TEXT <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">UNIQUE</span>,
   clicks <span class="hljs-type">INTEGER</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">0</span>,
-	permanent_redirect BOOL <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">false</span>,
+  redirect_type <span class="hljs-type">INT</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">302</span>,
   created_at <span class="hljs-type">TIMESTAMP</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-built_in">CURRENT_TIMESTAMP</span>,
   updated_at <span class="hljs-type">TIMESTAMP</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-built_in">CURRENT_TIMESTAMP</span>
 );
@@ -83,7 +83,7 @@ unique integer value. To avoid error on insertion we can something like:</p>
 this by:</p>
 <ol>
 <li>Define a string containing the digits and letters that represent the 62 possible values in base 62.
-For example, you could use the string &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;.</li>
+For example, you could use the string <code>0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</code>.</li>
 <li>Divide the input integer by 62 and keep track of the remainder. Convert the remainder to a
 character using the digit/letter string from step 1.</li>
 <li>Repeat step 2 with the quotient until the quotient is zero.</li>
@@ -127,7 +127,7 @@ input integer.</li>
 can be used to extract the long URL. We can do this by:</p>
 <ol>
 <li>Define a string containing the digits and letters that represent the 62 possible values in base 62.
-For example, you could use the string &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;.</li>
+For example, you could use the string <code>0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</code>.</li>
 <li>Iterate over the characters in the base 62 encoding in reverse order. For each character, find
 its index in the digit/letter string from step 1.</li>
 <li>Multiply the value of the index by 62 raised to the power of its position in the encoding
@@ -141,9 +141,13 @@ the base 62 encoding.</li>
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">num</span> = <span class="hljs-number">0</span>;
 	<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> encoded.<span class="hljs-title hljs-function hljs-invoke">bytes</span>() {
 		<span class="hljs-keyword">let</span> <span class="hljs-keyword"></span><span class="hljs-variable">val</span> = <span class="hljs-keyword">match</span> c {
+			<span class="hljs-comment">// if character lies in [0, 9] range, it is mapped between [0-10)</span>
 			<span class="hljs-string">b&#x27;0&#x27;</span>..=<span class="hljs-string">b&#x27;9&#x27;</span> =&gt; c - <span class="hljs-string">b&#x27;0&#x27;</span>,
+			<span class="hljs-comment">// if character lies in [a, z] range it is mapped between [10-36)</span>
 			<span class="hljs-string">b&#x27;a&#x27;</span>..=<span class="hljs-string">b&#x27;z&#x27;</span> =&gt; c - <span class="hljs-string">b&#x27;a&#x27;</span> + <span class="hljs-number">10</span>,
+			<span class="hljs-comment">// if character lies in [A, Z] range it is mapped between [36-62)</span>
 			<span class="hljs-string">b&#x27;A&#x27;</span>..=<span class="hljs-string">b&#x27;Z&#x27;</span> =&gt; c - <span class="hljs-string">b&#x27;A&#x27;</span> + <span class="hljs-number">36</span>,
+			<span class="hljs-comment">// invalid character</span>
 			_ =&gt; <span class="hljs-built_in">panic!</span>(<span class="hljs-string">&quot;Invalid base62 character: {}&quot;</span>, c),
 		} <span class="hljs-keyword">as</span> <span class="hljs-type">u64</span>;
 		num = num * <span class="hljs-number">62</span> + val;
@@ -155,11 +159,11 @@ the base 62 encoding.</li>
 <span class="hljs-keyword">mod</span> tests {
 	<span class="hljs-meta">#[test]</span>
 	<span class="hljs-keyword">fn</span> <span class="hljs-title hljs-function">test_decode</span>() {
-		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title hljs-function hljs-invoke">decode</span>(String::<span class="hljs-title hljs-function hljs-invoke">from</span>(<span class="hljs-string">&quot;0&quot;</span>)), <span class="hljs-number">0</span>);
-		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title hljs-function hljs-invoke">decode</span>(String::<span class="hljs-title hljs-function hljs-invoke">from</span>(<span class="hljs-string">&quot;8m0Kx&quot;</span>)), <span class="hljs-number">123456789</span>);
-		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title hljs-function hljs-invoke">decode</span>(String::<span class="hljs-title hljs-function hljs-invoke">from</span>(<span class="hljs-string">&quot;15FTGf&quot;</span>)), <span class="hljs-number">999999999</span>);
-		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title hljs-function hljs-invoke">decode</span>(String::<span class="hljs-title hljs-function hljs-invoke">from</span>(<span class="hljs-string">&quot;2aL26ws&quot;</span>)), <span class="hljs-number">123456789012</span>);
-		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title hljs-function hljs-invoke">decode</span>(String::<span class="hljs-title hljs-function hljs-invoke">from</span>(<span class="hljs-string">&quot;LygHa16AHYF&quot;</span>)), <span class="hljs-number">9223372036854775807</span>);
+		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title hljs-function hljs-invoke">decode_base62</span>(String::<span class="hljs-title hljs-function hljs-invoke">from</span>(<span class="hljs-string">&quot;0&quot;</span>)), <span class="hljs-number">0</span>);
+		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title hljs-function hljs-invoke">decode_base62</span>(String::<span class="hljs-title hljs-function hljs-invoke">from</span>(<span class="hljs-string">&quot;8m0Kx&quot;</span>)), <span class="hljs-number">123456789</span>);
+		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title hljs-function hljs-invoke">decode_base62</span>(String::<span class="hljs-title hljs-function hljs-invoke">from</span>(<span class="hljs-string">&quot;15FTGf&quot;</span>)), <span class="hljs-number">999999999</span>);
+		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title hljs-function hljs-invoke">decode_base62</span>(String::<span class="hljs-title hljs-function hljs-invoke">from</span>(<span class="hljs-string">&quot;2aL26ws&quot;</span>)), <span class="hljs-number">123456789012</span>);
+		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title hljs-function hljs-invoke">decode_base62</span>(String::<span class="hljs-title hljs-function hljs-invoke">from</span>(<span class="hljs-string">&quot;LygHa16AHYF&quot;</span>)), <span class="hljs-number">9223372036854775807</span>);
 	}
 }
 </code></pre>
@@ -181,6 +185,30 @@ it will temporarily update its index or cache to point to the new URL, but it wi
 the original URL for updates. Temporary redirects are useful when a website is temporarily
 unavailable or has moved to a different URL for a short period of time.</p>
 <p>In our case, it is helpful if we want to track each time the main the short URL is hit.</p>
+<pre><code class="hljs language-rs"><span class="hljs-keyword">use</span> actix_web::{HttpResponse, ResponseError, web, get};
+<span class="hljs-keyword">use</span> sqlx::{PgPool, Postgres, Row};
+
+<span class="hljs-meta">#[get(<span class="hljs-string">&quot;/{short_url}&quot;</span>)]</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">fn</span> <span class="hljs-title hljs-function">redirect</span>(short_url: web::Path&lt;<span class="hljs-type">String</span>&gt;, db_pool: web::Data&lt;PgPool&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;HttpResponse, sqlx::Error&gt; {
+	<span class="hljs-comment">// Decode the short_url into u62 primary key</span>
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword"></span><span class="hljs-variable">id</span> = <span class="hljs-title hljs-function hljs-invoke">decode_base62</span>(short_url);
+	<span class="hljs-comment">// Query the database for the long URL and redirect type</span>
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword"></span><span class="hljs-variable">result</span> = sqlx::<span class="hljs-title hljs-function hljs-invoke">query</span>(<span class="hljs-string">&quot;SELECT url, redirect_type FROM url_shortener WHERE id = $1&quot;</span>)
+		.<span class="hljs-title hljs-function hljs-invoke">bind</span>(&amp;id)
+		.<span class="hljs-title hljs-function hljs-invoke">fetch_one</span>(db_pool.<span class="hljs-title hljs-function hljs-invoke">get_ref</span>())
+		.<span class="hljs-keyword">await</span>?;
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword"></span><span class="hljs-variable">long_url</span>: <span class="hljs-type">String</span> = result.<span class="hljs-title hljs-function hljs-invoke">get</span>(<span class="hljs-number">0</span>);
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword"></span><span class="hljs-variable">redirect_type</span>: <span class="hljs-type">i32</span> = result.<span class="hljs-title hljs-function hljs-invoke">get</span>(<span class="hljs-number">1</span>);
+
+	<span class="hljs-comment">// Determine the redirect status code based on the redirect type value</span>
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword"></span><span class="hljs-variable">status_code</span> = <span class="hljs-keyword">if</span> redirect_type == <span class="hljs-number">301</span> { <span class="hljs-number">301</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">302</span> };
+
+	<span class="hljs-comment">// Perform the redirect</span>
+	<span class="hljs-title hljs-function hljs-invoke">Ok</span>(HttpResponse::<span class="hljs-title hljs-function hljs-invoke">build</span>(status_code)
+		.<span class="hljs-title hljs-function hljs-invoke">header</span>(<span class="hljs-string">&quot;Location&quot;</span>, long_url)
+		.<span class="hljs-title hljs-function hljs-invoke">finish</span>())
+}
+</code></pre>
 <h3>Conclusion</h3>
 <p>And that&#x27;s it. In this post we covered why it is important to shorten long URLs and how to do it
 using base62 encoding. Hope it was helpful!</p></div></div></body>
