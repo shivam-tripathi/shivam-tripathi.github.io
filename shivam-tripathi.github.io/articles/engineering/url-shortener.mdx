@@ -1,0 +1,224 @@
+# URL Shortener
+
+A URL shortener is a service that allows you to take a long URL and create a shorter, easier-to-remember
+link that redirects to the original URL. The short URL is typically composed of a shorter domain
+name and a series of characters that represent the original URL. For example, the URL
+`https://www.quizizz.com/refer/referrer_id/campaign_id` could be shortened to `https://quiz.iz/5z3b9`.
+
+URL shorteners have become increasingly popular for several reasons:
+- Easy to share: Long URLs can be difficult to share, especially on social media platforms like
+Twitter that limit the number of characters you can use in a post. Shortened URLs are much easier to
+share and can help make your posts more concise.
+- Track clicks: Often we require additional analytics that allow you to track how many clicks your
+shortened links are receiving. This information can be useful for measuring the success of your
+marketing campaigns or tracking engagement.
+- Save space: Shortened URLs take up less space than long URLs, which can be especially important
+in text messages or other situations where space is limited. For example, in cases like reset
+password, we might have to send links in SMS which are usually charged by character count.
+- Hide the original URL: Shortened URLs can be used to hide the original URL, which can be useful
+in situations where the original URL is long, unappealing, or contains sensitive information.
+- Redirect traffic: URL shorteners can be used to redirect traffic to different landing pages or
+websites, which can be useful for A/B testing, redirecting traffic to affiliate links, or directing
+users to specific content
+
+## Base62
+One way to implement a URL shortener is by using base 62 encoding.
+In this blog post, we will discuss how to implement a URL shortener using base 62 encoding.
+
+### What is Base 62 Encoding?
+Base 62 encoding is a method of encoding numbers using the digits 0-9, lowercase letters a-z, and
+uppercase letters A-Z. In base 62 encoding, each character in the encoding represents a unique
+number between 0 and 61. This allows us to represent large numbers with a shorter string of
+characters.
+
+This is similar to binary (0 and 1), decimal (0-9) or hexadecimal (0-9 and A-F to
+represent numbers till 16) encodings - but in this case we use 62 characters (which are easily human
+readable characters - numbers 0-9, lowercase and uppercase english characters) which gives let's us
+represent larger numbers compacted into shorter strings.
+
+### How Does URL Shortening Work?
+URL shortening works by taking a long URL and generating a short URL that redirects to the original
+URL. To implement URL shortening using base 62 encoding, we first need to generate a unique ID for
+each URL that we want to shorten. We can do this by using a counter that increments every time a new
+URL is added to the database. Once we have a unique ID, we can convert it to a base 62 encoded
+string.
+
+### How to Implement URL Shortening Using Base 62 Encoding?
+#### Step 1: Create a Database
+The first step in implementing a URL shortener using base 62 encoding is to create a database to
+store the URLs.
+The database should have two columns: one for the long URL and one for the integer id. Whenever
+someone looks up a short url, we decode the url to primary serial id and get original URL.
+
+`Note:` As the lookup can be on long URL as well, it's a good idea to index the field as well. In case of
+Postgres, we do not explicitly need to create an unique index - as adding a unique constraint will
+automatically create a unique B-tree index on the column or group of columns listed in the
+constraint.
+
+```sql
+CREATE TABLE url_shortener (
+  id SERIAL PRIMARY KEY,
+  url TEXT NOT NULL UNIQUE,
+  clicks INTEGER NOT NULL DEFAULT 0,
+  redirect_type INT DEFAULT 302,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### Step 2: Generate Unique IDs
+
+The next step is to generate a unique ID for each URL that we want to shorten. In our case, adding
+entry in the field ensures we do not insert same URL twice and every entry is mapped against a
+unique integer value. To avoid error on insertion we can something like:
+
+```sql
+INSERT INTO url_shortener (url) SELECT 'qcom2' ON CONFLICT DO NOTHING;
+```
+
+#### Step 3: Encode the id for the URL
+
+Once we have a unique ID for each URL, we can convert it to a base 62 encoded string. We can do
+this by:
+1. Define a string containing the digits and letters that represent the 62 possible values in base 62.
+For example, you could use the string `0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`.
+2. Divide the input integer by 62 and keep track of the remainder. Convert the remainder to a
+character using the digit/letter string from step 1.
+3. Repeat step 2 with the quotient until the quotient is zero.
+4. Concatenate the characters from step 2 in reverse order to form the base 62 representation of the
+input integer.
+
+```rs
+// Every eligible character represents a number in range [0, 62)
+const BASE62_ALPHABET: &[u8; 62] = b"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+fn encode_base62(mut num: u64) -> String {
+  let mut base62 = vec![];
+  // input zero errors are pretty ugly in problems where we rely on mod
+  if num == 0 {
+    base62.push(BASE62_ALPHABET[0]);
+  } else {
+    while num > 0 {
+        let rem = (num % 62) as usize;
+        // remainder is mapped to base62 mapping above - modulus returns an index [0, 62).
+        base62.push(BASE62_ALPHABET[rem]);
+        num /= 62;
+    }
+    base62.reverse();
+  }
+  String::from_utf8(base62).unwrap()
+}
+
+#[cfg(test)]
+mod tests {
+  #[test]
+  fn test_encode() {
+      assert_eq!(encode_base62(0), String::from("0"));
+      assert_eq!(encode_base62(123456789), String::from("8m0Kx"));
+      assert_eq!(encode_base62(999999999), String::from("15FTGf"));
+      assert_eq!(encode_base62(123456789012), String::from("2aL26ws"));
+      assert_eq!(encode_base62(9223372036854775807), String::from("LygHa16AHYF"));
+  }
+}
+```
+
+#### Step 4: Decode the short URL
+
+Once someone hits the shorter URL, we can decode the shorter URL to get the primary key which then
+can be used to extract the long URL. We can do this by:
+1. Define a string containing the digits and letters that represent the 62 possible values in base 62.
+For example, you could use the string `0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`.
+2. Iterate over the characters in the base 62 encoding in reverse order. For each character, find
+its index in the digit/letter string from step 1.
+3. Multiply the value of the index by 62 raised to the power of its position in the encoding
+(starting from 0).
+4. Add up the results of step 3 for each character in the encoding to obtain the decimal value of
+the base 62 encoding.
+
+```rs
+const BASE62_ALPHABET: &[u8; 62] = b"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+fn decode_base62(encoded: &str) -> u64 {
+  let mut num = 0;
+  for c in encoded.bytes() {
+    let val = match c {
+      // if character lies in [0, 9] range, it is mapped between [0-10)
+      b'0'..=b'9' => c - b'0',
+      // if character lies in [a, z] range it is mapped between [10-36)
+      b'a'..=b'z' => c - b'a' + 10,
+      // if character lies in [A, Z] range it is mapped between [36-62)
+      b'A'..=b'Z' => c - b'A' + 36,
+      // invalid character
+      _ => panic!("Invalid base62 character: {}", c),
+    } as u64;
+    num = num * 62 + val;
+  }
+  num
+}
+
+#[cfg(test)]
+mod tests {
+  #[test]
+  fn test_decode() {
+    assert_eq!(decode_base62(String::from("0")), 0);
+    assert_eq!(decode_base62(String::from("8m0Kx")), 123456789);
+    assert_eq!(decode_base62(String::from("15FTGf")), 999999999);
+    assert_eq!(decode_base62(String::from("2aL26ws")), 123456789012);
+    assert_eq!(decode_base62(String::from("LygHa16AHYF")), 9223372036854775807);
+  }
+}
+```
+
+#### Serve the URL
+Based on whether we want to do a permanent redirect or a temporary one, we can set the status code
+as 301 or 302.
+
+A permanent redirect is indicated by an HTTP status code of 301 Moved Permanently. This status code
+is used to indicate that the original URL has been permanently replaced by a new URL. When a web
+browser or search engine crawler encounters a permanent redirect, it will update its index or cache
+to point to the new URL. Permanent redirects are useful when a website has changed its URL structure
+or has moved to a new domain.
+
+In our case, in case of permanent redirects we will miss out on
+getting analytics metadata like clicks as client browsers will never hit the old short url again.
+This, however, can be controlled with a TTL.
+
+On the other hand, a temporary redirect is indicated by an HTTP status code of 302 Found or 307
+Temporary Redirect. This status code is used to indicate that the original URL has been temporarily
+replaced by a new URL. When a web browser or search engine crawler encounters a temporary redirect,
+it will temporarily update its index or cache to point to the new URL, but it will continue to check
+the original URL for updates. Temporary redirects are useful when a website is temporarily
+unavailable or has moved to a different URL for a short period of time.
+
+In our case, it is helpful if we want to track each time the main the short URL is hit.
+
+```rs
+use actix_web::{HttpResponse, ResponseError, web, get};
+use sqlx::{PgPool, Postgres, Row};
+
+#[get("/{short_url}")]
+async fn redirect(short_url: web::Path<String>, db_pool: web::Data<PgPool>) -> Result<HttpResponse, sqlx::Error> {
+  // Decode the short_url into u62 primary key
+  let id = decode_base62(short_url);
+  // Query the database for the long URL and redirect type
+  let result = sqlx::query("SELECT url, redirect_type FROM url_shortener WHERE id = $1")
+    .bind(&id)
+    .fetch_one(db_pool.get_ref())
+    .await?;
+  let long_url: String = result.get(0);
+  let redirect_type: i32 = result.get(1);
+
+  // Determine the redirect status code based on the redirect type value
+  let status_code = if redirect_type == 301 { 301 } else { 302 };
+
+  // Perform the redirect
+  Ok(HttpResponse::build(status_code)
+    .header("Location", long_url)
+    .finish())
+}
+```
+
+
+### Conclusion
+And that's it. In this post we covered why it is important to shorten long URLs and how to do it
+using base62 encoding. Hope it was helpful!

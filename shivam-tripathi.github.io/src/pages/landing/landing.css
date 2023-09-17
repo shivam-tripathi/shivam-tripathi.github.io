@@ -1,0 +1,28 @@
+.landing {
+	text-align: center;
+}
+
+.landing h1 {
+	font-family: var(--devnagari);
+	font-size: 4rem;
+	margin: 0;
+	color: black;
+}
+
+.landing h2 {
+	color: var(--primary);
+	margin: 0.5rem;
+	font-size: 1.75rem;
+}
+
+.landing .heroimg {
+	width: 50vh;
+	border: 10px inset;
+	border-radius: 50vh;
+	margin: 10vh;
+}
+
+.landing .index {
+	text-align: left;
+	font-size: 1rem;
+}

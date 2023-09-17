@@ -1,0 +1,13 @@
+.about a {
+	color: var(--primary);
+}
+
+.about .quote {
+	font-weight: bold;
+	font-family: --var(--devnagari);
+}
+
+.about .quoteExplanation {
+	font-size: 0.75rem;
+	font-family: sans-serif;
+}

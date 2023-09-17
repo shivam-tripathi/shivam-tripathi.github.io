@@ -1,0 +1,25 @@
+.topNav {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-bottom: 2px solid var(--primary);
+}
+
+.topNav .menu {
+  width: 2.5rem;
+  margin: 0.5rem;
+}
+
+.topNav .title {
+  font-weight: bold;
+  font-size: 5vh;
+  display: flex;
+  font-family: var(--devnagari);
+	height: 10vh;
+}
+
+.topNav a {
+  color: inherit;
+  text-decoration: none;
+	padding-left: 7.5vh;
+}
