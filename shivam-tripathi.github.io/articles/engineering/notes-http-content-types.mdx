@@ -1,0 +1,185 @@
+# Notes: HTTP Content Types
+
+HTTP content types, also known as MIME (Multipurpose Internet Mail Extensions) types, are utilized
+to specify the format of the data being transferred through HTTP messages.
+
+Possible types:
+1. Application
+2. Audio
+3. Image
+4. Multipart
+5. Text
+6. Video
+
+## Details
+
+
+### `application/x-www-form-urlencoded`
+- The default content type used when submitting forms.
+- All characters are encoded before being sent (spaces are converted to "+" symbols, and special
+characters are escaped).
+- `application/x-www-form-urlencoded` has a single byte boundary per field (&), but adds a linear
+overhead factor of 3x for every non-printable character. Usual printable characters like a and b
+were sent in one byte, while non-printable ones like 0xCF and 0x89 took up 3 bytes each: %CF%89
+- It is suitable for simple forms with alphanumeric data.
+
+```js
+fetch('http://example.com/form_endpoint', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  body: 'name=John+Doe&email=john%40doe.com' // use some library, try not to pull off stunts like this
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+
+```
+
+### `multipart/form-data`
+- Typically used for forms that include file uploads or non-ASCII data.
+- Does not apply URL encoding. Instead, it separates form data parts using a boundary.
+- Used for encoding and transmitting data, especially forms that contain files, non-ASCII data, and binary data.
+- Use multipart/form-data if the form contains a file upload, and application/x-www-form-urlencoded
+otherwise, which is the default if you omit `enctype`.
+- `multipart/form-data` adds a few bytes of boundary overhead to the message, and must spend some
+time calculating.
+- Use Cases:
+	- File uploads: Submitting forms that contain files, text, or a mix of files and text.
+	- API requests: When sending mixed textual and binary data in a single payload to a REST API.
+- <a href="https://stackoverflow.com/questions/4526273/what-does-enctype-multipart-form-data-mean/28380690#28380690">Read More</a>
+```js
+const formData = new FormData();
+formData.append('name', 'John Doe');
+formData.append('email', 'john@doe.com');
+formData.append('file', new Blob(['Hello, world!'], { type: 'text/plain' }), 'hello.txt');
+
+fetch('http://example.com/form_endpoint', {
+  method: 'POST',
+  body: formData
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+```
+
+### `application/json`
+- Data is encoded in JSON (JavaScript Object Notation) format.
+- Used literally everywhere.
+
+### `application/xml`
+- Data is encoded in XML (eXtensible Markup Language) format.
+- Sometimes used in old school APIs, RPCs.
+
+### `application/octet-stream`
+- Used in binary data, or data that isn't in a structured textual format.
+- `text/plain` is the default value for textual files. A textual file should be human-readable
+and must not contain binary data. `application/octet-stream` is the default value for all other
+cases. An unknown file type should use this type. Browsers are particularly careful when
+manipulating these files to protect users from software vulnerabilities and possible
+dangerous behavior.
+- Generally used to transmit raw binary data or data that doesn't conform to other Content-Type
+specifications.
+- Use cases:
+	- Downloading files: For instance, when a browser downloads a file, it might be sent as
+	application/octet-stream.
+	- Uploading binary data to the server without any specific encoding or multipart splitting.
+- Does not allow you to upload multiple files in a single request-body or mix binary files with
+regular form fields. Does not include metadata about the data in the payload.
+- Vs multipart/form-data:
+	- Use application/octet-stream when dealing with pure binary data without the need for additional
+	fields or metadata.
+	- Use multipart/form-data when dealing with forms and API requests that involve files, non-ASCII
+	data, binary data, or a mixture of text and binary data, especially when metadata about each part
+	needs to be provided.
+
+```js
+fetch('http://example.com/upload', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/octet-stream'
+  },
+  body: new Blob([/* your data */], { type: 'application/octet-stream' })
+});
+```
+
+### `application/zip`
+- Usage: Zip compressed file data.
+- `.zip`: Zip format can use various compression algorithms, like Deflate, though it is also known
+for packaging files without compression. Can contain multiple compressed files and directories and
+might employ various compression methods.
+- Typical Use Cases: File compression and archiving.
+- Can store additional file attributes, such as file comments and encryption.
+
+### `application/gzip`
+- Usage: Gzip compressed file data.
+- `.gz`: Gzip uses the Deflate compression algorithm.
+- Considerations:
+	- Single File: Gzip is typically used to compress a single file.
+	- To compress multiple files/directories, they must be concatenated into a single stream (e.g.,
+	a tar archive) before being gzipped, often resulting in a `.tar.gz` file.
+	- Compression Efficiency: Often provides slightly better compression ratios than Zip, especially
+	for larger files.
+- Typical Use Cases: File compression and transfers.
+
+### `application/pdf`
+- Usage: Data is formatted as a PDF.
+- Typical Use Cases: Document viewing and sharing.
+
+### `application/javascript`
+- Usage: JavaScript code.
+- Typical Use Cases: Client-side scripting for web pages.
+
+### Images ones
+- image/gif
+- image/tiff
+- image/vnd.djvu
+- image/jpeg
+- image/svg+xml
+- image/png
+- image/x-icon
+- image/vnd.microsoft.icon
+
+### Text ones
+- text/css
+- text/javascript (obsolete): use application/javascript
+- text/plain
+- text/html
+- text/xml
+- text/csv
+
+
+
+### Non-printable characters
+- "Non-printable" characters refer to characters that do not represent a written symbol that is
+printable or visible. They are often control characters, derived from the first 32 characters of the
+ASCII (American Standard Code for Information Interchange) table, which were originally designed to
+control hardware devices.
+- Examples:
+	- NULL (0)
+	- SOH, STX, ETX, etc. (ASCII 1-3): Start of Header, Start of Text, and End of Text
+	- EOT (ASCII 4): End of Transmission.
+
+- When a binary file (e.g., image, audio, video, or a document) is uploaded through a form, it
+inherently contains non-printable characters. Binary files are often composed of a combination of
+printable and non-printable characters, which all need to be correctly transmitted to preserve the
+file’s integrity.
+- Binary data or strings containing non-printable characters often need to be encoded (e.g., Base64
+encoded) to ensure safe transmission over HTTP.
+- When sending files or binary data, ensuring that you're using an appropriate Content-Type (like
+application/octet-stream or multipart/form-data) is crucial for the receiving system to interpret
+the data correctly.
+- Ensuring data integrity through checksums or other verification mechanisms is important, as binary
+data can be susceptible to corruption during transmission.
+
+### `enctype`
+According to HTML5 references, there are three possibilities for enctype:
+1. `application/x-www-form-urlencoded`
+2. `multipart/form-data`: (spec points to RFC7578)
+3. `text/plain`: Almost never used.
+
+
+### Misc
+- netstat echo server: while true; do printf '' | nc -l localhost 8000; done
+- Works on ubuntu.

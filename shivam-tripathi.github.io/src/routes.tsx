@@ -1,6 +1,7 @@
 
 import DataPipelinesAndBackpressure from '../articles/engineering/data-pipelines-and-backpressure.mdx'
 import UrlShortener from '../articles/engineering/url-shortener.mdx';
+import NotesHTTPContentTypes from '../articles/engineering/notes-http-content-types.mdx';
 import App from './App';
 import About from './pages/about';
 import Landing from './pages/landing';
@@ -11,7 +12,7 @@ const routes = [
 	{
 		path: '/',
 		description: 'Home',
-		element: <App page={Landing}/>,
+		element: <App page={Landing} />,
 		image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAABpElEQVRoge3XsWvUYBzG8Y9yKIJVEXQoDjd2EVzsJDgIgpubbnVydtM/wdWxq5MgiCCO4mBBKAguLuLiIqIUWpCj2FodLm/PxrSXq7nkZ32/8EzJvXm+5PJ7EzK16ONlkX7HXfbNNazgZ5FVXO+00YQcwl38MJJI2cJ9HO6sXU1O4Ik/Bcp5jtMddRzLBXwwXiLlIy6W1tjt3NZYwGCPIrtlUPw2cQffK86bOkfxYB8C5TzEsWLNS/jUpsg5vG5AIuWN0Yg+gxdtiFzG5wYlUr7ianGNnuGE25qGQBqtm1OQSNnEveJacKNpiRk8nqJAOc9wqmmJObxrUSLlPc43JXET3zqQSBng1t8IpIetK4FyFnFkUomzdo6/KFnCbF2Jqg0pUr7gyjiJ26pfEaJlw3AbSCN6m+N4FKDgpHmKk7+LLBcH1gKUq5vUdZnRB84G3mK+fKsCM2/4frZOxX/M0PJfYEf38J+cdcki0cgi0cgi0eg1vF7VvrQXje1ZB+aOZJFoZJFoZJFoZJFoZJFoZJFoZJFoHGiRpdZbTM6rrgtk/ht+AZJi8ybhOtGyAAAAAElFTkSuQmCC',
 	},
 	{
@@ -37,6 +38,11 @@ const routes = [
 		path: '/about',
 		element: <App page={About} />,
 		image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAABWUlEQVRIibXVy0ocQRjF8d94W+QFXOgk4MJFFsE8gRsVDSSgD+LGl/AdkszalTsJuBVFEhgv6CYhWQTxEuNOHJkRJosppWnpruroHDjQ1f19/0MVVdU15XqFJcxhEqPh/Tm+YxPr+B3hPNI4GmijG3EbnzGWCn+HvwngvC8xH4Mv4q4Echpc9L2DD0Xwt2iVNO9jMHivpO4Gb/LwGnYiS3CIoeCDSO1WYD5oLtJw77PglNqZbEAjsamKP2YDjhMampgIbibUHwnrCXVx3eJX5jmmlzAQBt2EhqoayAac9CHgIhuw24eAb9mAtT4EbGQHNWwr3xU7mfrYobzEi3zilN4xL2pq4Wdw2ZXSxUrRtN7rXVhPOWC7GC4KgIUwxf+BXwn7P6YxfJL2w7n3jdz9k6I6lvV2xA9cl8Bnq8KLlIf/wfRzwfMBXyWuedWADlYx8txw+ILXqcX/APJm/BWgL6buAAAAAElFTkSuQmCC'
+	},
+	{
+		description: 'Notes: HTTP Content Types',
+		path: '/engineering/notes-http-content-types',
+		element: <App page={NotesHTTPContentTypes} />,
 	},
 	{
 		description: 'Data Pipelines And Backpressure',
