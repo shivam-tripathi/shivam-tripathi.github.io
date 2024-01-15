@@ -1,0 +1,24 @@
+.toc-container {
+	/* max-width: 300px; */
+	width: 100%;
+	margin: auto;
+	padding: 20px;
+	background-color: #f8f9fa;
+	border-radius: 5px;
+}
+
+.toc-title {
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.toc-item {
+	cursor: pointer;
+	font-size: 18px;
+	transition: background-color 0.3s ease;
+}
+
+.toc-item:hover {
+	background-color: #e0e0e0;
+}

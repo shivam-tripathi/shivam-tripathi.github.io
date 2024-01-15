@@ -2,6 +2,7 @@
 import DataPipelinesAndBackpressure from '../articles/engineering/data-pipelines-and-backpressure.mdx'
 import UrlShortener from '../articles/engineering/url-shortener.mdx';
 import NotesHTTPContentTypes from '../articles/engineering/notes-http-content-types.mdx';
+import NotesHTTPSecurityHeaders from '../articles/engineering/notes-http-security-headers.mdx';
 import App from './App';
 import About from './pages/about';
 import Landing from './pages/landing';
@@ -45,6 +46,11 @@ const routes = [
 		element: <App page={NotesHTTPContentTypes} />,
 	},
 	{
+		description: 'Notes: HTTP Security Headers',
+		path: '/engineering/notes-http-security-headers',
+		element: <App page={NotesHTTPSecurityHeaders} />,
+	},
+	{
 		description: 'Data Pipelines And Backpressure',
 		path: '/engineering/data-pipelines-and-backpressure',
 		element: <App page={DataPipelinesAndBackpressure} />,
@@ -57,7 +63,7 @@ const routes = [
 ];
 
 export const contentTree = {
-	description: 'Content Tree',
+	description: 'Tree',
 	path: '/content-tree',
 	image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAACrUlEQVR4nO2YO2gVQRSGPxNQ46vwETUIioLgKyg2Kj4KRQioRGIEsfJRCBKDLxAlpYqSwgekEC+iFjaiKNiI2hpBCx+FCqbQQtQUUUwEjblyYBaGZXczj71778r+cIqdO3Pm//fMPefsQIECBQr8r5gKNANrgIXARHKAycAx4CUwApQ1+wv0AseBSdQg1gOfQqTj7AvQTg2hBRgyJB+YROgENYDFwC9L8rqI3dUiPg5oA944kg9sAJiZNfnNQJ8ncd0uZEl+FzCcIvky8B0YnwX5RR7nfTRrz0LAPQdikv+fG0RtGLhUyRoxXZGxFSCkBGcM578C5lRCQKvj0ZDKK9hnseYdMCNN8g3AM4ON30aMHVI+dloKfwCMSUvAZYMN+4E6YBvwTRs/oFVr2+i1pkF+hUXaLCkRTcAjNbZX+VnnIOBpGgJKlpuWVOjFOoEdys9yx1ajyYf8BFVkbFuD1ZqP4BwvcEwCbT4CNlpsNAhcBBpjfDU6CujwEXDQcJMeYLZaswzoBj4AW0PR1Nf8Bm6rlzRPPUf5Pukj4JQBeck4S1S6fBH67Y9KAgHk+SPQpZ3tOuBogn95ic7ocAy7bpJW0VJpvfbcrDJN0no9itbYnoIA6V6jCuPZhGOj2ywfAdNU2H0E7A/53BBTscsRJpcA3njoKUBqQYBuy7V70hCwKuKKxMYkEQQIqrNpV1pPSrjiIUDa6AB3Ddf8BJaSIsYCTxwFSHELcNNg/hCwiQpgCnDHQcBVzUfPKHP7gJVUENLXHAZ+WAi4pa0/l9A/nc7yylE+L88bNnr3tXVd2rh8nkoRO6KiW7XLrS3ANeB9zHfDY23+WkW4JaHpqyoa1BnuT7sYZY2vmoDX5BADocySOwxqAj6TQ/TG/Ilzg/nADeA6MLfaZAoUKEDt4h8V1KIDDyWEJAAAAABJRU5ErkJggg==',
 };
@@ -87,10 +93,12 @@ export function getTree() {
 	return tree;
 }
 
+export const blogPath = (path: string) => `/blog${path ?? ''}`;
+
 export function getList(subTree: Tree) {
 	const collect: JSX.Element[] = [];
 	const row = <li key={subTree.path}>
-		{subTree.path ? <Link to={subTree.path as string}>{subTree.description}</Link> : subTree.description}
+		{subTree.path ? <Link style={{textDecoration: 'none', color: 'var(--secondary)'}} to={blogPath(subTree.path) as string}>{subTree.description}</Link> : subTree.description}
 		{Object.keys(subTree.children).map(inner => getList(subTree.children[inner]))}
 	</li>;
 	collect.push(row);
@@ -98,7 +106,8 @@ export function getList(subTree: Tree) {
 }
 
 const navigationDetails = (description: string) => {
-	return <><h1>{description}</h1>{getList(getTree().children[description.toLowerCase()])}</>
+	const items = getList(getTree().children[description.toLowerCase()]);
+	return <><h1>{description}</h1>{items}</>;
 }
 
 export const navigation = [

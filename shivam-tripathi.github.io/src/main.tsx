@@ -1,16 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import routes, { contentTree } from './routes.tsx';
+import routes, { blogPath, contentTree } from './routes.tsx';
 import App from './App.tsx';
 import ContentTree from './pages/content-tree/index.tsx';
 
 const router = createBrowserRouter([
 	{
 		...contentTree,
+		path: blogPath(contentTree.path),
 		element: <App page={ContentTree} />,
 	},
-	...routes,
+	{
+		...routes[0],
+	},
+	...routes.map(route => ({	...route, path: blogPath(route.path) })),
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

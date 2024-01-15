@@ -1,5 +1,5 @@
 import './side-nav.css';
-import { navigation } from '../routes';
+import { navigation, blogPath } from '../routes';
 import { Link } from 'react-router-dom';
 
 export const RightButton = () => {
@@ -10,14 +10,14 @@ const SideNav = () => {
   return (
     <div className="sideNav">
       <ul className="items">
-        {navigation.filter(route => route.image).map(({description, path, image}, index) => {
+        {navigation.filter(route => route.image).map(({description, path}, index) => {
           return (
             <li
               className="item"
               key={index}
             >
-              <Link className="no-link" to={path}>
-                <img src={image} />
+              <Link className="no-link" to={blogPath(path)}>
+                {/* <img src={image} /> */}
                 <span>{description}</span>
               </Link>
             </li>

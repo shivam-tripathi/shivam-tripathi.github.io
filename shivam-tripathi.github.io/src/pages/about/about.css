@@ -4,10 +4,12 @@
 
 .about .quote {
 	font-weight: bold;
-	font-family: --var(--devnagari);
+	font-family: var(--devnagari);
+	text-align: center;
 }
 
 .about .quoteExplanation {
 	font-size: 0.75rem;
 	font-family: sans-serif;
+	text-align: center;
 }
