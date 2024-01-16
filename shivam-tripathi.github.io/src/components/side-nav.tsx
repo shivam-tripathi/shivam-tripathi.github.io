@@ -17,7 +17,6 @@ const SideNav = () => {
               key={index}
             >
               <Link className="no-link" to={blogPath(path)}>
-                {/* <img src={image} /> */}
                 <span>{description}</span>
               </Link>
             </li>

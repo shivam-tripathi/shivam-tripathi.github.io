@@ -16,10 +16,10 @@
 }
 
 .landing .heroimg {
-	width: 40vh;
+	width: 50vh;
 	border: 10px inset;
 	border-radius: 50vh;
-	margin: 10vh;
+	margin: 5vh;
 }
 
 .landing .index {

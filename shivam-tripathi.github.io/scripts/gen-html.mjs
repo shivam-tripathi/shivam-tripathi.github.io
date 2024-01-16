@@ -3,33 +3,13 @@ import { fileURLToPath } from 'node:url';
 import fs from 'fs';
 import path from 'path';
 
-const html = `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" rel="stylesheet" type="text/css" href="/public/global.css" />
-    <link rel="icon" type="image/x-icon" href="/public/favicon.ico">
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/github-dark.min.css"
-    />
-    <title>संक्षिप्त</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
-`;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const html = fs.readFileSync(path.join(__dirname, '../../index.html'), 'utf-8');
+
 fs.readFileSync(path.join(__dirname, '../src/routes.tsx'), 'utf-8')
-  .toString()
   .split('\n')
   .filter(line => line.includes('path: \''))
   .map(line => line.trim().split('\'').slice(1, -1)[0])

@@ -1,3 +1,4 @@
+import ContentTree from '../content-tree';
 import imgUrl from './hero.png'
 import './landing.css';
 
@@ -7,6 +8,7 @@ const Landing = () => {
       <h1> संक्षिप्त </h1>
       <h2> Musings on Life, Universe, and Everything </h2>
       <img src={imgUrl} className="heroimg"/>
+      <ContentTree />
     </div>
   );
 };
