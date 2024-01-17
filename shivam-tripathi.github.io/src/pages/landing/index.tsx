@@ -1,5 +1,5 @@
 import ContentTree from '../content-tree';
-import imgUrl from './hero.webp'
+import imgUrl from '../../assets/hero.webp';
 import './landing.css';
 
 const Landing = () => {

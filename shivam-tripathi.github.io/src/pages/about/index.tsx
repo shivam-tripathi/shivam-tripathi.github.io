@@ -1,4 +1,4 @@
-import img from '../../assets/hero.png';
+import img from '../../assets/hero.webp';
 
 import './about.css';
 
