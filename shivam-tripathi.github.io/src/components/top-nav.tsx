@@ -9,7 +9,7 @@ const TopNav = () => {
 	return (
 			<div className="topNav">
 				<Menu />
-				<a className="title" href="/">संक्षिप्त</a>
+				<a className='title' href='/'>Kalpavriksha</a>
 			</div>
 	);
 };

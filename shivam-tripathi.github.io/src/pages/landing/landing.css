@@ -17,8 +17,8 @@
 
 .landing .heroimg {
 	width: 50vh;
-	border: 10px inset;
-	border-radius: 50vh;
+	/* border: 10px inset; */
+	/* border-radius: 50vh; */
 	margin: 5vh;
 }
 

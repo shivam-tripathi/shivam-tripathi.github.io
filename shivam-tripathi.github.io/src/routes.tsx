@@ -1,8 +1,13 @@
 
 import DataPipelinesAndBackpressure from '../articles/engineering/data-pipelines-and-backpressure.mdx'
-import UrlShortener from '../articles/engineering/url-shortener.mdx';
+// import UrlShortener from '../articles/engineering/url-shortener.mdx';
 import NotesHTTPContentTypes from '../articles/engineering/notes-http-content-types.mdx';
 import NotesHTTPSecurityHeaders from '../articles/engineering/notes-http-security-headers.mdx';
+import GrowthFramework from '../articles/product/growth-framework.mdx';
+import HypothesisTesting from '../articles/product/hypothesis-testing.mdx';
+import SEO from '../articles/product/seo.mdx';
+import Ads from '../articles/product/ads.mdx';
+import Quotes from '../articles/quotes.mdx';
 import App from './App';
 import About from './pages/about';
 import Landing from './pages/landing';
@@ -35,19 +40,34 @@ const routes = [
 		image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAABzklEQVR4nO2W30oCQRSHvyu7LPrjReF1D+BjtEuvEZa+RBbdRT1GCD2BGgpmF2XQcxSk3m9sHGETdp05Ou4m88EBF+fM/H5zds4OeDwej2dDeQGe2QAiiX9P9B+M7AB1YH8JI7vAGbBNjlyIyA+gnDKmD/RS/itLbjzHOTmylxCSZWaRiQ+ZK1eSgu4s8u6VG+CUA+AWqMrzFtAAhsBUYiivYknGVCUnzi0kR8B74pDPx0jGFJqtBSZm8ZaoTCFpGJiIitClTK4jpkZyv7b05wTFzzMmFkbGhnM6Y37RngMjPXJmaGFkQIGpWxipuRYTAt3Eh6wDBBbtd2Rg4tWi/YYaPdcZizcNFz5aYCY2cWg417VGT2iwk6aVKcl1ZCANYCK/a5aViDR6ugaJbdZHV6tnYtkyXTPR6lnWyCnwJAdy0TxT2fHQhZHOEq/WjUXbnY+rlDk7Wj2BQeJJSiW0JrIObaDU80szI+kyJedpBUY6K9TzZyfaibbZznJueb/SnL3AUo+aaEWRO4UyUgFaUuKs8j8Cx2swUtHoiZM+LRb8khxXRipaPS3Fog8OjbS0erLKlxbfDo2MtXqWXXjVRiJtvjdStIp4PB6Px4OSH1213b2cUYIbAAAAAElFTkSuQmCC'
 	},
 	{
+		description: 'Miscellaneous',
+		path: '/miscellaneous',
+		element: <App page={() => navigationDetails("Miscellaneous")} />,
+	},
+	{
+		description: 'Notes',
+		path: '/notes',
+		element: <App page={() => navigationDetails("Notes")} />,
+	},
+	{
+		description: 'Quotes',
+		path: '/quotes',
+		element: <App page={Quotes} />,
+	},
+	{
 		description: 'About',
 		path: '/about',
 		element: <App page={About} />,
-		image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAABWUlEQVRIibXVy0ocQRjF8d94W+QFXOgk4MJFFsE8gRsVDSSgD+LGl/AdkszalTsJuBVFEhgv6CYhWQTxEuNOHJkRJosppWnpruroHDjQ1f19/0MVVdU15XqFJcxhEqPh/Tm+YxPr+B3hPNI4GmijG3EbnzGWCn+HvwngvC8xH4Mv4q4Echpc9L2DD0Xwt2iVNO9jMHivpO4Gb/LwGnYiS3CIoeCDSO1WYD5oLtJw77PglNqZbEAjsamKP2YDjhMampgIbibUHwnrCXVx3eJX5jmmlzAQBt2EhqoayAac9CHgIhuw24eAb9mAtT4EbGQHNWwr3xU7mfrYobzEi3zilN4xL2pq4Wdw2ZXSxUrRtN7rXVhPOWC7GC4KgIUwxf+BXwn7P6YxfJL2w7n3jdz9k6I6lvV2xA9cl8Bnq8KLlIf/wfRzwfMBXyWuedWADlYx8txw+ILXqcX/APJm/BWgL6buAAAAAElFTkSuQmCC'
+		image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAABAElEQVR4nO2XTQrCMBBG36rHKEHceQLrBfQA3sOtrtxY9XpS0I2I2nqNSmEKg/jThCQg9IMPyiQzj5lkkYK9EmAPPIAK2EosuHZA/eI8BrgSWAZM5LuJeVGixll/8ESB39npGHZfCto6dxnnWMXuHSA3tT9zOYZarDX7AW+g0w51vso6wVedugf/kAEK4AQMY456oXKOMcBG3GgtOYfQYANcxEZ1bkKCU+Cs9l2BgWMDnRNeoVHAqQXUGzi1hHoDj+QitWv6UgUFN5q/uclBwSsFGnWEegEXwNKmgC+wq/4HXKmXpKvah2Bpk7T1+Njb2IATgbedu7gUaJS/jF580hMKHdoyv1Z5mgAAAABJRU5ErkJggg=='
 	},
 	{
-		description: 'Notes: HTTP Content Types',
-		path: '/engineering/notes-http-content-types',
+		description: 'HTTP Content Types',
+		path: '/notes/http-content-types',
 		element: <App page={NotesHTTPContentTypes} />,
 	},
 	{
-		description: 'Notes: HTTP Security Headers',
-		path: '/engineering/notes-http-security-headers',
+		description: 'HTTP Security Headers',
+		path: '/notes/http-security-headers',
 		element: <App page={NotesHTTPSecurityHeaders} />,
 	},
 	{
@@ -55,11 +75,31 @@ const routes = [
 		path: '/engineering/data-pipelines-and-backpressure',
 		element: <App page={DataPipelinesAndBackpressure} />,
 	},
+	// {
+	// 	description: 'URL Shortener',
+	// 	path: '/engineering/path-shortener',
+	// 	element: <App page={UrlShortener} />,
+	// },
 	{
-		description: 'URL Shortener',
-		path: '/engineering/path-shortener',
-		element: <App page={UrlShortener} />,
+		description: 'Growth Framework',
+		path: '/product/growth-framework',
+		element: <App page={GrowthFramework} />,
 	},
+	{
+		description: 'Hypothesis Testing',
+		path: '/product/hypothesis-testing',
+		element: <App page={HypothesisTesting} />,
+	},
+	{
+		description: 'Experiments with SEO',
+		path: '/product/search-engine-optimisation',
+		element: <App page={SEO} />,
+	},
+	{
+		description: 'Monetizing through Ads',
+		path: '/product/ads',
+		element: <App page={Ads} />,
+	}
 ];
 
 export const contentTree = {
@@ -111,7 +151,7 @@ const navigationDetails = (description: string) => {
 }
 
 export const navigation = [
-	...routes.slice(0, 5),
+	...routes.slice(0, 8),
 	contentTree,
 ];
 

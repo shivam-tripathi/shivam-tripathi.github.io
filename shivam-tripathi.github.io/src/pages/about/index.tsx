@@ -1,4 +1,4 @@
-import img from '../../assets/hero.webp';
+import img from '../../assets/banyan.webp';
 
 import './about.css';
 
@@ -13,16 +13,7 @@ const About = () => {
 			<p>You can reach out to me at shivam [at] quizizz [dot] com.</p>
 		</section>
 		<section style={{ textAlign: 'center' }}>
-			<img
-				style={{
-					width: "200px",
-					border: "10px inset",
-					borderRadius: "500px",
-					margin: "10px",
-				}}
-				src={img}
-				className="heroimg"
-			/>
+			<img src={img} className="heroimg" />
 			<p className='quote'>
 				इयं विसृष्टिर्यत आबभूव यदि वा दधे यदि वा न ।
 				<br />

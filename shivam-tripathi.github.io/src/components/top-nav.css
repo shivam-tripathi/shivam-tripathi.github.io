@@ -12,11 +12,11 @@
 }
 
 .topNav .title {
-  font-weight: bold;
-  font-size: 2rem;
   display: flex;
+  font-weight: bold;
+  font-size: 1.5rem;
   font-family: var(--devnagari);
-	height: 10vh;
+	height: 3.5rem;
 }
 
 .topNav a {

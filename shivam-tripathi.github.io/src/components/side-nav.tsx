@@ -10,7 +10,7 @@ const SideNav = () => {
   return (
     <div className="sideNav">
       <ul className="items">
-        {navigation.filter(route => route.image).map(({description, path}, index) => {
+        {navigation.map(({description, path}, index) => {
           return (
             <li
               className="item"
