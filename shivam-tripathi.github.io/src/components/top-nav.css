@@ -25,6 +25,12 @@
 	padding-left: 7.5vh;
 }
 
+@media (max-width: 768px) {
+  .topNav .title {
+    font-size: 1.25rem;
+  }
+}
+
 .topNav a:hover {
   color: gray;
   text-decoration: none;

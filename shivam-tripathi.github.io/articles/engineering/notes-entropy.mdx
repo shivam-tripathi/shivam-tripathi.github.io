@@ -1,5 +1,52 @@
-# Notes: Entropy
+# Probability: Distributions
 
-Entropy of an event is described as amount of surprise associated with the event. Higher the
-probability of an event, lesser is the surprise. It then makes sense to think of entropy as
-inversely proportional.
+
+Most of us newbies in the world of machine learning come across the term entropy when they deal with cross entropy loss, the de-facto loss function for multi-class classification problems. Entropy finds it's roots in the information theory (the Claude Shannon's work which you might have read about in your under grad course).
+
+## Entropy
+Entropy essentially measures the level of uncertainty or randomness in a dataset. Sometimes people refer to it as "surprise" - greater the unlikeliness of an event,  greater the entropy.
+Mathematically, entropy is represented as:
+
+$$
+H(X) = -\sum_i p(i) *log(p(i))
+$$
+
+where X is the random variable, and $p$ represents probability of $i_{th}$ event occurring.
+
+### Probability: A Quick Recap
+1. **Random Variable**: A random variable represents a variable whose possible values are outcomes of a random phenomenon.
+	- A random variable is a mathematical way to represent the outcome of a random event. It is denoted by $X: S \rightarrow R$, where X is random variable, S is sample space and R is set of real number.
+	- It is usually denoted by a capital letter like X. It can be discrete or continuous - like flipping a coin or temperature of a city measured at a given time.
+	- The set of all possible outcomes of a random experiment is called the **sample space**. For example, in the case of flipping a coin, the sample space is $\{H, T\}$. An **event** is a subset of the sample space. For example, the event of getting a head when flipping a coin is $\{H\}$.
+	- A **random variable** is then a function that maps each outcome in the sample space to a real number. For example, the random variable that represents the number of heads when flipping a coin twice can take values 0, 1, or 2.
+2. **Probability Distribution**: A probability distribution is a mathematical function that provides the probabilities of occurrence of different possible outcomes. Basically, it describes how the probabilities are distributed over the values of the random variable. Again, as for the random variable, we can have two types of distributions - one for discrete variables and the other for continuous variables.
+	- **Probability Mass Function (PMF)**: A function $P(X=x)$ that gives the probability that a discrete random variable $X$ takes at the specific value $x$. Example, binomial distribution, poisson distribution, bernoulli distribution etc.
+	- **Probability Density Function (PDF)**: A function $f(x)$ such that the probability that $X$ falls within a particular range is given by the area under the curve of $f(x)$ over the range. More precisely, probability that $X$ falls in $[a, b]$ is the integral of $f(x)$ from $a$ to $b$.  Example, normal distribution, exponential distribution etc.
+3. **Expected Value**: The expected value (also called expectation or mean) of a random variable gives us an average idea of what value we can expect from a random variable, considering all possible outcomes and their probabilities. It is calculated by multiplying each possible value of the random variable by its probability of occurrence, and summing up all the values. It is denoted by $E(X)$ or $\mu$.
+	- For a discrete random variable, it is calculated as $\mu = E[X] = \sum_i x_i * p(x_i)$
+	- For a continuous random variable, it is calculated as $\mu = E[X] = \int x * f(x) dx$
+4. **Variance**: Variance is a measure of how much the values of a random variable differ from the expected value. It is calculated as the average of the squared differences between the values and the expected value. It is denoted by $Var(X)$.
+	- $\sigma^2 = Var(X) = E[(X - \mu)^2]$
+	- For a discrete random variable, it is calculated as $Var(X) = \sum_i (x_i - \mu)^2 * p(x_i)$ for population; and $Var(X) = \sum_i (x_i - \mu)^2 / (n-1)$ for a sample.
+	- For a continuous random variable, it is calculated as $Var(X) = \int (x - \mu)^2 * f(x) dx$
+	- Standard Deviation, $\sigma = \sqrt{E[(X - \mu)^2]}$,  is the square root of variance. In context of normal distribution, _68%_ of the data lies within 1 standard deviation of the mean, _95%_ within 2 standard deviations and _99.7%_ within 3 standard deviations.
+	- Variance follows the rules for addivity, i.e. $Var(aX + b) = a^2 Var(X)$. The units of variance are squared units of the random variable.
+5. **Cumulative Distribution Function (CDF)**: The cumulative distribution function of a random variable $X$ is a function $F(x)$ that gives the probability that $X$ will take a value less than or equal to $x$. It is defined as $F(x) = P(X \leq x)$.
+	- For a discrete random variable, it is calculated as $F(x) = \sum_{x_i \leq x} p(x_i)$
+	- For a continuous random variable, it is calculated as $F(x) = \int_{-\infty}^{x} f(x) dx$
+
+
+$$
+[L(y, p) = -\frac{1}{N} \sum_{i=1}^{N} [y_i \log(p_i) + (1 - y_i) \log(1 - p_i)]]
+$$
+
+
+Convex Function: A function ($\mathbb{R} \rightarrow \mathbb{R}$) is defined as convex if, for any two points ($x_1, x_2 \in \mathbb{R}$) and any ($\lambda$) such that ($0 \leq \lambda \leq 1$), the following inequality holds:
+$$
+[f(\lambda x_1 + (1 - \lambda) x_2) \leq \lambda f(x_1) + (1 - \lambda) f(x_2)]
+$$
+
+Jensen's inequality:
+$$
+[f(E[X]) \leq E[f(X)]]
+$$

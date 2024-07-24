@@ -1,0 +1,90 @@
+# Appendix: Machine Learning
+
+### Logits
+
+Logits refer to the raw output values of a neural network's **final layer** before any transformation or normalisation. These values represent the unnormalised predictions or scores that a neural network model generates. The outputs of hidden layer nodes are not logits; they are intermediate representations or features learned by the network. Logits make more sense when talking about classification networks, rather than regression ones.
+
+### Loss Functions
+
+### Activation Functions
+
+An activation function in the context of artificial neural networks (ANNs) is a mathematical function applied to the output of a node or a layer of nodes. It introduces non-linearity into the output of a neuron, which is essential for the network to learn and represent complex data patterns that are not just simple linear combinations of its inputs.
+
+Common Attributes
+
+1. **Non Linearity**: Without non-linear activation function, any layer neural network will behave as a perceptron.
+2. **Differentiable**: This is important for enabling gradient-based optimisation methods, such as back-propagation, used for training the network.
+3. **Range**: Between [0, 1] or [-1, 1] helps normalising the output of neurons
+
+Examples:
+
+1. **Sigmoid or Logistic Function**
+
+$$
+\sigma(x) = \frac{1}{{1 + e^{-x}}}
+$$
+
+![Screenshot 2024-01-20 at 5.58.33 PM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/0823e426-eb53-41bd-9689-c5b6fc456b79/14e45ad8-3701-4ead-8a2f-fa7acd2d32f4/Screenshot_2024-01-20_at_5.58.33_PM.png)
+
+Sigmoid transforms the input into a range between 0 and 1. It's useful for binary classification. However, it's less used in hidden layers due to problems like vanishing gradients.
+
+1. **Hyperbolic Tangent (tanh)**
+
+$$
+\text{tanh}(x) = \frac{{e^x + e^{-x}}}{{e^x - e^{-x}}}
+$$
+
+![Screenshot 2024-01-20 at 5.56.33 PM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/0823e426-eb53-41bd-9689-c5b6fc456b79/c29a565b-0246-4a84-8f75-d8da35973e8e/Screenshot_2024-01-20_at_5.56.33_PM.png)
+
+Similar to sigmoid but outputs values between -1 and 1. It is zero-centered, making it more efficient in some cases than sigmoid.
+
+- **Symmetry Around Zero:** Tanh is symmetric around zero, meaning it outputs values in the range [−1,1] [−1,1]. This can be advantageous in certain situations because it tends to center the data, making learning easier for subsequent layers. For example, in architectures like RNNs (Recurrent Neural Networks), it is helpful because its symmetric property helps in modeling data that has naturally zero-centered characteristics. Sigmoid, on the other hand, outputs values in the range [0,1][0,1], which can lead to inputs to the next layer being always positive and potentially cause bias in the neuron activations.
+- **Gradient Strength:** The output range of tanh, being [−1,1], usually provides stronger gradients than sigmoid, as the slopes of the tanh function are steeper. This can lead to faster convergence during training in some cases, as the weight updates may be more significant.
+- **Vanishing Gradient Problem:** While both tanh and sigmoid suffer from the vanishing gradient problem, tanh usually fares slightly better because of its output range and steeper slopes. In practice, however, this advantage might be minimal, especially in deep networks, where more advanced activation functions like ReLU and its variants are often more effective in combating this issue.
+
+1. **Rectified Linear Unit (ReLU**
+
+$$
+ReLU(x)=max(0,x)
+$$
+
+![Screenshot 2024-01-20 at 6.02.03 PM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/0823e426-eb53-41bd-9689-c5b6fc456b79/4d830ebc-6b0f-4c96-8ec7-fe8fd094b573/Screenshot_2024-01-20_at_6.02.03_PM.png)
+
+1. **Leaky Rectified Linear Unit (Leaky ReLU)**:
+
+A variation of ReLU where a small positive slope is maintained for negative input values. Characteristics: Addresses the "dying ReLU" problem where neurons can become inactive and only output zero.
+
+1. **Exponential Linear Unit (ELU)**
+
+The Exponential Linear Unit (ELU) is an activation function used in neural networks, particularly effective in reducing the vanishing gradient problem, similar to the Rectified Linear Unit (ReLU) and its variants. The formula for the Exponential Linear Unit is as follows:
+
+For $0 < \alpha$
+
+$$
+ELU(x) = \begin{cases}
+x & \text{if } x > 0 \\
+\alpha(e^x - 1) & \text{if } x \leq 0
+\end{cases}
+$$
+
+$\alpha$ is a hyperparameter that defines the value to which an ELU saturates for negative net inputs. Typically, $\alpha$ is set to a positive value (often $\alpha = 1$), but it can be adjusted based on the specific requirements of the neural network.
+
+![Screenshot 2024-01-20 at 6.38.38 PM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/0823e426-eb53-41bd-9689-c5b6fc456b79/c2b40be1-2e62-45d6-95a2-76134d381542/Screenshot_2024-01-20_at_6.38.38_PM.png)
+
+For negative values of $x$, ELU outputs values smaller than zero but greater than  $-\alpha$ making it less susceptible to the dying ReLU problem. The exponential component helps in ensuring a smoother and non-zero gradient for negative inputs, which assists in reducing the vanishing gradient problem
+
+1. **Softmax**
+
+The central idea behind the softmax function in machine learning and statistics is to transform a vector of real-valued scores (often called logits) into a probability distribution. The softmax function is widely used in various applications, particularly in classification tasks, where it serves as the final activation function in a neural network model.
+
+The softmax function is defined as follows:
+
+$$
+\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}
+$$
+
+The softmax function takes in a vector of real-valued scores and normalizes them into a probability distribution, where each score is transformed into a value between 0 and 1, and the sum of all the transformed scores is 1. This makes it suitable for multi-class classification tasks, as it provides a probability distribution over the possible classes.
+
+**Probability Distribution:** Softmax converts raw scores (logits) into probabilities by exponentiating each score and then normalising by the sum of these exponentiated values. This transformation ensures that the output is a valid probability distribution, where all probabilities are non-negative and sum up to 1. Due to its probabilistic nature, softmax can be more effective in handling scenarios where some classes are more frequent than others.
+
+**Handling Imbalanced Classes:** In datasets where some classes are more frequent than others, the model might become biased towards these more frequent classes. Softmax can mitigate this to an extent because it assigns probabilities relative to the scores of all classes. This means that even if a class is less frequent, a high score for this class will still result in a higher probability, allowing the model to recognize and predict less frequent classes effectively when they do occur.

@@ -26,3 +26,14 @@
 	text-align: left;
 	font-size: 1rem;
 }
+
+@media (max-width: 768px) {
+  .landing h1 {
+    font-size: 2rem;
+  }
+
+	.landing .heroimg {
+		width: 35vh;
+		margin: 5vh;
+	}
+}

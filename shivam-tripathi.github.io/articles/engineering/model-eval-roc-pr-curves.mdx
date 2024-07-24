@@ -1,0 +1,37 @@
+import { Mermaid } from '../../src/components/Mermaid';
+
+# Model Evaluation: ROC and Precision-Recall Curves
+
+A clasifier is only as good as the metric used to evaluate it. In the worst case, the wrong metric
+can mislead you into thinking that your model is performing well when it's not.
+
+Most of the standard metrics that are widely used assume a balanced class distribution.
+
+An evaluation metric quantifies the performance of a predictive model.
+
+<Mermaid code={`
+graph TD
+subgraph "All Cases"
+		subgraph "Actual Positive"
+				TP[True Positive]
+				FN[False Negative]
+		end
+		subgraph "Actual Negative"
+				TN[True Negative]
+				FP[False Positive]
+		end
+		subgraph "Predicted Positive"
+				TP
+				FP
+		end
+		subgraph "Predicted Negative"
+				TN
+				FN
+		end
+end
+TPR[True Positive Rate]
+FPR[False Positive Rate]
+TPR -->|calculated from| TP
+TPR -->|calculated from| FN
+FPR -->|calculated from| FP
+FPR -->|calculated from| TN`}/>;

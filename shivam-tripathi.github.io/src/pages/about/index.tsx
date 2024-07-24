@@ -9,7 +9,7 @@ const About = () => {
 			<p>Hi, my name is Shivam Tripathi.</p>
 			<p>Currently I live in Bengaluru, working at <a href="https://quizizz.com">Quizizz</a>. I lead the team for Search and Discovery. Previously, I led Content and Growth teams and was part of the platform team.<br/></p>
 			<p>I hold a bachelor's degree in Computer Science and Engineering from <a href="https://iitu.ac.in">Indian Institute of Information Technology Una</a>.</p>
-			<p>I joined Quizizz just before their seed round - where I helped build and scale the product to a peak of 70M MAUs and grow the team from 10 engineers to more than 80 engineers.</p>
+			<p>I joined Quizizz shortly before their seed funding round, where I contributed to building and scaling the product to reach 70 million monthly active users. Additionally, I supported the growth of the engineering team, expanding it from 10 to over 100 engineers.</p>
 			<p>You can reach out to me at shivam [at] quizizz [dot] com.</p>
 		</section>
 		<section style={{ textAlign: 'center' }}>

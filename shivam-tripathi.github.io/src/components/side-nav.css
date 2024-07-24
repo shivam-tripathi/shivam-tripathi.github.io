@@ -4,9 +4,9 @@
   flex-direction: column;
   align-items: right;
   text-align: right;
-  /* border-right: 1px solid #F0F0F0; */
   top: 0;
-  width: 20%;
+  background-color: #f3f1eb;
+  padding: 0 0 0 2rem;
 }
 
 .sideNav .item a {
@@ -22,6 +22,7 @@
 .sideNav .items {
   display: flex;
   flex-direction: column;
+  padding-left: 0;
 }
 
 .sideNav .item a img {
@@ -29,21 +30,18 @@
   padding-right: 1rem;
 }
 
-
 .sideNav .item {
-  padding: 0.5rem;
   display: flex;
   flex-direction: row;
   font-family: 'Oxygen', sans-serif;
   justify-content: left;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   padding-right: 2rem;
 }
 
 .no-link {
   text-decoration: none;
-}
-
-@media (min-width: 1140px) {
 }
 
 @media (max-width: 1140px) {
@@ -66,7 +64,6 @@
   }
 
   .sideNav .title {
-    padding-left: 1rem;
     justify-content: left;
   }
 }

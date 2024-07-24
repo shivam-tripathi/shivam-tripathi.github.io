@@ -1,14 +1,13 @@
 
+import { Menu } from 'lucide-react';
 import './top-nav.css';
 
-const Menu = () => {
-  return <img className="mobile menu" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAKElEQVRIiWNgGAXDHjAisf/TwmwmKhs6CgYhGE1Fo4ByMJqKRsEQAADWCQMKYvEFtQAAAABJRU5ErkJggg==" />;
-}
-
-const TopNav = () => {
+const TopNav = ({ toggleSideNav }: { toggleSideNav: () => void}) => {
 	return (
 			<div className="topNav">
-				<Menu />
+				<Menu className='mobile menu' onClick={() => {
+					toggleSideNav();
+				}}/>
 				<a className='title' href='/'>Kalpavriksha</a>
 			</div>
 	);

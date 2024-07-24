@@ -1,30 +1,38 @@
 import './side-nav.css';
 import { navigation, blogPath } from '../routes';
 import { Link } from 'react-router-dom';
+import 'react-tooltip/dist/react-tooltip.css';
+import { Tooltip } from 'react-tooltip'
 
-export const RightButton = () => {
-  return <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAABXElEQVRoge3ZMU7DQBCF4R9qBCVHAAlooKOlJFEOhSJxKSAHQBwDCCV2Q2UKO1K8rOMNnpldW/ukaVyM3qckzsaBnJyc/2YBrIASqCJPCbwA830RjwmU75plKGKRQNm+mYVAVgkU7Ztnt/SBB1IARyHiiCmA4+0LPkhl02VwWt0PY7WQToZ05Ba4AdbCe3sjDfkB3oA7ImDcDLktroHLZs8Z8D5w365RhWwwV82uc0WMOqQCvgwwJhALjBlEG2MK0cSYQ7QwUSAamGgQH+ZjrBBJTHSIFKaVyZx+fRnDqxH9rTWJD7skIhpEGhEF4h7rJRDmkO0fWpIIU4iLGOUxXhthArFAqEOsEOqQ62bHBfCpiPgDkT5rnVA/pHsCToV370x+iJ1aJg0pzVvsn2/3gg/yalBkaII6ztG9bUrMfah4mUDZrnkIRWwyo/73tEigfEH93RT8SuTk5LTzC+gMdw5CThMRAAAAAElFTkSuQmCC" />
-}
-
-const SideNav = () => {
+const MinimalSideNav = () => {
   return (
-    <div className="sideNav">
-      <ul className="items">
-        {navigation.map(({description, path}, index) => {
+    <div style={{
+      width: '100px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    }}>
+      {
+        navigation.map(({description, path, icon}, index) => {
           return (
-            <li
-              className="item"
+            <Link
+              className="no-link"
+              to={blogPath(path)}
               key={index}
+              style={{
+                padding: '1rem',
+              }}
+              data-tooltip-id={path}
+              data-tooltip-content={description}
             >
-              <Link className="no-link" to={blogPath(path)}>
-                <span>{description}</span>
-              </Link>
-            </li>
+              {icon}
+              <Tooltip id={path} />
+            </Link>
           );
-        })}
-      </ul>
+      })}
     </div>
   );
-};
+}
 
-export default SideNav;
+
+export { MinimalSideNav };
