@@ -19,7 +19,8 @@ import App from './App';
 import About from './pages/about';
 import Landing from './pages/landing';
 import { Link } from 'react-router-dom';
-import { CodeXml, Dice5, HomeIcon, Kanban, ListTree, Notebook, Star, User, Quote } from 'lucide-react';
+import { CodeXml, Dice5, HomeIcon, Kanban, ListTree, Notebook, Star, User, Quote, ChevronRight, ChevronDown } from 'lucide-react';
+import { useState } from 'react';
 
 const core = [
 	{
@@ -134,12 +135,6 @@ const routes = [
 	}
 ];
 
-export const contentTree = {
-	description: 'Tree',
-	path: '/content-tree',
-	icon: <ListTree/>,
-};
-
 export type Tree = { children: { [path: string]: Tree }, path?: string; element?: JSX.Element; description: string; };
 
 let _tree: Tree | null = null;
@@ -165,26 +160,54 @@ export function getTree() {
 	return tree;
 }
 
+export const contentTree = {
+	description: 'Tree',
+	path: '/content-tree',
+	icon: <ListTree/>,
+	element: <App page={() => <CollapsibleList subTree={getTree()} />}/>,
+};
+
+
 export const blogPath = (path: string) => `/blog${path ?? ''}`;
 
-export function getList(subTree: Tree) {
-	const collect: JSX.Element[] = [];
-	const row = <li key={subTree.path}>
-		{subTree.path ? <Link style={{textDecoration: 'none', color: 'var(--secondary)'}} to={blogPath(subTree.path) as string}>{subTree.description}</Link> : subTree.description}
-		{Object.keys(subTree.children).map(inner => getList(subTree.children[inner]))}
-	</li>;
-	collect.push(row);
-	return <ul key={subTree.path}>{collect}</ul>;
-}
-
 const navigationDetails = (description: string) => {
-	const items = getList(getTree().children[description.toLowerCase()]);
-	return <><h1>{description}</h1>{items}</>;
+	const subTree = getTree().children[description.toLowerCase()];
+	return <><h1>{description}</h1><CollapsibleList subTree={subTree}/></>;
 }
 
 export const navigation = [
 	...core,
 	contentTree,
 ];
+
+export const CollapsibleList = ({ subTree }: { subTree: Tree }) => {
+	const collect: JSX.Element[] = [];
+	const [showChildren, setShowChildren] = useState(false);
+
+	let description;
+	const linkedContent = <Link to={blogPath(subTree?.path ?? '') as string}>{subTree.description}</Link>;
+	if (Object.keys(subTree.children ?? {}).length > 0) {
+		const listHeaderCSS = {display: 'flex', alignItems: 'center'};
+		if (showChildren) {
+			description = <div style={listHeaderCSS}><ChevronRight onClick={() => setShowChildren(false)}/>{linkedContent}</div>;
+		} else {
+			description = <div style={listHeaderCSS}><ChevronDown onClick={() => setShowChildren(true)}/>{linkedContent}</div>;
+		}
+	} else {
+		description = linkedContent;
+	}
+
+	const listStyle = { listStyleType: 'none' };
+
+	const row = <li key={subTree.path} style={listStyle}>
+		{description}
+		{Object.keys(subTree.children).map(inner => {
+			return <div style={{display: showChildren ? 'none' : 'inline' }}>{<CollapsibleList subTree={subTree.children[inner]} />}</div>;
+		})}
+	</li>;
+
+	collect.push(row);
+	return <ul key={subTree.path} style={listStyle}>{collect}</ul>;
+}
 
 export default routes;

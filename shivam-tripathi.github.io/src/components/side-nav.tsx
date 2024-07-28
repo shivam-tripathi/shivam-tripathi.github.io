@@ -11,6 +11,7 @@ const MinimalSideNav = () => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      paddingTop: '2rem',
     }}>
       {
         navigation.map(({description, path, icon}, index) => {
