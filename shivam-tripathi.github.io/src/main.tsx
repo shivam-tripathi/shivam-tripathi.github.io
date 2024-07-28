@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import routes, { blogPath, contentTree } from './routes.tsx';
+import routes, { blogPath, contentTree, getTree } from './routes.tsx';
 import App from './App.tsx';
 import ContentTree from './pages/content-tree/index.tsx';
 
@@ -9,7 +9,7 @@ const router = createBrowserRouter([
 	{
 		...contentTree,
 		path: blogPath(contentTree.path),
-		element: <App page={ContentTree} />,
+		element: <App page={() => <ContentTree tree={getTree()}/>} />,
 	},
 	{
 		...routes[0],
