@@ -13,3 +13,10 @@
 .mini-side-nav a:hover {
   color: var(--primary);
 }
+
+/* Mobile CSS */
+@media screen and (max-width: 768px) {
+  .mini-side-nav {
+    display: none;
+  }
+}
