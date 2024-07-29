@@ -1,18 +1,12 @@
-import './side-nav.css';
 import { navigation, blogPath } from '../routes';
 import { Link } from 'react-router-dom';
 import 'react-tooltip/dist/react-tooltip.css';
 import { Tooltip } from 'react-tooltip'
+import './side-nav.css';
 
 const MinimalSideNav = () => {
   return (
-    <div style={{
-      width: '100px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      paddingTop: '2rem',
-    }}>
+    <div className="mini-side-nav">
       {
         navigation.map(({description, path, icon}, index) => {
           return (
@@ -25,6 +19,7 @@ const MinimalSideNav = () => {
               }}
               data-tooltip-id={path}
               data-tooltip-content={description}
+              data-tooltip-place='right'
             >
               {icon}
               <Tooltip id={path} />

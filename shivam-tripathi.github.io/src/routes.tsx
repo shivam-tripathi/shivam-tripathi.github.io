@@ -202,7 +202,7 @@ export const CollapsibleList = ({ subTree }: { subTree: Tree }) => {
 	const row = <li key={subTree.path} style={listStyle}>
 		{description}
 		{Object.keys(subTree.children).map(inner => {
-			return <div style={{display: showChildren ? 'none' : 'inline' }}>{<CollapsibleList subTree={subTree.children[inner]} />}</div>;
+			return <div key={inner} style={{display: showChildren ? 'none' : 'inline' }}>{<CollapsibleList subTree={subTree.children[inner]} />}</div>;
 		})}
 	</li>;
 
