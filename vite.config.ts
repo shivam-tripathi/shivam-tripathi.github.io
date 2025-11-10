@@ -21,6 +21,7 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false,
     minify: 'terser',
+    target: ['es2022'],
     rollupOptions: {
       output: {
         manualChunks: {
