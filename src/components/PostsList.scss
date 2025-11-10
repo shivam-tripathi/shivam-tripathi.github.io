@@ -1,0 +1,94 @@
+@use '../styles/variables.scss' as *;
+@use '../styles/breakpoints.scss' as *;
+
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: $spacing-lg;
+}
+
+.post-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  color: $text-dark;
+  text-decoration: none;
+  transition: $transition;
+  padding: 1rem 0;
+  border-bottom: 1px solid $border-color;
+  max-width: calc(#{$max-width-content} / 2);
+  margin: 0 auto;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover .post-title {
+    color: $primary-color;
+  }
+
+  .post-title {
+    color: $text-dark;
+    font-family: $heading-font;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+    flex: 1;
+    line-height: 1.3;
+    text-align: left;
+
+    @include respond-md {
+      font-size: 1rem;
+    }
+
+    @include respond-sm {
+      font-size: 0.95rem;
+    }
+  }
+
+  .post-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $text-light;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    svg {
+      color: $primary-color;
+      width: 14px;
+      height: 14px;
+    }
+
+    @include respond-md {
+      font-size: 0.8rem;
+    }
+
+    @include respond-sm {
+      font-size: 0.75rem;
+    }
+  }
+
+  @include respond-md {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+
+    &:hover {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  @include respond-sm {
+    padding: 0.5rem 0;
+  }
+}
+

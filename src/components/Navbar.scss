@@ -1,0 +1,126 @@
+@use '../styles/variables.scss' as *;
+@use '../styles/breakpoints.scss' as *;
+
+.navbar {
+  background: $bg-light;
+  border-bottom: 1px solid $border-color;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+
+  .nav-container {
+    max-width: $max-width-container;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    @include respond-md {
+      padding: 1rem;
+    }
+  }
+
+  .nav-brand {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: $primary-color;
+    transition: $transition;
+    font-family: $heading-font;
+    letter-spacing: 0.5px;
+
+    &:hover {
+      color: $secondary-color;
+      opacity: 0.8;
+    }
+
+    @include respond-md {
+      font-size: 1.2rem;
+    }
+  }
+
+  .nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+    align-items: center;
+
+    li {
+      a {
+        color: $text-dark;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: $transition;
+        position: relative;
+        display: inline-block;
+
+        &:hover {
+          color: $primary-color;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: $primary-color;
+          transition: width 0.3s ease;
+        }
+
+        &:hover::after {
+          width: 100%;
+        }
+      }
+    }
+
+    @include respond-md {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background: $bg-white;
+      gap: 0;
+      padding: 1rem 0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+      &.active {
+        display: flex;
+      }
+
+      li {
+        width: 100%;
+
+        a {
+          display: block;
+          padding: 1rem 2rem;
+          border-bottom: 1px solid $border-color;
+
+          &::after {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $text-dark;
+    padding: 0.5rem;
+
+    @include respond-md {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+

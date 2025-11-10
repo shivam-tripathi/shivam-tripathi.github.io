@@ -1,0 +1,43 @@
+/* =====================================
+   SCSS Variables - Design System
+   ===================================== */
+
+/* Colors */
+$primary-color: #5f9b65;
+$secondary-color: #4a7a52;
+$text-dark: #2c2c2c;
+$text-light: #6b6b6b;
+$bg-light: #f3f1eb;
+$bg-white: #f6f5f1;
+$code-bg: #f6f5f1;
+$border-color: #e8e6df;
+
+/* Effects */
+$shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+$transition: all 0.3s ease;
+
+/* Fonts */
+$devnagari-font: 'Inknut Antiqua', serif;
+$heading-font: 'Lora', serif;
+$body-font: Verdana, Geneva, Tahoma, sans-serif;
+$code-font: 'Inconsolata', monospace;
+$text-font: 'CMU Serif', serif;
+
+/* Layout */
+$max-width-content: 70rem; /* 1120px */
+$max-width-container: 75rem; /* 1200px */
+$navbar-height: 3.75rem; /* 60px */
+
+/* Border Radius */
+$border-radius-sm: 0.3125rem; /* 5px */
+$border-radius-md: 0.5rem; /* 8px */
+$border-radius-lg: 0.625rem; /* 10px */
+
+/* Spacing Scale */
+$spacing-xs: 0.5rem;   /* 8px */
+$spacing-sm: 1rem;     /* 16px */
+$spacing-md: 1.5rem;   /* 24px */
+$spacing-lg: 2rem;     /* 32px */
+$spacing-xl: 3rem;     /* 48px */
+$spacing-2xl: 4rem;    /* 64px */
+

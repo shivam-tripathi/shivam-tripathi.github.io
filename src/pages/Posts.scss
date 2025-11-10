@@ -1,0 +1,59 @@
+@use '../styles/variables.scss' as *;
+@use '../styles/breakpoints.scss' as *;
+
+.posts-page {
+  background: $bg-white;
+  min-height: calc(100vh - #{$navbar-height});
+  padding: $spacing-lg;
+
+  @include respond-md {
+    padding: 1.5rem;
+  }
+
+  @include respond-sm {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-family: $heading-font;
+    color: $text-dark;
+    margin-bottom: $spacing-sm;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: $spacing-sm;
+
+    @include respond-md {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    @include respond-sm {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+}
+
+.posts-container {
+  max-width: $max-width-content;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.posts-subtitle {
+  color: $text-light;
+  font-size: 1.5rem;
+  margin-bottom: $spacing-lg;
+  font-family: $text-font;
+  line-height: 1.6;
+
+  @include respond-md {
+    font-size: 1rem;
+  }
+
+  @include respond-sm {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+}
+

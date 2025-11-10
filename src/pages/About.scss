@@ -1,0 +1,122 @@
+@use '../styles/variables.scss' as *;
+@use '../styles/breakpoints.scss' as *;
+
+.about {
+  background: $bg-white;
+  min-height: calc(100vh - #{$navbar-height});
+  padding: $spacing-lg;
+  text-align: center;
+
+  @include respond-md {
+    padding: 1.5rem;
+  }
+
+  @include respond-sm {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-family: $heading-font;
+    color: $text-dark;
+    margin-bottom: 2rem;
+    text-align: center;
+    border-bottom: 1px solid $text-light;
+    padding-bottom: 1rem;
+
+    @include respond-md {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @include respond-sm {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  section {
+    max-width: $max-width-content;
+    margin: 0 auto;
+    text-align: center;
+
+    p {
+      font-family: $text-font;
+      color: $text-dark;
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+
+      @include respond-md {
+        font-size: 1rem;
+      }
+
+      @include respond-sm {
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  .heroimg {
+    max-width: 100%;
+    height: auto;
+    margin: $spacing-lg 0;
+  }
+
+  .quote {
+    font-weight: bold;
+    font-family: $text-font;
+    text-align: center;
+    margin: 2rem 0;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: $text-dark;
+    font-style: italic;
+
+    @include respond-md {
+      font-size: 1rem;
+    }
+
+    @include respond-sm {
+      font-size: 0.95rem;
+    }
+  }
+
+  .quoteExplanation {
+    font-size: 0.625rem; /* 10px */
+    font-family: $body-font;
+    text-align: center;
+    margin: 2rem 0;
+    line-height: 1.8;
+    color: $text-light;
+
+    @include respond-md {
+      font-size: 0.9rem;
+    }
+
+    @include respond-sm {
+      font-size: 0.85rem;
+    }
+
+    a {
+      color: $primary-color;
+      text-decoration: underline;
+      transition: $transition;
+
+      &:hover {
+        color: $secondary-color;
+      }
+    }
+  }
+
+  a {
+    color: $primary-color;
+    transition: $transition;
+
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+}
+

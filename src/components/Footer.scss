@@ -1,0 +1,22 @@
+@use '../styles/variables.scss' as *;
+@use '../styles/breakpoints.scss' as *;
+
+.footer {
+  background: $text-dark;
+  font-family: $text-font;
+  color: $bg-white;
+  text-align: center;
+  padding: 2rem;
+  margin-top: 4rem;
+
+  @include respond-md {
+    padding: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .footer-content {
+    max-width: $max-width-container;
+    margin: 0 auto;
+  }
+}
+

@@ -1,0 +1,116 @@
+/* =====================================
+   Imports
+   ===================================== */
+
+@use './styles/variables.scss' as *;
+@use './styles/breakpoints.scss' as *;
+@use './styles/markdown.scss' as *;
+
+/* =====================================
+   Font Faces
+   ===================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap');
+
+@font-face {
+  font-family: 'CMU Serif';
+  src: url('/fonts/cmunorm.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =====================================
+   Root CSS Variables (for runtime use)
+   ===================================== */
+
+:root {
+  /* Colors */
+  --primary-color: #{$primary-color};
+  --secondary-color: #{$secondary-color};
+  --text-dark: #{$text-dark};
+  --text-light: #{$text-light};
+  --bg-light: #{$bg-light};
+  --bg-white: #{$bg-white};
+  --code-bg: #{$code-bg};
+  --border-color: #{$border-color};
+
+  /* Effects */
+  --shadow: #{$shadow};
+  --transition: #{$transition};
+
+  /* Fonts */
+  --devnagari-font: #{$devnagari-font};
+  --heading-font: #{$heading-font};
+  --body-font: #{$body-font};
+  --code-font: #{$code-font};
+  --text-font: #{$text-font};
+
+  /* Layout */
+  --max-width-content: #{$max-width-content};
+  --max-width-container: #{$max-width-container};
+  --navbar-height: #{$navbar-height};
+  --border-radius-sm: #{$border-radius-sm};
+  --border-radius-md: #{$border-radius-md};
+  --border-radius-lg: #{$border-radius-lg};
+
+  /* Spacing */
+  --spacing-xs: #{$spacing-xs};
+  --spacing-sm: #{$spacing-sm};
+  --spacing-md: #{$spacing-md};
+  --spacing-lg: #{$spacing-lg};
+  --spacing-xl: #{$spacing-xl};
+  --spacing-2xl: #{$spacing-2xl};
+}
+
+/* =====================================
+   Global Styles
+   ===================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $body-font;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $bg-light;
+  color: $text-dark;
+  line-height: 1.6;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: $transition;
+
+  &:hover {
+    color: $secondary-color;
+  }
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* =====================================
+   Container
+   ===================================== */
+
+.container {
+  max-width: $max-width-container;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+}
+

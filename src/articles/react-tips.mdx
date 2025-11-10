@@ -1,0 +1,88 @@
+# React Best Practices
+
+<p style="width: 100%; text-align: right; padding-right: 20px"><em>8 November 2025</em></p>
+
+## Component Organization
+
+### Functional Components
+
+Always use functional components with hooks:
+
+```jsx
+import { useState } from 'react'
+
+export default function Counter() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      Count: {count}
+    </button>
+  )
+}
+```
+
+## Hooks
+
+### useState
+
+Managing local component state:
+
+```jsx
+const [value, setValue] = useState('')
+```
+
+### useEffect
+
+Running side effects:
+
+```jsx
+useEffect(() => {
+  // Effect code here
+  return () => {
+    // Cleanup code here
+  }
+}, [dependencies])
+```
+
+## Performance Tips
+
+1. **Memoization** - Use `React.memo` for expensive components
+2. **Code Splitting** - Lazy load routes and components
+3. **Key Props** - Always provide keys in lists
+4. **Avoid Inline Objects** - Define objects outside render
+
+## Styling
+
+### CSS Modules
+
+```jsx
+import styles from './Component.module.css'
+
+export default function Component() {
+  return <div className={styles.container}></div>
+}
+```
+
+### Tailwind CSS
+
+```jsx
+export default function Component() {
+  return <div className="flex items-center justify-center"></div>
+}
+```
+
+## Testing
+
+```jsx
+import { render, screen } from '@testing-library/react'
+import Component from './Component'
+
+test('renders component', () => {
+  render(<Component />)
+  expect(screen.getByText('Hello')).toBeInTheDocument()
+})
+```
+
+Keep these practices in mind for better, more maintainable React code! 🚀
+

@@ -1,0 +1,41 @@
+/* =====================================
+   SCSS Breakpoints & Responsive Mixins
+   ===================================== */
+
+/* Breakpoint Variables */
+$breakpoint-lg: 1024px;   /* Large tablets / small desktops */
+$breakpoint-md: 768px;    /* Tablets / iPads */
+$breakpoint-sm: 480px;    /* Mobile phones */
+
+/* Responsive Mixins */
+@mixin respond-lg {
+  @media (max-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin respond-md {
+  @media (max-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin respond-sm {
+  @media (max-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+/* Alias mixins for clarity */
+@mixin tablet {
+  @include respond-md;
+}
+
+@mixin mobile {
+  @include respond-md;
+}
+
+@mixin small-mobile {
+  @include respond-sm;
+}
+
