@@ -26,15 +26,12 @@ export const blogPosts: BlogPost[] = [
     tags: ['Product', 'Strategy', 'Growth'],
     content: await importMDXArticle('growth-framework')
   },
-  // {
-  //   id: 'markdown-guide',
-  //   title: 'Markdown Formatting Guide',
-  //   excerpt: 'Master Markdown syntax for writing expressive blog posts.',
-  //   date: '2025-11-09',
-  //   author: 'Shivam Tripathi',
-  //   tags: ['Documentation', 'Markdown', 'Tutorial'],
-  //   image: '📚',
-  //   content: await importMDXArticle('markdown-guide')
-  // }
+  {
+    id: 'good-engineering-management-is-a-fad',
+    title: 'Notes on "Good Engineering Management is a Fad" (via Will Larson)',
+    excerpt: 'Notes on "Good Engineering Management is a Fad" (via Will Larson)',
+    date: '2025-11-27',
+    tags: ['Engineering', 'Management', 'Economics'],
+    content: await importMDXArticle('good-engineering-management-is-a-fad')
+  }
 ]
-
