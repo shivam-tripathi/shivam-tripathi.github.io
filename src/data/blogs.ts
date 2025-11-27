@@ -33,5 +33,13 @@ export const blogPosts: BlogPost[] = [
     date: '2025-11-27',
     tags: ['Engineering', 'Management', 'Economics'],
     content: await importMDXArticle('good-engineering-management-is-a-fad')
+  },
+  {
+    id: 'llm-caching',
+    title: 'Notes on LLM Caching (Nov 2025)',
+    excerpt: 'A deep dive into the different caching strategies for LLMs.',
+    date: '2025-11-27',
+    tags: ['LLM', 'Caching', 'Strategies'],
+    content: await importMDXArticle('llm-caching')
   }
 ]

@@ -1,0 +1,238 @@
+# Notes on LLM Caching (Nov 2025)
+
+These are working notes meant as a reference for engineers who want to understand how *caching* works across the major LLM providers as of late 2025. The ecosystem has converged on a shared idea – **don’t reprocess giant static prefixes** – but each provider implements this differently, with different guarantees, costs, and pitfalls.
+
+This document captures the practical mechanisms, how they differ, and what actually matters when building systems.
+
+
+## 1. [OpenAI](https://platform.openai.com/docs/guides/prompt-caching) — *Prefix-KV Caching (Automatic)*
+
+
+### **Mechanism**
+
+* Enabled automatically for all models GPT-4o → GPT-5.1.
+* Works only on **exact token-prefix matches**.
+* Requires prompts to be ≥ **1024 tokens**.
+* Cache hit granularity: **128-token increments**.
+* Routing is determined by hashing the **first ~256 tokens** or optional `prompt_cache_key`.
+* Important thing to note here is that these first ~256 tokens are what _routing system_ sees, and not what machine running the models processes.
+
+### **Key Idea**
+
+Caching only works if:
+
+1. You land on the **same machine** (routing stability), and
+2. The **first 1024+ tokens** of the prompt are identical.
+
+### **Why `prompt_cache_key` matters**
+
+It stabilizes routing even if the early tokens differ (timestamps, IDs, whitespace, etc.). Without it, the request may land on a different server even if most of the prefix is identical.
+
+### **Costs**
+
+Caching is **free**:
+
+* No charges for “cache writes”
+* No charges for “cache reads”
+  You simply avoid paying input token fees for the cached prefix.
+
+### **Best Uses**
+
+* Large static system prompts
+* Tool schemas
+* Repetitive workflows with stable prefixes
+* High-volume inference where routing stability matters
+
+
+## 2. [Anthropic](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) — *Block-Level Caching (Explicit)*
+
+[Link](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)
+
+### **Mechanism**
+
+* Developer explicitly marks blocks with `cache_control`.
+* Claude caches everything **above** that block: tools → system → messages.
+* Cache is hierarchical; modification at an earlier layer invalidates all later layers.
+
+### **TTL**
+
+* Default: **5 minutes**
+* Optional: **1 hour** (paid, higher cost)
+* Up to 4 cache breakpoints allowed.
+
+### **Granularity**
+
+Cache checks across **content blocks**, not tokens (20-block lookback window).
+
+### **Costs**
+
+* **Cache read tokens**: ~10% of normal token cost
+* **5-minute write tokens**: ~1.25× input cost
+* **1-hour write tokens**: ~2× input cost
+* Only pay for written or read tokens; breakpoints themselves are free.
+
+### **Best Uses**
+
+* Very long documents (books, multi-pdf context)
+* Complex multi-turn conversations
+* Agents and tool use with evolving state
+* Cases where multiple sections change independently
+
+---
+
+## 3. [Google Gemini](https://ai.google.dev/gemini-api/docs/caching?lang=python) — *Explicit Object Caching + Implicit Prefix Caching*
+
+### **Two Caching Models**
+
+#### **(A) Implicit Caching (Auto)**
+
+* Works like OpenAI’s but with no control.
+* Triggers on long identical prefixes.
+* TTLs not guaranteed; hit rates unpredictable.
+
+#### **(B) Explicit Caching (Recommended)**
+
+You create a **cache object**:
+
+```python
+cache = client.caches.create(
+    model="gemini-2.0-flash-001",
+    config=CreateCachedContentConfig(
+        system_instruction="long instructions",
+        contents=[pdf_or_video],
+        ttl="300s"
+    )
+)
+```
+
+Then reuse it via:
+
+```
+cached_content=cache.name
+```
+
+### **Characteristics**
+
+* Cache is a **standalone artifact**, not tied to a specific prompt structure.
+* Stores PDFs, videos, images, system prompts, text.
+* TTL defaults to **1 hour**, can be extended.
+* Identical to recalling a giant prefix without sending it again.
+
+### **Costs**
+
+* Cheaper read tokens
+* Write cost scales with token size and TTL duration
+* Output tokens charged normally
+* No rate-limit advantages
+
+### **Best Uses**
+
+* Video / multimodal analysis
+* Large PDF Q&A
+* Any workflow needing reusable context across hours
+* Periodically re-analyzed documents or codebases
+
+---
+
+## 4. Comparing the Three Approaches
+
+| Provider      | Type                   | Control                     | TTL                                | Minimum Length   | Cost Model            |
+| ------------- | ---------------------- | --------------------------- | ---------------------------------- | ---------------- | --------------------- |
+| **OpenAI**    | Implicit prefix KV     | Medium (`prompt_cache_key`) | 5–10 min (in-memory), 24h optional | 1024 tokens      | Free                  |
+| **Anthropic** | Explicit block caching | High                        | 5m / 1h                            | 1024–4096 tokens | Writes + reads billed |
+| **Gemini**    | Explicit cache objects | Very high                   | Any TTL (default 1h)               | 1024–4096 tokens | Writes + reads billed |
+
+---
+
+## 5. Best Practices (Across All Providers)
+
+### **1. Put static content at the beginning**
+
+Every caching system relies on prefix-like structures.
+Arrange prompts as:
+
+```
+[tools]
+[long system instructions]
+[examples]
+[user question comes last]
+```
+
+### **2. Avoid noisy early tokens**
+
+Prefixes break when:
+
+* Timestamps change
+* Randomized JSON key ordering changes
+* Invisible Unicode differences
+* Logging metadata leaks into the prompt
+
+Stabilize early tokens to maximize cache hits.
+
+### **3. Reuse the same prompt “shape”**
+
+Even small structural differences (extra newline, tool order change, reordered arrays) break caches.
+
+### **4. For OpenAI: use `prompt_cache_key` when prefixes drift**
+
+This forces stable routing and drastically increases cache hit rates.
+
+### **5. For Anthropic: use multiple breakpoints**
+
+Use:
+
+* One breakpoint after tools
+* One after system
+* One before examples
+* One before dynamic user data
+
+This isolates changes and prevents invalidating the entire cache.
+
+### **6. For Gemini: treat cache objects like artifacts**
+
+Cache them once, track metadata, extend TTL, and reuse systematically.
+
+### **7. Monitor cache metrics**
+
+Hit rates, write volume, and cross-request drift patterns reveal where caching is failing silently.
+
+---
+
+## 6. When to Choose Which Provider’s Strategy
+
+### Use **OpenAI** when:
+
+* You want free, automatic caching
+* Your workload is high-volume, low-latency
+* You can standardize prefixes
+* Tool schemas and system messages are large but stable
+
+### Use **Anthropic** when:
+
+* You need explicit control
+* Cache segments change at different frequencies
+* You need consistent caching in multi-turn workflows
+* You want deterministic behavior
+
+### Use **Gemini** when:
+
+* You have huge multimodal data to reuse
+* You need long TTL stability
+* You want cache entries to feel like permanent objects
+* You don’t want your cache tied to prompt structure
+
+---
+
+## 7. Closing Thoughts
+
+Caching has quietly become one of the most important levers for:
+
+* reducing inference cost
+* reducing latency
+* improving throughput
+* enabling long-context applications
+
+But each provider has invented its own mechanism.
+Understanding these differences—and designing prompts to cooperate with them—is now a core skill for platform engineers building on top of modern LLMs.
+
+Use this as a reference point as the ecosystem continues to converge.
