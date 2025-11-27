@@ -14,8 +14,8 @@ This document captures the practical mechanisms, how they differ, and what actua
 * Works only on **exact token-prefix matches**.
 * Requires prompts to be ≥ **1024 tokens**.
 * Cache hit granularity: **128-token increments**.
-* Routing is determined by hashing the **first ~256 tokens** or optional `prompt_cache_key`.
-* Important thing to note here is that these first ~256 tokens are what _routing system_ sees, and not what machine running the models processes.
+* Routing is determined by hashing the **first ~256 tokens** with an optional `prompt_cache_key`.
+* Important thing to note here is that routing key (the first ~256 tokens) is distinct from the prefix key used for caching.
 
 ### **Key Idea**
 
