@@ -1,0 +1,187 @@
+# Notes on Precision in Frontier Language Models
+
+
+Modern frontier language models are not trained or served in a single numerical precision. They are *precision systems*: layered, conditional, hardware-aware constructions where different parts of the model intentionally live at different numerical fidelities.
+
+This document captures working notes on how that precision is allocated — and why — across weights, activations, and the emerging hardware of late 2025. These notes attempt to extract the underlying principles that hold across OpenAI (GPT-5.2), Google DeepMind (Gemini 3.0), and Anthropic (Sonnet 4.5) systems.
+
+---
+
+## 1. Weights
+
+**Observation.** Weights are the most aggressively quantized component in modern LLMs.
+
+**Why this works.** During inference, weights are static. Quantization error introduced at load time does not compound temporally; it is injected once per forward pass. This makes weights unusually tolerant to low precision relative to other components.
+
+**Typical regimes**
+
+* **Training:** BF16 dominates; FP8 is used in strictly controlled settings.
+* **Inference:** FP8 is the new standard (replacing INT8) due to native hardware support (Blackwell/Hopper). INT4/NF4 is standard for "Instant" or "Flash" model variants.
+
+**Patterns that matter.**
+
+* **Per-channel scaling** dominates per-tensor scaling.
+* **Outlier-aware methods** (AWQ/GPTQ-descendants) preserve rare but influential directions.
+* **Embedding tables and output projections** are consistently less quantized.
+
+**Failure mode.** Over-quantized weights do not usually cause catastrophic failure; instead, they cause *expressive collapse* — fewer distinct activation patterns and degraded reasoning depth.
+
+---
+
+## 2. Activations
+
+**Observation.** Activation precision determines how much signal survives depth.
+
+**Key distinction.** Unlike weights, activations are dynamic. Their distributions shift across layers, prompts, sequence positions, and time. Quantization noise here *compounds layer by layer*.
+
+**Typical regimes.**
+
+* **Training:** BF16 is the baseline.
+* **Inference:** FP8 (E4M3 or E5M2) is the sweet spot for Blackwell-class hardware.
+* **Legacy:** INT8 is still common on older hardware, but requires complex calibration.
+
+**Why this is harder than weights.** Every layer consumes the output of the previous one. Small distortions in early layers become large distortions downstream, especially in long-context settings.
+
+**Emergent rule.** If reasoning depth degrades before factual accuracy, activation precision is usually the culprit.
+
+---
+
+## 3. Accumulators
+
+**Observation.** Accumulators anchor numerical stability.
+
+Every matrix multiplication is a sequence of multiply–accumulate operations. Even when inputs and weights are low precision (FP8/INT8), the accumulation step must preserve small differences across thousands of operations.
+
+**Typical regimes.**
+
+* **Training:** FP32 accumulators remain the norm.
+* **Inference:** FP16/BF16 accumulators; FP8 accumulation is viable only with hardware-assisted compensation logic.
+
+**Practical takeaway.** If a system diverges unpredictably or "hallucinates" in a nonsensical loop, check the accumulator precision before the weight precision.
+
+---
+
+## 4. Selective Fallbacks
+
+**Observation.** No frontier model is uniformly quantized.
+
+Modern systems maintain *precision maps*: layer-wise decisions about where low precision is acceptable and where it is not. These maps are learned implicitly through failed experiments as much as through theory.
+
+**Common fallback zones.**
+
+* First and last layers
+* Embeddings and output projections
+* Mixture-of-Experts routing networks
+* Long-context KV caches
+* Normalization statistics
+
+**Dynamic behavior.** Precision is not static at runtime. KV caches, for example, often escalate from INT8 to FP16 or BF16 as context length grows to prevent drift.
+
+**Interpretation.** Fallbacks are not inefficiencies; they are *structural safeguards*.
+
+---
+
+## 5. Attention and LayerNorm
+
+**Observation.** Attention and normalization are the least precision-tolerant components in the entire stack.
+
+### Attention
+
+Attention combines dot products, exponentiation, and normalization. Small numerical errors in any step can radically change token weighting.
+
+As a result:
+
+* QK dot products usually remain in BF16/FP16
+* Softmax logits are computed in higher precision
+* KV caches receive special handling for long sequences
+
+Long-context degradation is rarely a modeling issue; it is usually a precision issue in the attention path.
+
+### LayerNorm / RMSNorm
+
+Normalization layers compute global statistics. Quantization here affects *every downstream operation*.
+
+Mean/variance (or RMS) estimation is typically performed in BF16 or FP32. Aggressive quantization causes variance collapse, attention instability, and training divergence.
+
+**Rule of thumb.** If you must keep one component high precision, keep normalization high precision.
+
+---
+
+## 6. Case Studies: The 2025 Cohort
+
+By late 2025, the industry has moved beyond monolithic precision. The major labs now employ distinct strategies based on their hardware lineage (GPU vs. TPU) and product goals.
+
+### Gemini 3.0 Pro (Google)
+*   **Architecture:** Sparse Mixture-of-Experts (MoE).
+*   **Precision Strategy:** **INT8 / BF16 Hybrid.**
+    *   As a TPU-native model (trained on TPU v5/v6), Gemini favors the TPU's robust BF16 paths for reasoning.
+    *   For serving, expert weights are likely INT8 quantized to maximize memory bandwidth (the MoE bottleneck), while active calculation paths remain in BF16.
+*   **The "Thinking Level":** Gemini 3 introduced a user-facing parameter effectively trading latency for logical precision. High settings force the generation of "Thought Signatures" (hidden chain-of-thought tokens), serving as a form of *computational precision* rather than just numerical precision.
+
+### GPT-5.2 (OpenAI)
+*   **Variants:** `instant` (latency-optimized) and `thinking` (reasoning-optimized).
+*   **Precision Strategy:** **FP8 (Float8).**
+    *   Built on NVIDIA H100/Blackwell infrastructure, GPT-5.2 leverages the Transformer Engine's native FP8 optimization.
+    *   **GPT-5.2 Instant:** Likely utilizes aggressive INT4 or NF4 (Normal Float 4) quantization for weights to minimize VRAM usage and maximize token throughput.
+*   **Adaptive Reasoning:** The model dynamically allocates compute (tokens) based on query complexity—a temporal analogue to mixed precision.
+
+### Claude Sonnet 4.5 (Anthropic)
+*   **Focus:** Reliability, Coding, and Agentic Workflows.
+*   **Precision Strategy:** **FP8 Conservative.**
+    *   Anthropic historically avoids aggressive quantization (INT4) that risks "faithfulness."
+    *   FP8 serves as the "Goldilocks" zone: halving memory usage vs BF16 without the "clunky" gradient behavior of INT8, preserving the subtle reasoning required for complex coding tasks.
+
+| Feature | Gemini 3.0 Pro | GPT-5.1 | Sonnet 4.5 |
+| :--- | :--- | :--- | :--- |
+| **Inference Weights** | INT8 / BF16 (Hybrid) | FP8 (Float8) | FP8 (Float8) |
+| **Inference Activations** | BF16 | FP8 | FP8 / BF16 |
+| **Compute Strategy** | Sparse MoE | Adaptive (Variable) | Dense/MoE Hybrid |
+| **Hardware Bias** | TPU (Google) | GPU (NVIDIA) | GPU (NVIDIA) |
+
+---
+
+## 7. The Hardware Substrate (Late 2025)
+
+Precision choices are downstream of hardware constraints. The late 2025 landscape is defined by the battle between NVIDIA's scale-up architecture and Google's pod-based topology.
+
+### The Contenders
+
+1.  **Ironwood (Google TPU v7):**
+    *   **Philosophy:** "Inference-First." Optimized for serving massive models.
+    *   **Scaling:** Connects 9,216 chips into a single optical mesh (Pod). While individual chip throughput (~4.6 PFLOPS FP8) is lower than NVIDIA's top end, the aggregate Pod delivers ~42.5 ExaFLOPS.
+    *   **Precision:** Heavily optimized for BF16 and INT8.
+
+2.  **Blackwell Ultra (NVIDIA B300):**
+    *   **Philosophy:** Memory Density.
+    *   **Key Stat:** 288GB HBM3e per chip. This massive memory allows larger batch sizes and longer KV caches on a single device.
+    *   **Precision:** The definitive FP8 engine (~5.0 PFLOPS).
+
+3.  **GB300 (NVIDIA Grace Blackwell):**
+    *   **Philosophy:** Coherency.
+    *   **Key Stat:** Fuses GPU with ARM CPU, allowing seamless access to massive LPDDR5X memory pools for extreme context lengths.
+
+### The Groq Factor & Disaggregated Inference
+In a significant late-2025 shift, NVIDIA licensed Groq's IP and talent (~$20B deal). This signals a move toward **specialized inference units** (LPUs) that use deterministic, SRAM-centric architectures for low-latency serving, moving away from the cache-based unpredictability of general-purpose GPUs.
+
+### The Horizon: Rubin and TPU v8
+
+*   **NVIDIA Rubin (2026):** Will introduce **FP4** support (~50 PFLOPS per device) and a dedicated "Context Processor" (CPX) to separate prompt processing from token generation.
+*   **Google TPU v8:** Moving toward **Optical I/O** (co-packaged optics) to enable near-zero latency communication across the entire datacenter, theoretically making the "Pod" size infinite.
+
+---
+
+## Closing Synthesis
+
+Across frontier models, a consistent ordering regarding precision tolerance remains valid:
+
+```
+Most tolerant → Least tolerant
+weights → feedforward activations → attention activations → accumulators → normalization
+```
+
+However, the definition of "precision" has expanded. It is no longer just about bits (INT4 vs FP8); it is about **resource allocation**:
+1.  **Numerical Precision:** (FP4/FP8/BF16) tailored to the layer.
+2.  **Temporal Precision:** (Thinking steps) tailored to the problem difficulty.
+3.  **Hardware Precision:** (General GPU vs. Dedicated LPU/CPX) tailored to the workload phase (prefill vs. decode).
+
+Modern "mixed precision" now encompasses all three dimensions.
