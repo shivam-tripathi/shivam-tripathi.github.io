@@ -9,55 +9,152 @@ This document captures working notes on how that precision is allocated - and wh
 
 ## 1. Weights
 
-**Observation.** Weights are the most aggressively quantized component in modern LLMs.
+**Observation.** Weights are the most aggressively :note[quantized]{content="**Intuition:** This is the art of reducing resolution.\
+\
+**Analogy:** Imagine describing a color. Instead of using a complex code like 'Midnight Navy Blue,' you just call it 'Dark Blue.' You save 'memory' in your brain, and while you lose some nuance, the person you’re talking to still gets the general idea.\
+\
+In practice it happens by reducing the 'precision' of the number. For example, FP16 (floating point using 16 bits) if replaced by INT8 (integer using 8 bits) reduces the overall memory requirements."} component in modern LLMs.
 
-**Why this works.** During inference, weights are static. Quantization error introduced at load time does not compound temporally; it is injected once per forward pass. This makes weights unusually tolerant to low precision relative to other components.
+**Why this works.** During inference, :note[weights are static]{content="**Intuition:** Think of weights as the fixed settings on a massive mixing board. They represent the strength of connections between neurons.\
+\
+**The 'Static' Principle:** Because they don't change while the model is answering a prompt (inference), any error we introduce by 'rounding' the numbers is fixed. It doesn't 'grow' or 'wobble' over time; it’s just a slightly less precise version of the original setting."}; it is injected once per forward pass. This makes weights unusually tolerant to low precision relative to other components.
 
-**Typical regimes**
+:note[**Typical regimes**]{content="Precision Regimes (BF16, FP8, INT4)\
+\
+Recall the difference between **exponent** and **mantissa:**\
+**Exponent**: Controls the scale/range of the number (how large or small it can be). \
+**Mantissa (or significand)**: Controls the precision/detail of the number (how accurately values are represented). \
+\
+In floating-point formats: **Exponent = range, Mantissa = precision** \
+\
+**Example**: Representing the number 12.5 \
+In binary floating-point form: \
+12.5=1.5625×2^3 \
+    Mantissa (Significand): `1.5625` this holds the precision/detail of the number. \
+\
+    Exponent: `3` this tells us to scale the mantissa by 2^3, giving the correct range/size.\
+\
+**Intuition:** These represent the granularity of your ruler.\
+    **BF16 (Training):** High resolution. Like measuring a room in millimeters to ensure the foundation is perfect.\
+    **FP8 (Deployment):** Standard resolution. Measuring in centimeters-good enough for most furniture.\
+    **INT4 (Flash/Mobile):** Low resolution. Measuring in inches. Much faster to calculate, but you might miss some tight fits."}
 
-* **Training:** BF16 remains the dominant standard; FP8 is used in strictly controlled settings to manage memory overhead.
+* **Training:** :note[BF16]{content="**BF16 (BFloat16, Brain Floating Point 16)** is a 16-bit floating-point format designed for deep learning. It keeps the same **8-bit exponent as FP32** (single precision) but reduces the **mantissa to 7 bits**, giving it the wide dynamic range of FP32 with lower precision. This makes BF16 ideal for training large neural networks efficiently."} remains the dominant standard; FP8 is used in strictly controlled settings to manage memory overhead.
 * **Inference:** **FP8** is the current standard for high-end deployment (Blackwell/Hopper). **INT4/NF4** is standard for "Instant" or "Flash" model variants to maximize throughput.
 
 **Patterns that matter.**
 
-* **Per-channel scaling** dominates per-tensor scaling for better error distribution.
-* **Outlier-aware methods** (AWQ/GPTQ-descendants) preserve rare but influential weight directions.
-* **Embedding tables and output projections** are consistently kept at higher precision (BF16) to maintain vocabulary fidelity.
+* :note[**Per-channel scaling**]{content="**Per-channel vs. Per-tensor Scaling**\
+\
+**Intuition:** This is about individual vs. group adjustments.\
+**Analogy:** If you are editing a photo, 'Per-tensor' is like changing the brightness of the entire image at once. 'Per-channel' is like adjusting the brightness of the reds, greens, and blues separately. The latter prevents one very bright spot from ruining the detail in the shadows.\
+\
+**Per-Tensor Scaling**\
+*Definition:* Use one single scale factor for the entire weight matrix (all rows/channels).\
+*Analogy:* Imagine adjusting the brightness of an entire photo with one slider. If one part of the photo is very bright and another is very dark, the dark areas may get lost because the slider has to accommodate the brightest part.\
+*Effect:* Efficient, but small weights in some channels can get 'crushed' toward zero because the scale is dominated by the largest values.\
+\
+**Per-Channel Scaling**\
+*Definition:* Use a different scale factor for each output channel (row) in the weight matrix.\
+*Analogy:* Instead of one brightness slider for the whole photo, you give each section its own slider. Now even the darker regions can be adjusted independently so details aren’t lost.\
+*Effect:* Preserves sensitivity of neurons with smaller weights, ensuring rare but important features aren’t wiped out during quantization."} dominates per-tensor scaling for better error distribution.
+* :note[**Outlier-aware methods** (AWQ/GPTQ-descendants)]{content="**AWQ (Activation-aware Weight Quantization)** and **GPTQ (Generalized Post-Training Quantization)** are two popular post-training quantization methods for compressing large language models (LLMs) by reducing precision of weights. GPTQ focuses on minimizing quantization error in weights, while AWQ balances weight quantization with activation sensitivity, often yielding better accuracy at low bit-widths\
+\
+**Outlier-Aware Methods (AWQ/GPTQ)**\
+    *Intuition:* Identifying the 'VIP' numbers.\
+    *Analogy:* In a gourmet recipe, 1 gram of saffron is more important than 1 gram of flour. Outlier-aware methods ensure that the most 'influential' weights (the saffron) are kept at high precision, while the 'filler' weights (the flour) can be rounded down aggressively."} preserve rare but influential weight directions.
+* :note[**Embedding tables and output projections**]{content="**Vocabulary Fidelity (Embeddings & Projections)**\
+\
+    **Intuition:** Protecting the 'Dictionary.'\
+\
+    **Analogy:** If you blur a photo, you can still tell it’s a forest. But if you blur the letters in a dictionary, 'cat' might start looking like 'eat.' We keep the input (embeddings) and output (projections) at high precision so the model doesn't confuse similar-sounding words."} are consistently kept at higher precision (BF16) to maintain vocabulary fidelity.
 
-**Failure mode.** Over-quantized weights do not usually cause catastrophic failure; instead, they cause *expressive collapse* - fewer distinct activation patterns and degraded reasoning depth.
+**Failure mode.** Over-quantized weights do not usually cause catastrophic failure; instead, they cause :note[*expressive collapse*]{content="**Expressive Collapse (The Failure Mode)**\
+\
+    **Intuition:** The 'Loss of Nuance.'\
+\
+    **Analogy:** A professional chef with 50 spices can make complex, layered dishes. If you take away 45 of those spices, they can still cook a meal, but everything starts tasting 'salty' or 'sweet' without any depth. The model still talks, but its reasoning becomes repetitive and shallow."} - fewer distinct activation patterns and degraded reasoning depth.
 
 ---
 
 ## 2. Activations
 
-**Observation.** Activation precision determines how much signal survives depth.
+**Observation.** Activation :note[precision]{content="**1. Activations as 'Dynamic Signals'**\
+\
+**Intuition:** Think of activations as the 'Live Current.' They only exist when the model is actually 'thinking' about a specific prompt.\
+\
+**The 'Dynamic' Principle:** Unlike weights, which stay the same for every user, activations change based on every word you type. They are the fluid, shifting state of the model’s internal logic at any given millisecond."} determines how :note[much signal survives depth]{content="**2. Signal Survival & Depth**\
+\
+**Intuition:** This is the 'Signal-to-Noise Ratio.'\
+\
+**Analogy:** Imagine a relay race where runners pass a bucket of water. The 'precision' is how steady the runners' hands are. If the precision is too low, they splash a bit of water at every handoff. By the end of a long race (a 'deep' model), the bucket might be empty."}.
 
-**Key distinction.** Unlike weights, activations are dynamic. Their distributions shift across layers, prompts, sequence positions, and time. Quantization noise here *compounds layer by layer*.
+**Key distinction.** Unlike weights, activations are dynamic. Their distributions shift across layers, prompts, sequence positions, and time. Quantization noise here :note[*compounds layer by layer*]{content="**3. Compounding Noise (The 'Telephone' Effect)**\
+\
+**Intuition:** Errors in activations aren't 'one-and-done'; they snowball.\
+\
+**The Principle:** Because Layer 2's input is Layer 1's output, a 1% rounding error in Layer 1 is multiplied by the weights of Layer 2, then rounded again. By Layer 96, that tiny 1% error could have mutated into a completely different 'thought'."}.
 
 **Typical regimes.**
 
 * **Training:** BF16 is the industry baseline.
-* **Inference:** FP8 (specifically E4M3 or E5M2) is the current "sweet spot" for Blackwell-class hardware.
+* **Inference:** :note[FP8 (specifically E4M3 or E5M2)]{content="**4. FP8: The 'Sweet Spot' (E4M3 vs. E5M2)**\
+\
+E here is exponent and M is mantissa.\
+\
+**Intuition:** These are different 'Digital Ruler Designs.'\
+\
+    **E4M3:** More focus on precision (the decimal points).\
+\
+    **E5M2:** More focus on range (how big or small the numbers can get).\
+\
+**The Logic:** Modern hardware uses FP8 because it’s the 'Goldilocks' zone-small enough to be lightning-fast, but precise enough that the 'water' doesn't splash out of the bucket too quickly."} is the current "sweet spot" for Blackwell-class hardware.
 * **Legacy:** INT8 is still common on older hardware, though it requires complex calibration compared to the more flexible FP8.
 
 **Why this is harder than weights.** Every layer consumes the output of the previous one. Small distortions in early layers become large distortions downstream, especially in long-context settings.
 
-**Emergent rule.** If reasoning depth degrades before factual accuracy, activation precision is usually the culprit.
+**Emergent rule.** If :note[reasoning depth degrades before factual accuracy]{content="**5. Reasoning Depth vs. Factual Accuracy**\
+\
+**Intuition:** The 'Drunken Scholar' effect.\
+\
+**Analogy:** If a model has high-precision weights but low-precision activations, it's like a genius who has had too much to drink. They still know all the facts (Weights), but they lose the ability to follow a complex logical chain (Activations). They can tell you who George Washington was, but they can't solve a complex riddle about him."}, activation precision is usually the culprit.
 
 ---
 
 ## 3. Accumulators
 
-**Observation.** Accumulators anchor numerical stability.
+**Observation.** Accumulators :note[anchor numerical stability]{content="**Numerical Stability (Anchoring the Math)**\
+\
+**Intuition:** Preventing 'Math Erasure.'\
+\
+**Analogy:** Imagine you are weighing a giant ship. You need a scale that can sense the weight of a single passenger (high precision) but also hold the weight of the entire hull (high range). If your scale is too 'coarse,' the weight of the passengers is simply rounded to zero, and your final calculation is 'unstable' or inaccurate."}.
 
-Every matrix multiplication is a sequence of multiply–accumulate operations. Even when inputs and weights are low precision (FP8/INT8), the accumulation step must preserve small differences across thousands of operations.
+Every matrix multiplication is a sequence of :note[multiply–accumulate operations]{content="**The Accumulator as the 'Running Total'**\
+\
+**Intuition:** Think of it as a high-capacity bucket at the end of a long assembly line.\
+\
+**The Principle:** In matrix multiplication, the hardware performs a 'Multiply-Accumulate' (MAC) operation. It multiplies two numbers (Weight × Activation) and then adds that result to a running total. The accumulator is the 'ledger' where that total is kept."}. Even when inputs and weights are low precision (FP8/INT8), the accumulation step must :note[preserve small differences]{content="**Precision Hierarchy (Why Accumulators need more 'bits')**\
+\
+**Intuition:** The 'Hierarchy of Detail.'\
+\
+**The Logic:**\
+\
+    **Inputs (FP8/INT8):** The ingredients.\
+\
+    **Accumulator (FP32/FP16):** The final dish.\
+\
+**Why it matters:** You can use cheap, small 'measuring cups' (low precision inputs), but your 'mixing bowl' (the accumulator) must be large and precise. If the bowl is too small, the ingredients 'overflow' (overflow error) or the fine spices vanish into the cracks (underflow/rounding error)."} across thousands of operations.
 
 **Typical regimes.**
 
 * **Training:** FP32 accumulators remain the norm to ensure gradient stability.
 * **Inference:** FP16/BF16 accumulators; FP8 accumulation is viable primarily with hardware-assisted compensation logic in newer chips.
 
-**Practical takeaway.** If a system diverges unpredictably or "hallucinates" in a nonsensical loop, check the accumulator precision before the weight precision.
+**Practical takeaway.** If a system diverges unpredictably or :note["hallucinates" in a nonsensical loop]{content="**Failure Mode: The 'Nonsensical Loop'**\
+\
+**Intuition:** The 'Broken Compass.'\
+\
+**Analogy:** If the accumulator isn't precise enough, the model’s 'math' starts to lose its direction. Instead of settling on a clear answer, the numbers might start bouncing back and forth between two wrong values. This is why a model might start repeating the same word over and over-it’s 'lost' in a mathematical loop because it can no longer see the small differences that would lead it to the next thought."}, check the accumulator precision before the weight precision.
 
 ---
 
@@ -82,22 +179,50 @@ Modern systems maintain *precision maps*: layer-wise decisions about where low p
 
 ## 5. Attention and LayerNorm
 
-**Observation.** Attention and normalization are the least precision-tolerant components in the entire stack.
+**Observation.** :note[Attention and normalization]{content="**Attention as 'The Selective Spotlight'**\
+\
+**Intuition:** Attention is how the model decides which words matter most.\
+\
+**The Fragility Principle:** Attention involves Dot Products (matching Query to Key) followed by Softmax.\
+\
+**Analogy:** Imagine a talent show where judges give scores. If the scoring is too 'blunt' (low precision), a 9.1 and a 9.4 both become a '9.' But the Softmax function is like a hyperbolic fan-it takes those scores and turns them into 'Who gets the most screen time?' A tiny difference in score can be the difference between a word getting 90% of the model's focus or only 10%."} are the least precision-tolerant components in the entire stack.
 
 ### Attention
 
-Attention combines dot products, exponentiation, and normalization. Small numerical errors in any step can radically change token weighting.
+Attention combines dot products, exponentiation, and normalization. Small numerical errors in any step can :note[radically change token weighting]{content="**The Softmax 'Magnifier'**\
+\
+**Intuition:** Softmax turns raw scores into probabilities.\
+\
+**The Math:** It uses exponentiation: ex.\
+\
+**Why it's High-Stakes:** Because it uses powers of e, a small change in the input (x) leads to an exponential change in the output. If you round the input too early, the 'winner' of the attention spotlight changes completely, leading the model to hallucinate or lose the thread of the sentence."}.
 
 * QK dot products usually remain in **BF16/FP16**.
 * Softmax logits are almost always computed in higher precision to prevent overflow.
-* KV caches receive special handling for long sequences (often involving dynamic rescaling).
+* :note[KV caches]{content="**KV Cache (The Model's 'Working Memory')**\
+\
+**Intuition:** The 'Bookmark.'\
+\
+**The Principle:** To save time, LLMs remember the 'Key' and 'Value' of every previous word so they don't have to re-calculate them.\
+\
+**The Challenge:** In long conversations, this 'notebook' gets massive. If you use messy handwriting (low precision) to save space, by page 50, the model can't remember if the 'he' in the sentence refers to the hero or the villain."} receive special handling for long sequences (often involving dynamic rescaling).
 
 ### LayerNorm / RMSNorm
 
-Normalization layers compute global statistics. Quantization here affects *every downstream operation*.
+:note[Normalization layers]{content="**Normalization (LayerNorm/RMSNorm)**\
+\
+**Intuition:** The 'Auto-Leveler.'\
+\
+**Analogy:** Imagine a group of people shouting at different volumes. Normalization calculates the average volume and 'scales' everyone so they can be heard clearly without blowing out the speakers.\
+\
+**The Risk:** Normalization relies on Global Statistics (mean and variance). If your 'math' for the average is even slightly off, you scale the entire layer incorrectly. It's like a photographer setting the white balance for a whole wedding-if they get it slightly wrong, every single photo comes out blue."} compute global statistics. Quantization here affects *every downstream operation*.
 
 * Mean/variance (or RMS) estimation is typically performed in **BF16 or FP32**.
-* **Disclaimer:** Aggressive quantization in normalization leads to variance collapse and training divergence.
+* **Disclaimer:** Aggressive quantization in normalization leads to :note[variance collapse]{content="**Variance Collapse (The Failure Mode)**\
+\
+**Intuition:** 'Mathematical Flattening.'\
+\
+**Analogy:** If the normalization becomes too imprecise, it stops being able to distinguish between 'loud' and 'quiet' signals. Eventually, every signal starts looking exactly the same. The model's internal 'world' loses all its features and becomes a flat, gray void where no unique thoughts can survive."} and training divergence.
 
 ---
 
