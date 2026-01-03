@@ -41,5 +41,13 @@ export const blogPosts: BlogPost[] = [
     date: '2025-11-27',
     tags: ['LLM', 'Caching', 'Strategies'],
     content: await importMDXArticle('llm-caching')
+  },
+  {
+    id: 'precision-in-frontier-llm',
+    title: 'Notes on Precision in Frontier Language Models (Dec 2025)',
+    excerpt: 'A deep dive into the precision choices in frontier language models.',
+    date: '2025-12-31',
+    tags: ['LLM', 'Precision', 'Hardware'],
+    content: await importMDXArticle('precision-in-frontier-llm')
   }
 ]
