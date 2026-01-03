@@ -13,7 +13,7 @@ I'm passionate about building products, understanding markets, and learning how 
 यो अस्याध्यक्षः परमे व्योमन्त्सो अङ्ग वेद यदि वा न वेद ॥`
 
   const quoteExplanation = `Whence all creation had its origin, the creator, whether s/he fashioned it or whether s/he did not,
-The creator, who surveys it all from highest heaven, s/he knows — or maybe even s/he does not know.`
+The creator, who surveys it all from highest heaven, s/he knows - or maybe even s/he does not know.`
 
   return (
     <div className="about">

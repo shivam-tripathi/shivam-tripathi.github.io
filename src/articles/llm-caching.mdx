@@ -5,7 +5,7 @@ These are working notes meant as a reference for engineers who want to understan
 This document captures the practical mechanisms, how they differ, and what actually matters when building systems.
 
 
-## 1. [OpenAI](https://platform.openai.com/docs/guides/prompt-caching) — *Prefix-KV Caching (Automatic)*
+## 1. [OpenAI](https://platform.openai.com/docs/guides/prompt-caching) - *Prefix-KV Caching (Automatic)*
 
 
 ### **Mechanism**
@@ -44,7 +44,7 @@ Caching is **free**:
 * High-volume inference where routing stability matters
 
 
-## 2. [Anthropic](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) — *Block-Level Caching (Explicit)*
+## 2. [Anthropic](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) - *Block-Level Caching (Explicit)*
 
 [Link](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)
 
@@ -80,7 +80,7 @@ Cache checks across **content blocks**, not tokens (20-block lookback window).
 
 ---
 
-## 3. [Google Gemini](https://ai.google.dev/gemini-api/docs/caching?lang=python) — *Explicit Object Caching + Implicit Prefix Caching*
+## 3. [Google Gemini](https://ai.google.dev/gemini-api/docs/caching?lang=python) - *Explicit Object Caching + Implicit Prefix Caching*
 
 ### **Two Caching Models**
 
@@ -233,6 +233,6 @@ Caching has quietly become one of the most important levers for:
 * enabling long-context applications
 
 But each provider has invented its own mechanism.
-Understanding these differences—and designing prompts to cooperate with them—is now a core skill for platform engineers building on top of modern LLMs.
+Understanding these differences-and designing prompts to cooperate with them-is now a core skill for platform engineers building on top of modern LLMs.
 
 Use this as a reference point as the ecosystem continues to converge.
