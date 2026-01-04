@@ -1,0 +1,146 @@
+@use '../styles/variables' as *;
+@use '../styles/breakpoints' as *;
+
+.note-trigger-interactive {
+  cursor: pointer;
+  background-color: rgba($primary-color, 0.15);
+  border-bottom: 2px solid $primary-color;
+  transition: background-color 0.2s ease;
+  padding: 0 2px;
+  border-radius: 2px;
+
+  &:hover {
+    background-color: rgba($primary-color, 0.25);
+  }
+}
+
+.note-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 99;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+
+  // Only show overlay on mobile/tablet or when we want to focus attention
+  // For now, let's use it on mobile to dismiss the drawer
+  display: none;
+
+  @include respond-md {
+    display: block;
+  }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.note-sidebar {
+  position: fixed;
+  top: $navbar-height;
+  right: -360px; // Hidden by default
+  width: 350px;
+  height: calc(100vh - #{$navbar-height});
+  background: $bg-white;
+  border-left: 1px solid $border-color;
+  padding: $spacing-lg;
+  overflow-y: auto;
+  transition: right 0.3s ease, bottom 0.3s ease;
+  z-index: 100;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+
+  &.open {
+    right: 0;
+  }
+
+  .note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $border-color;
+
+    h3 {
+      margin: 0;
+      font-family: $heading-font;
+      color: $primary-color;
+      font-size: 1.25rem;
+    }
+
+    .close-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: $text-light;
+      padding: 0.5rem;
+      margin-right: -0.5rem; // Alignment
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.05);
+        color: $text-dark;
+      }
+    }
+  }
+
+  .note-content {
+    font-family: $text-font;
+    line-height: 1.6;
+    color: $text-dark;
+    font-size: 1rem;
+
+    p {
+      margin-bottom: 1rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    a {
+        color: $primary-color;
+        text-decoration: underline;
+
+        &:hover {
+          color: $secondary-color;
+        }
+    }
+
+    code {
+      background: $bg-light;
+      padding: 0.1rem 0.3rem;
+      border-radius: 3px;
+      font-family: $code-font;
+      font-size: 0.9em;
+    }
+  }
+
+  // Mobile styles (Drawer)
+  @include respond-md {
+    top: auto;
+    bottom: -60vh; // Hidden at bottom
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-height: 60vh;
+    min-height: 30vh;
+    border-left: none;
+    border-top: 1px solid $border-color;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+
+    &.open {
+      bottom: 0;
+    }
+  }
+}
+

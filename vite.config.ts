@@ -2,8 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // Determine the base URL based on deployment target
-// For GitHub Pages personal site: https://username.github.io
-// For GitHub Pages project: https://username.github.io/repo-name
+// For GitHub Pages personal site: https://shivam-tripathi.github.io
+// For GitHub Pages project: https://shivam-tripathi.github.io/repo-name
 // Update the homepage in package.json accordingly
 const base = process.env.VITE_BASE_URL || '/'
 

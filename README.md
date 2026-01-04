@@ -224,7 +224,7 @@ Update the `homepage` field with your GitHub Pages URL:
 
 ```json
 {
-  "homepage": "https://username.github.io"
+  "homepage": "https://shivam-tripathi.github.io"
 }
 ```
 
@@ -232,7 +232,7 @@ Or if using a project repository:
 
 ```json
 {
-  "homepage": "https://username.github.io/repo-name"
+  "homepage": "https://shivam-tripathi.github.io/repo-name"
 }
 ```
 

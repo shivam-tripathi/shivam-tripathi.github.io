@@ -5,12 +5,20 @@
 .blog-post {
   background: $bg-white;
   min-height: calc(100vh - #{$navbar-height});
+  transition: padding-right 0.3s ease;
+
+  &.sidebar-open {
+    @media (min-width: $breakpoint-md + 1) {
+      padding-right: 350px;
+    }
+  }
 
   .blog-post-container {
     max-width: $max-width-content;
     margin: 0 auto;
     padding: $spacing-xl 10%;
     width: 100%;
+    transition: all 0.3s ease;
   }
 
   /* Author Bio */
@@ -92,4 +100,3 @@
 }
 
 /* Markdown content responsive styles are in src/styles/markdown.scss */
-
