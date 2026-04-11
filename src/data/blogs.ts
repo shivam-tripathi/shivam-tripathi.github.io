@@ -12,6 +12,14 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: 'key-learnings-from-scaling-quizizz',
+    title: 'Key Learnings from Scaling Quizizz',
+    excerpt: 'A reflection on execution, failure, survival, AI, team sport, executive stamina, and customer obsession while scaling Quizizz.',
+    date: '2026-04-11',
+    tags: ['Leadership', 'Startups', 'AI', 'Growth'],
+    content: await importMDXArticle('key-learnings-from-scaling-quizizz')
+  },
+  {
     id: 'data-pipelines-and-backpressure',
     title: 'Data Pipelines and Backpressure',
     excerpt: 'A hands-on story of discovering backpressure the hard way: when your fast producer overwhelms your slow consumer, and memory leaks teach you about stream control.',
